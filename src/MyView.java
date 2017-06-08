@@ -9,8 +9,6 @@ import java.io.IOException;
  * Created by minchul on 2017-06-08.
  */
 public class MyView implements GameInfoChangeListener {
-    public static final int WIDTH = 600;
-    public static final int HEIGHT = 800;
     private JPanel panel;
     private MyPanel myPanel;
     private JLabel timeLabel;
