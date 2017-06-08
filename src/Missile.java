@@ -3,4 +3,11 @@
  */
 class Missile {
 
+    private int x, y;
+    private int dy;
+
+    public Missile(){
+
+    }
+
 }
