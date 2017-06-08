@@ -1,11 +1,8 @@
 package data;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.io.IOException;
 import java.net.URL;
 
 /**
@@ -13,11 +10,13 @@ import java.net.URL;
  */
 public class Player {
     private final static int MAX_DX = 8;
-    public static final int WIDTH = 600;
+    public static final int WIDTH = 500;
     private Image image;
     private final Point point;
     private int ax = 0;
     private int dx = 0;
+    private Status status = Status.IDLE;
+    private Direction direction = Direction.LEFT;
 
 
     public Player(){
@@ -76,21 +75,40 @@ public class Player {
     }
 
     public void move() {
-        if(point.getX() < 0){
-            dx = 0;
-            ax = 0;
-            point.setLocation(0, point.getY());
-            return;
+        switch (status){
+            case ACCEL:
+                if(direction == Direction.LEFT){
+                    dx = dx - 1;
+                }
+                else{
+                    dx = dx + 1;
+                }
+                break;
+            case IDLE:
+                if(direction == Direction.LEFT){
+                    if(dx < 0) {
+                        dx = dx + 1;
+                    }
+                }else{
+
+                }
+                break;
         }
-        if(point.getX() > WIDTH - getWidth()){
-            dx = 0;
-            ax = 0;
-            point.setLocation(WIDTH - getWidth(), point.getY());
-            return;
-        }
-        if(dx + ax < MAX_DX && dx + ax > MAX_DX * -1){
-            this.dx += this.ax;
-        }
+//        if(point.getX() < 0){
+//            dx = 0;
+//            ax = 0;
+//            point.setLocation(0, point.getY());
+//            return;
+//        }
+//        if(point.getX() > WIDTH - getWidth()){
+//            dx = 0;
+//            ax = 0;
+//            point.setLocation(WIDTH - getWidth(), point.getY());
+//            return;
+//        }
+//        if(dx + ax < MAX_DX && dx + ax > MAX_DX * -1){
+//            this.dx += this.ax;
+//        }
 
         point.setLocation(point.getX() + dx, point.getY());
 
@@ -112,5 +130,22 @@ public class Player {
                 return false;
             }
         });
+    }
+
+    public void stop() {
+        ax =0;
+        dx =0;
+    }
+
+    public void setStatus(Status status, Direction direction) {
+        this.status = status;
+        this.direction = direction;
+    }
+
+    public enum Status{
+        ACCEL, IDLE
+    }
+    public enum Direction{
+        LEFT, RIGHT
     }
 }

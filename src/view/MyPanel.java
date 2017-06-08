@@ -16,8 +16,8 @@ import java.util.Random;
 
 
 public class MyPanel extends JPanel {
-    private static final int PREF_W = 600;
-    private static final int PREF_H = 800;
+    private static final int PREF_W = 500;
+    private static final int PREF_H = 650;
 
     private static final int TIMER_DELAY = 20;
     private static final int MAX_TIME = 60;
@@ -45,15 +45,19 @@ public class MyPanel extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
-                    player.setAX(-1);
+                    player.setStatus(Player.Status.ACCEL, Player.Direction.LEFT);
                 }else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-                    player.setAX(1);
+                    player.setStatus(Player.Status.ACCEL, Player.Direction.RIGHT);
                 }
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-
+                if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    player.setStatus(Player.Status.IDLE, Player.Direction.LEFT);
+                }else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    player.setStatus(Player.Status.IDLE, Player.Direction.RIGHT);
+                }
             }
         });
         gameTick = new Timer(TIMER_DELAY, new GameTickListener());
@@ -102,7 +106,7 @@ public class MyPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
 
 
-            if (random.nextInt(100) < 20 ) { //폭탄은 30% 확률로 생성됨.
+            if (random.nextInt(100) < 10 ) { //폭탄은 30% 확률로 생성됨.
                 //TODO add level dependency to Bomb constructor
                 Bomb bomb = new Bomb(random.nextInt(PREF_W), random.nextInt(3) + 3);
                 bombList.add(bomb);
