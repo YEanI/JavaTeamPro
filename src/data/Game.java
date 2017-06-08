@@ -1,6 +1,5 @@
 package data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +23,7 @@ class Game {
 
     public boolean isCrush() {
         for (Bomb m : bombList) {
-            if (player.checkCrush(m)) {
+            if (m.checkCrush(player)) {
                 return true;
             }
         }

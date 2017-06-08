@@ -129,7 +129,7 @@ public class MyPanel extends JPanel {
             //TODO 충돌 체크
             boolean isCrush = false;
             for(Bomb b : bombList){
-                if(player.checkCrush(b)){
+                if(b.checkCrush(player)){
                     isCrush = true;
                     break;
                 }
