@@ -1,21 +1,16 @@
 package data;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.io.IOException;
 import java.net.URL;
 
 /**
  * Created by 이예은 on 2017-06-08.
  */
-public class Player {
+public class Player extends BaseItem {
     private final static int MAX_DX = 8;
     public static final int WIDTH = 600;
-    private Image image;
-    private final Point point;
     private int ax = 0;
     private int dx = 0;
 
@@ -28,12 +23,7 @@ public class Player {
 
     public Player(int windowHeight) {
         this();
-        int imageHeight = image.getHeight(new ImageObserver() {
-            @Override
-            public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-                return false;
-            }
-        });
+        int imageHeight = image.getHeight(null);
         this.point.setLocation(0, windowHeight - imageHeight);
     }
 
@@ -53,28 +43,14 @@ public class Player {
         if(bomb_x < player_x + player_width && player_x + player_width < bomb_x + bomb_width && bomb_y+bomb_height > player_y){
             return true;
         }
-        if(player_x < bomb_x && bomb_x + bomb_width < player_x + player_width && bomb_y+bomb_height > player_y){
-            return true;
-        }
-        return false;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public int getX() {
-        return (int) point.getX();
-    }
-
-    public int getY() {
-        return (int) point.getY();
+        return (player_x < bomb_x && bomb_x + bomb_width < player_x + player_width && bomb_y+bomb_height > player_y);
     }
 
     public void setAX(int newAX) {
         this.ax = newAX;
     }
 
+    @Override
     public void move() {
         if(point.getX() < 0){
             dx = 0;
@@ -96,21 +72,4 @@ public class Player {
 
     }
 
-    private int getWidth() {
-        return image.getWidth(new ImageObserver() {
-            @Override
-            public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-                return false;
-            }
-        });
-    }
-
-    private int getHeight(){
-        return image.getHeight(new ImageObserver() {
-            @Override
-            public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-                return false;
-            }
-        });
-    }
 }

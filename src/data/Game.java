@@ -13,13 +13,7 @@ class Game {
     List<Bomb> bombList;
 
     public Game() {
-        level = 1;
-        time = MAX_TIME;
-//        player = new Player();
-        bombList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            bombList.add(new Bomb());
-        }
+
     }
 
     public void levelUp(){
