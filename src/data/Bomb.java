@@ -15,10 +15,15 @@ public class Bomb extends BaseItem {
     int dy;
     int ay;
 
-    public Bomb(int x, int ay) throws IOException {
+    public Bomb(int x, int ay){
         super();
         URL imageURL = BaseItem.class.getResource("/images/ic_add_circle_outline_black.png");
-        image = ImageIO.read(imageURL);
+        try {
+            image = ImageIO.read(imageURL);
+        } catch (IOException e) {
+            e.printStackTrace();
+            image = null;
+        }
         dy = 0;
         ay = BOMB_ACCCELATE;
         this.point.setLocation(x, this.point.getY());

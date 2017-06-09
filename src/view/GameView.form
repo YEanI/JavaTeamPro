@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MyView">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="view.GameView">
   <grid id="27dc6" binding="panel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
@@ -7,7 +7,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="44373" class="view.MyPanel" binding="myPanel" custom-create="true">
+      <component id="44373" class="viewcomponent.GamePanel" binding="gamePanel" custom-create="true">
         <constraints border-constraint="Center"/>
         <properties>
           <background color="-3914851"/>
@@ -19,7 +19,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="a6c52" class="javax.swing.JLabel" binding="timeLabel">
+          <component id="a6c52" class="javax.swing.JLabel" binding="timeLabel" custom-create="true">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -27,7 +27,7 @@
               <text value="Label"/>
             </properties>
           </component>
-          <component id="bb315" class="javax.swing.JLabel" binding="levelLabel">
+          <component id="bb315" class="javax.swing.JLabel" binding="levelLabel" custom-create="true">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

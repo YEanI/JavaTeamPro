@@ -1,4 +1,4 @@
-package view;
+package viewcomponent;
 
 import data.Bomb;
 import data.GameInfoChangeListener;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class MyPanel extends JPanel {
+public class GamePanel extends JPanel {
     private static final int PREF_W = 500;
     private static final int PREF_H = 650;
 
@@ -30,7 +30,7 @@ public class MyPanel extends JPanel {
     private int time;
     private int level;
     private Random random = new Random();
-    public MyPanel(GameInfoChangeListener listener) throws IOException {
+    public GamePanel(GameInfoChangeListener listener){
         bombList = new ArrayList<>();
         time = MAX_TIME;
         level = 1;
@@ -109,13 +109,8 @@ public class MyPanel extends JPanel {
             if (random.nextInt(100) < 10 ) { //폭탄은 30% 확률로 생성됨.
                 //TODO add level dependency to Bomb constructor
                 Bomb bomb = null;
-                try {
-                    bomb = new Bomb(random.nextInt(PREF_W), random.nextInt(3) + 3);
-                    bombList.add(bomb);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-
+                bomb = new Bomb(random.nextInt(PREF_W), random.nextInt(3) + 3);
+                bombList.add(bomb);
             }
 
             //TODO 폭탄 움직이기

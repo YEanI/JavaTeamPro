@@ -3,6 +3,7 @@ package data;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
@@ -21,9 +22,14 @@ public class Player extends BaseItem {
 
 
 
-    public Player(int windowHeight) throws IOException {
+    public Player(int windowHeight){
         URL playerUrl = BaseItem.class.getResource("/images/ic_android_black.png");
-        image = ImageIO.read(playerUrl);
+        try {
+            image = ImageIO.read(playerUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            image = null;
+        }
         this.point = new Point(0, 0);
         int imageHeight = image.getHeight(null);
         this.point.setLocation(0, windowHeight - imageHeight);
