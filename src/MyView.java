@@ -30,7 +30,7 @@ public class MyView implements GameInfoChangeListener {
     private static void createAndShowGui() throws IOException {
         MyView myView = new MyView();
 
-        JFrame frame = new JFrame("BulletExample");
+        JFrame frame = new JFrame("JavaTeamProject");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // add it to the JFrame
