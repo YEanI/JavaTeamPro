@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 
+import static data.Player.Status.IDLE;
+
 /**
  * Created by 이예은 on 2017-06-08.
  */
@@ -12,6 +14,9 @@ public class Player extends BaseItem {
     public static final int WIDTH = 600;
     private int ax = 0;
     private int dx = 0;
+    private  Status status = IDLE;
+    private Direction direction = Direction.LEFT;
+
 
 
     public Player(int windowHeight) {
@@ -25,24 +30,49 @@ public class Player extends BaseItem {
 
     @Override
     public void move() {
-        if(point.getX() < 0){
-            dx = 0;
-            ax = 0;
-            point.setLocation(0, point.getY());
-            return;
-        }
-        if(point.getX() > WIDTH - getWidth()){
-            dx = 0;
-            ax = 0;
-            point.setLocation(WIDTH - getWidth(), point.getY());
-            return;
-        }
-        if(dx + ax < MAX_DX && dx + ax > MAX_DX * -1){
-            this.dx += this.ax;
+
+        switch (status){
+            case ACCEL:
+                if(direction == Direction.LEFT){
+                    dx = dx -1;
+                }
+                else{
+                    dx = dx + 1;
+                }
+                break;
+            case IDLE:
+                if(direction == Direction.LEFT){
+                    if(dx < 0){
+                        dx = dx +1;
+                    }
+                }
+                else{
+                    if(dx > MAX_DX){
+                        dx = dx-1;
+                    }
+                }
         }
 
-        point.setLocation(point.getX() + dx, point.getY());
+        int newX;
+        newX = (int) (point.getX() + dx);
+        if(newX < 0){
+            newX = 0;
+        }else if(newX > WIDTH - getWidth() ){
+            newX = WIDTH - getWidth();
+        }
+        point.setLocation(newX, point.getY());
 
     }
 
+    public void setStatus(Status s, Direction d) {
+        this.status = s;
+        this.direction = d;
+    }
+
+    public enum Status{
+        ACCEL, IDLE
+    }
+    public enum Direction{
+        LEFT, RIGHT
+    }
 }

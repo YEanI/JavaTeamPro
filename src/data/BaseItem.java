@@ -44,12 +44,12 @@ public abstract class BaseItem {
         int bomb_width = target.getWidth();
         int bomb_y = target.getY();
         int bomb_height = target.getHeight();
-        if(bomb_x < targetX && targetX < bomb_x + bomb_width && bomb_y+bomb_height > targetY){
+        if(bomb_x < targetX && targetX < bomb_x + bomb_width && bomb_y+bomb_height < targetY){
             return true;
         }
-        if(bomb_x < targetX + targetWidth && targetX + targetWidth < bomb_x + bomb_width && bomb_y+bomb_height > targetY){
+        if(bomb_x < targetX + targetWidth && targetX + targetWidth < bomb_x + bomb_width && bomb_y+bomb_height < targetY){
             return true;
         }
-        return (targetX < bomb_x && bomb_x + bomb_width < targetX + targetWidth && bomb_y+bomb_height > targetY);
+        return (targetX < bomb_x && bomb_x + bomb_width < targetX + targetWidth && bomb_y+bomb_height < targetY);
     }
 }
