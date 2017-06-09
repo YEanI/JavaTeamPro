@@ -26,7 +26,7 @@ public class GameController implements MainView.MainViewListener{
     }
 
     private void start(){
-        switchView(gameView);
+        switchView(mainView);
 
     }
 
@@ -34,12 +34,13 @@ public class GameController implements MainView.MainViewListener{
         frame.setVisible(false);
         frame.setContentPane(currentView.getContentPanel());
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
     @Override
     public void onClickStartGame() {
-
+        switchView(gameView);
     }
 
     public static void main(String[] args) {
