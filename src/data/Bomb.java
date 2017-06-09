@@ -1,6 +1,8 @@
 package data;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.io.IOException;
 import java.net.URL;
 
 /**
@@ -13,10 +15,10 @@ public class Bomb extends BaseItem {
     int dy;
     int ay;
 
-    public Bomb(int x, int ay) {
+    public Bomb(int x, int ay) throws IOException {
         super();
-        URL imageURL = getClass().getResource("../images/ic_add_circle_outline_black.png");
-        image = new ImageIcon(imageURL).getImage();
+        URL imageURL = BaseItem.class.getResource("/images/ic_add_circle_outline_black.png");
+        image = ImageIO.read(imageURL);
         dy = 0;
         ay = BOMB_ACCCELATE;
         this.point.setLocation(x, this.point.getY());

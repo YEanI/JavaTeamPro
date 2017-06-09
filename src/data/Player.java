@@ -1,7 +1,9 @@
 package data;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 
 import static data.Player.Status.IDLE;
@@ -19,9 +21,9 @@ public class Player extends BaseItem {
 
 
 
-    public Player(int windowHeight) {
-        URL playerUrl = getClass().getResource("../images/ic_android_black.png");
-        image = new ImageIcon(playerUrl).getImage();
+    public Player(int windowHeight) throws IOException {
+        URL playerUrl = BaseItem.class.getResource("/images/ic_android_black.png");
+        image = ImageIO.read(playerUrl);
         this.point = new Point(0, 0);
         int imageHeight = image.getHeight(null);
         this.point.setLocation(0, windowHeight - imageHeight);

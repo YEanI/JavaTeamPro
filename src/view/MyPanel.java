@@ -108,8 +108,14 @@ public class MyPanel extends JPanel {
 
             if (random.nextInt(100) < 10 ) { //폭탄은 30% 확률로 생성됨.
                 //TODO add level dependency to Bomb constructor
-                Bomb bomb = new Bomb(random.nextInt(PREF_W), random.nextInt(3) + 3);
-                bombList.add(bomb);
+                Bomb bomb = null;
+                try {
+                    bomb = new Bomb(random.nextInt(PREF_W), random.nextInt(3) + 3);
+                    bombList.add(bomb);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
             }
 
             //TODO 폭탄 움직이기
@@ -129,7 +135,7 @@ public class MyPanel extends JPanel {
             //TODO 충돌 체크
             boolean isCrush = false;
             for(Bomb b : bombList){
-                if(b.checkCrush(player)){
+                if(player.checkCrush(b)){
                     isCrush = true;
                     break;
                 }

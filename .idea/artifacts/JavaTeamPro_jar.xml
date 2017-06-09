@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JavaTeamPro:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JavaTeamPro_jar</output-path>
+    <root id="archive" name="JavaTeamPro.jar">
+      <element id="module-output" name="JavaTeamPro" />
+    </root>
+  </artifact>
+</component>

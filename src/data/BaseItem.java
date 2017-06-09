@@ -29,27 +29,30 @@ public abstract class BaseItem {
         return image.getWidth(null);
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return image.getHeight(null);
     }
 
     abstract void move();
 
     public boolean checkCrush(BaseItem target) {
-        int targetX = (int) this.point.getX();
-        int targetWidth = this.getWidth();
-        int targetY = (int) this.point.getY();
-        int targetHeight = this.getHeight();
+        int player_x = (int) this.point.getX();
+        int player_width = this.getWidth();
+        int player_y = (int) this.point.getY();
+        int player_height = this.getHeight();
         int bomb_x = target.getX();
         int bomb_width = target.getWidth();
         int bomb_y = target.getY();
         int bomb_height = target.getHeight();
-        if(bomb_x < targetX && targetX < bomb_x + bomb_width && bomb_y+bomb_height < targetY){
+        if (bomb_x < player_x && player_x < bomb_x + bomb_width && bomb_y + bomb_height > player_y) {
             return true;
         }
-        if(bomb_x < targetX + targetWidth && targetX + targetWidth < bomb_x + bomb_width && bomb_y+bomb_height < targetY){
+        if (bomb_x < player_x + player_width && player_x + player_width < bomb_x + bomb_width && bomb_y + bomb_height > player_y) {
             return true;
         }
-        return (targetX < bomb_x && bomb_x + bomb_width < targetX + targetWidth && bomb_y+bomb_height < targetY);
+        if (player_x < bomb_x && bomb_x + bomb_width < player_x + player_width && bomb_y + bomb_height > player_y) {
+            return true;
+        }
+        return false;
     }
 }
