@@ -1,8 +1,8 @@
 package viewcomponent;
 
 import data.Bomb;
-import data.GameInfoChangeListener;
 import data.Player;
+import view.GameView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -24,13 +23,13 @@ public class GamePanel extends JPanel {
     public static final int DELAY = 100;
     private final Timer gameTick;
     private final Timer timer;
-    private final GameInfoChangeListener listener;
+    private final GameView.GameInfoChangeListener listener;
     private Player player;
     private ArrayList<Bomb> bombList;
     private int time;
     private int level;
     private Random random = new Random();
-    public GamePanel(GameInfoChangeListener listener){
+    public GamePanel(GameView.GameInfoChangeListener listener){
         bombList = new ArrayList<>();
         time = MAX_TIME;
         level = 1;

@@ -1,15 +1,13 @@
 package view;
 
-import data.GameInfoChangeListener;
 import viewcomponent.GamePanel;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by minchul on 2017-06-08.
  */
-public class GameView extends BaseView implements GameInfoChangeListener {
+public class GameView extends BaseView implements GameView.GameInfoChangeListener {
     private JPanel panel;
     private GamePanel gamePanel;
     private JLabel timeLabel;
@@ -37,5 +35,12 @@ public class GameView extends BaseView implements GameInfoChangeListener {
 
     public JPanel getContentPanel() {
         return panel;
+    }
+
+    /**
+     * Created by minchul on 2017-06-08.
+     */
+    public static interface GameInfoChangeListener {
+        void onChange(int time, int level);
     }
 }
