@@ -30,9 +30,9 @@ public class GameController implements MainView.MainViewListener{
 
     }
 
-    private void switchView(BaseView currentView) {
+    private void switchView(BaseView newView) {
         frame.setVisible(false);
-        frame.setContentPane(currentView.getContentPanel());
+        frame.setContentPane(newView.getContentPanel());
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
