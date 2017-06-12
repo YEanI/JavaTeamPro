@@ -2,10 +2,7 @@ package data;
 
 import lombok.Data;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
-import java.net.URL;
 
 /**
  * Created by 이예은 on 2017-06-08.
@@ -13,13 +10,12 @@ import java.net.URL;
 
 @Data
 public class Bomb {
-
     private DrawingObject object;
-    private int dy, ay;
+    private double dy, ay;
 
-    public Bomb(){
+    public Bomb() {
         object = new DrawingObject();
-        object.setImage("/images/ic_add_circle_outline_black.png");
+        object.setImage("/images/ic_add_circle_outline_black.png", 36);
         dy = 0;
         ay = 0;
 
@@ -28,7 +24,8 @@ public class Bomb {
     public void move() {
         dy += ay;
         Point point = object.getPoint();
-        object.setPoint(new Point(point.x, point.y + dy));
+        point.setLocation(point.getX(), point.getY() + dy);
     }
+
 
 }

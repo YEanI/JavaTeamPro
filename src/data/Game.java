@@ -20,14 +20,14 @@ public class Game {
 
     public boolean isCrush() {
         for (Bomb m : bombList) {
-            if (CHECk_CRUSH(player, m)) {
+            if (CHECK_CRUSH(player, m)) {
                 return true;
             }
         }
         return false;
     }
 
-    public static boolean CHECk_CRUSH(Player player, Bomb bomb) {
+    public static boolean CHECK_CRUSH(Player player, Bomb bomb) {
         final DrawingObject object1 = player.getObject();
         final DrawingObject object2 = bomb.getObject();
         final int bomb_x = object2.getPoint().x;

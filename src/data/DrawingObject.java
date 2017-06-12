@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
@@ -20,10 +21,11 @@ public class DrawingObject {
         point = new Point(0, 0);
     }
 
-    public void setImage(String filePath){
+    public void setImage(String filePath, int size){
         URL imageURL = DrawingObject.class.getResource(filePath);
         try {
-            image = ImageIO.read(imageURL);
+            image = ImageIO.read(imageURL).getScaledInstance(size, size, Image.SCALE_SMOOTH);
+
         } catch (IOException e) {
             e.printStackTrace();
             image = null;

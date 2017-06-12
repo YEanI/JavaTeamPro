@@ -20,15 +20,15 @@ public class Player {
     private DrawingObject object;
     private Status status = IDLE;
     private Direction direction = LEFT;
-    private int ax = 0;
-    private int dx = 0;
+    private double ax = 0;
+    private double dx = 0;
 
-    private int max_dx = 0;
-    private int braking_force = 0;
+    private double max_dx = 0;
+    private double braking_force = 0;
 
     public Player() {
         object = new DrawingObject();
-        object.setImage("/images/ic_android_black.png");
+        object.setImage("/images/character_mario.png", 96);
     }
 
     public void move(final int SCREEN_WIDTH) {
@@ -57,7 +57,7 @@ public class Player {
             }
         }
         Point point = object.getPoint();
-        int newX = point.x + dx;
+        double newX = point.getX() + dx;
         if(newX < 0){
             newX = 0;
             dx = 0;
@@ -65,7 +65,8 @@ public class Player {
             newX = SCREEN_WIDTH - object.getWidth();
             dx = 0;
         }
-        point.x = newX;
+        point.setLocation(newX, point.getY());
+
     }
 
     public enum Status {

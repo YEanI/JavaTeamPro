@@ -5,6 +5,7 @@ import data.DrawingObject;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -21,8 +22,8 @@ public class GamePanel extends JPanel {
         drawingObjectList.add(object);
     }
 
-    public void removeDrawingObject(List<DrawingObject> objectList) {
-        drawingObjectList.removeAll(objectList);
+    public void removeDrawingObject(Collection<DrawingObject> objects) {
+        drawingObjectList.removeAll(objects);
     }
 
     public void removeDrawingObject(DrawingObject object) {
@@ -32,12 +33,11 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for (DrawingObject object : drawingObjectList) {
-            g.drawImage(object.getImage(), object.getPoint().x, object.getPoint().y, this);
-        }
+        final Graphics2D graphics2D = (Graphics2D) g;
+
+        drawingObjectList.forEach(object -> graphics2D.drawImage(object.getImage(), object.getPoint().x, object.getPoint().y, GamePanel.this));
         Toolkit.getDefaultToolkit().sync();
     }
-
 
 
 }
