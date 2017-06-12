@@ -31,14 +31,13 @@ public class GameController implements MainView.MainViewListener{
     }
 
     private void switchView(BaseView newView) {
+        JPanel content = newView.getContentPanel();
         frame.setVisible(false);
-        frame.setContentPane(newView.getContentPanel());
+        frame.setContentPane(content);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        if(newView instanceof GameView){
-            ((GameView) newView).getGamePanel().requestFocus();
-        }
+        content.requestFocus();
     }
 
     @Override
