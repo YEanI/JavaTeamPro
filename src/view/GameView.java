@@ -7,7 +7,7 @@ import javax.swing.*;
 /**
  * Created by minchul on 2017-06-08.
  */
-public class GameView extends BaseView implements GameView.GameInfoChangeListener {
+public class GameView extends BaseView {
     private JPanel panel;
     private GamePanel gamePanel;
     private JLabel timeLabel;
@@ -18,21 +18,19 @@ public class GameView extends BaseView implements GameView.GameInfoChangeListene
     }
 
     private void createUIComponents() {
-        gamePanel = new GamePanel(this);
+        gamePanel = new GamePanel((time, level) -> {
+            levelLabel.setText(String.valueOf(level));
+            timeLabel.setText(String.valueOf(time));
+        });
         levelLabel = new JLabel();
         timeLabel = new JLabel();
         levelLabel.setText("1");
         timeLabel.setText("60");
-    }
 
-
-    @Override
-    public void onChange(int time, int level) {
-        timeLabel.setText(String.valueOf(time));
-        levelLabel.setText(String.valueOf(level));
 
     }
 
+    public GamePanel getGamePanel(){ return gamePanel; }
     public JPanel getContentPanel() {
         return panel;
     }
@@ -40,7 +38,7 @@ public class GameView extends BaseView implements GameView.GameInfoChangeListene
     /**
      * Created by minchul on 2017-06-08.
      */
-    public static interface GameInfoChangeListener {
+    public interface GameInfoChangeListener {
         void onChange(int time, int level);
     }
 }

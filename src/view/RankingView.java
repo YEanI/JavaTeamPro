@@ -8,7 +8,7 @@ import javax.swing.*;
 public class RankingView extends BaseView{
 
     @Override
-    public JPanel getContentPanel() throws Exception {
+    public JPanel getContentPanel() {
         throw new RuntimeException("not yet implement!");
     }
 }

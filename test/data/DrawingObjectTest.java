@@ -8,13 +8,11 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by minchul on 2017-06-09.
  */
 @RunWith(Arquillian.class)
-public class BaseItemTest {
+public class DrawingObjectTest {
     @Test
     public void getX() throws Exception {
     }
@@ -46,7 +44,7 @@ public class BaseItemTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(BaseItem.class)
+                .addClass(DrawingObject.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 

@@ -1,6 +1,8 @@
 package viewcomponent;
 
 import data.Bomb;
+import data.DrawingObject;
+import data.Game;
 import data.Player;
 import view.GameView;
 
@@ -29,11 +31,13 @@ public class GamePanel extends JPanel {
     private int time;
     private int level;
     private Random random = new Random();
+    private boolean isPlaying;
+
     public GamePanel(GameView.GameInfoChangeListener listener){
-        bombList = new ArrayList<>();
-        time = MAX_TIME;
-        level = 1;
-        player = new Player(PREF_H);
+
+        initPlayer();
+        initGame();
+
         this.listener = listener;
         this.addKeyListener(new KeyListener() {
             @Override
@@ -43,53 +47,95 @@ public class GamePanel extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_SPACE){
+                    initGame();
+                    startGame();
+                }
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
-                    player.setStatus(Player.Status.ACCEL, Player.Direction.LEFT);
+                    player.setStatus(Player.Status.ACCEL);
+                    player.setDirection(Player.Direction.LEFT);
                 }else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-                    player.setStatus(Player.Status.ACCEL, Player.Direction.RIGHT);
+                    player.setStatus(Player.Status.ACCEL);
+                    player.setDirection(Player.Direction.RIGHT);
                 }
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
                 if(e.getKeyCode() == KeyEvent.VK_LEFT){
-                    player.setStatus(Player.Status.IDLE, Player.Direction.LEFT);
+                    player.setStatus(Player.Status.IDLE);
+                    player.setDirection(Player.Direction.LEFT);
                 }else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-                    player.setStatus(Player.Status.IDLE, Player.Direction.RIGHT);
+                    player.setStatus(Player.Status.IDLE);
+                    player.setDirection(Player.Direction.RIGHT);
                 }
             }
         });
-        gameTick = new Timer(TIMER_DELAY, new GameTickListener());
-        gameTick.start();
+        gameTick = new Timer(TIMER_DELAY, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                createBomb();
+
+                moveBombList();
+
+                player.move(PREF_W);
+                checkCrush();
+
+                repaint();
+            }
+        });
 
         timer = new Timer(DELAY, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                time--;
-                if(time == 0){
-                    //TODO level up!
-                    level++;
-                    time = MAX_TIME;
-                }
                 listener.onChange(time, level);
             }
         });
-        timer.start();
-
     }
 
+    private void initGame() {
+        time = MAX_TIME;
+        level = 1;
+
+        bombList = new ArrayList<>();
+        isPlaying = false;
+    }
+
+    private void startGame() {
+        if(!isPlaying) {
+            isPlaying = true;
+            gameTick.start();
+            timer.start();
+        }
+    }
+
+    private void initPlayer() {
+        player = new Player();
+        DrawingObject object = player.getObject();
+        int height = object.getHeight();
+        object.setPoint(new Point(PREF_W/2, PREF_H - height));
+
+        player.setMax_dx(30);
+        player.setBraking_force(30);
+        player.setAx(30);
+    }
 
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (player != null) {
-            g.drawImage(player.getImage(), player.getX(), player.getY(), this);
+            drawingObject(g, player.getObject());
         }
         for (Bomb bomb : bombList) {
-            g.drawImage(bomb.getImage(), bomb.getX(), bomb.getY(), this);
+            drawingObject(g, bomb.getObject());
         }
         Toolkit.getDefaultToolkit().sync();
+    }
+
+    private void drawingObject(Graphics g, DrawingObject object) {
+        g.drawImage(object.getImage(), object.getPoint().x, object.getPoint().y, this);
     }
 
     @Override
@@ -100,48 +146,42 @@ public class GamePanel extends JPanel {
         return new Dimension(PREF_W, PREF_H);
     }
 
-    private class GameTickListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
 
-
-            if (random.nextInt(100) < 10 ) { //폭탄은 30% 확률로 생성됨.
-                //TODO add level dependency to Bomb constructor
-                Bomb bomb = null;
-                bomb = new Bomb(random.nextInt(PREF_W), random.nextInt(3) + 3);
-                bombList.add(bomb);
+    private void checkCrush() {
+        boolean isCrush = false;
+        for(Bomb b : bombList){
+            if(Game.CHECk_CRUSH(player, b)){
+                isCrush = true;
+                break;
             }
+        }
 
-            //TODO 폭탄 움직이기
-            for (Bomb b : bombList) {
-                b.move();
+        if(isCrush){
+            isPlaying = false;
+            gameTick.stop();
+            timer.stop();
+        }
+    }
+
+    private void moveBombList() {
+        for (Bomb b : bombList) {
+            b.move();
+        }
+        ArrayList<Bomb> removeList = new ArrayList<>();
+        for (Bomb b : bombList) {
+            if (b.getObject().getPoint().y > PREF_H){
+                removeList.add(b);
             }
-            ArrayList<Bomb> removeList = new ArrayList<>();
-            for (Bomb b : bombList) {
-                if (b.getY() > PREF_H){
-                    removeList.add(b);
-                }
-            }
-            bombList.removeAll(removeList);
+        }
+        bombList.removeAll(removeList);
+    }
 
-            player.move();
-
-            //TODO 충돌 체크
-            boolean isCrush = false;
-            for(Bomb b : bombList){
-                if(player.checkCrush(b)){
-                    isCrush = true;
-                    break;
-                }
-            }
-
-            if(isCrush){
-                //TODO show game over
-                gameTick.stop();
-                timer.stop();
-            }
-
-            repaint();
+    private void createBomb() {
+        if (random.nextInt(100) < 10 ) { //폭탄은 30% 확률로 생성됨.
+            Bomb bomb  = new Bomb();
+            bomb.getObject().setPoint(new Point(random.nextInt(PREF_W), 0));
+            bomb.setAy(random.nextInt(2) + 1);
+            bombList.add(bomb);
         }
     }
 

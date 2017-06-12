@@ -1,86 +1,78 @@
 package data;
 
+import lombok.Data;
+
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
+import static data.Player.Direction.LEFT;
+import static data.Player.Status.ACCEL;
 import static data.Player.Status.IDLE;
 
 /**
  * Created by 이예은 on 2017-06-08.
  */
-public class Player extends BaseItem {
-    private final static int MAX_DX = 8;
-    public static final int WIDTH = 600;
+
+@Data
+public class Player {
+    private DrawingObject object;
+    private Status status = IDLE;
+    private Direction direction = LEFT;
     private int ax = 0;
     private int dx = 0;
-    private  Status status = IDLE;
-    private Direction direction = Direction.LEFT;
 
+    private int max_dx = 0;
+    private int braking_force = 0;
 
-
-    public Player(int windowHeight){
-        URL playerUrl = BaseItem.class.getResource("/images/ic_android_black.png");
-        try {
-            image = ImageIO.read(playerUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-            image = null;
-        }
-        this.point = new Point(0, 0);
-        int imageHeight = image.getHeight(null);
-        this.point.setLocation(0, windowHeight - imageHeight);
+    public Player() {
+        object = new DrawingObject();
+        object.setImage("/images/ic_android_black.png");
     }
 
-
-    @Override
-    public void move() {
-
-        switch (status){
-            case ACCEL:
-                if(direction == Direction.LEFT){
-                    dx = dx -1;
+    public void move(final int SCREEN_WIDTH) {
+        if(status == ACCEL){
+            if(direction == LEFT){
+                dx -= ax;
+            }else{
+                dx += ax;
+            }
+            if(dx > max_dx){
+                dx = max_dx;
+            }else if (dx < -max_dx){
+                dx = -max_dx;
+            }
+        }else{
+            if(direction == LEFT){
+                dx += braking_force;
+                if(dx > 0){
+                    dx = 0;
                 }
-                else{
-                    dx = dx + 1;
+            }else{
+                dx -= braking_force;
+                if(dx < 0){
+                    dx = 0;
                 }
-                break;
-            case IDLE:
-                if(direction == Direction.LEFT){
-                    if(dx < 0){
-                        dx = dx +1;
-                    }
-                }
-                else{
-                    if(dx > MAX_DX){
-                        dx = dx-1;
-                    }
-                }
+            }
         }
-
-        int newX;
-        newX = (int) (point.getX() + dx);
+        Point point = object.getPoint();
+        int newX = point.x + dx;
         if(newX < 0){
             newX = 0;
-        }else if(newX > WIDTH - getWidth() ){
-            newX = WIDTH - getWidth();
+            dx = 0;
+        }else if(newX + object.getWidth() > SCREEN_WIDTH){
+            newX = SCREEN_WIDTH - object.getWidth();
+            dx = 0;
         }
-        point.setLocation(newX, point.getY());
-
+        point.x = newX;
     }
 
-    public void setStatus(Status s, Direction d) {
-        this.status = s;
-        this.direction = d;
-    }
-
-    public enum Status{
+    public enum Status {
         ACCEL, IDLE
     }
-    public enum Direction{
+
+    public enum Direction {
         LEFT, RIGHT
     }
 }

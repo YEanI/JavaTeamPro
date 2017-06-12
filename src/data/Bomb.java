@@ -1,7 +1,9 @@
 package data;
 
+import lombok.Data;
+
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 
@@ -9,35 +11,24 @@ import java.net.URL;
  * Created by 이예은 on 2017-06-08.
  */
 
+@Data
+public class Bomb {
 
-public class Bomb extends BaseItem {
+    private DrawingObject object;
+    private int dy, ay;
 
-    private static final int MAX_DY = 10;
-    public static final int BOMB_ACCCELATE = 2;
-    int dy;
-    int ay;
-
-    public Bomb(int x, int ay){
-        super();
-        URL imageURL = BaseItem.class.getResource("/images/ic_add_circle_outline_black.png");
-        try {
-            image = ImageIO.read(imageURL);
-        } catch (IOException e) {
-            e.printStackTrace();
-            image = null;
-        }
+    public Bomb(){
+        object = new DrawingObject();
+        object.setImage("/images/ic_add_circle_outline_black.png");
         dy = 0;
-        ay = BOMB_ACCCELATE;
-        this.point.setLocation(x, this.point.getY());
-        this.ay = ay;
+        ay = 0;
+
     }
 
-    @Override
     public void move() {
-        if(dy + ay < MAX_DY){
-            this.dy += this.ay;
-        }
-        point.setLocation(point.getX(), point.getY() + dy);
+        dy += ay;
+        Point point = object.getPoint();
+        object.setPoint(new Point(point.x, point.y + dy));
     }
 
 }

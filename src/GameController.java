@@ -36,6 +36,9 @@ public class GameController implements MainView.MainViewListener{
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        if(newView instanceof GameView){
+            ((GameView) newView).getGamePanel().requestFocus();
+        }
     }
 
     @Override
@@ -44,8 +47,14 @@ public class GameController implements MainView.MainViewListener{
     }
 
     public static void main(String[] args) {
-        GameController gameController = new GameController();
-        gameController.start();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                GameController gameController = new GameController();
+                gameController.start();
+            }
+        });
+
     }
 
 }
