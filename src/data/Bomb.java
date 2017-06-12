@@ -8,6 +8,8 @@ import java.net.URL;
 /**
  * Created by 이예은 on 2017-06-08.
  */
+
+
 public class Bomb extends BaseItem {
 
     private static final int MAX_DY = 10;
