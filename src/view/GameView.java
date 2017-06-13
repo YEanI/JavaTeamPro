@@ -1,6 +1,8 @@
 package view;
 
+import app.BombBuilder;
 import app.GameConstants;
+import app.PlayerBuilder;
 import data.Bomb;
 import data.DrawingObject;
 import data.Game;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static app.GameConstants.SCREEN_WIDTH;
+import static app.GameConstants.*;
 import static java.awt.event.KeyEvent.*;
 import static view.GameView.PlayerState.IDLE;
 
@@ -59,14 +61,14 @@ public class GameView extends BaseView {
         bombs = new ArrayList<>();
 
         //init player
-        player = new Player();
-        player.setMax_dx(10);
-        player.setBraking_force(3);
-        player.setAx(3);
-        final DrawingObject object = player.getObject();
-        final int height = object.getHeight();
-        object.setPoint(new Point(SCREEN_WIDTH / 2, GameConstants.SCREEN_HEIGHT - height));
-        gamePanel.addDrawingObject(object);
+        player = new PlayerBuilder()
+                .setMax_dx(10)
+                .setBraking_force(3)
+                .setAx(3)
+                .setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE)
+                .build();
+
+        gamePanel.addDrawingObject(player.getObject());
 
     }
 
@@ -87,9 +89,9 @@ public class GameView extends BaseView {
     }
 
     private void onKeyPressed(int keyCode) {
-        switch(gameState){
+        switch (gameState) {
             case INIT:
-                if(keyCode == VK_SPACE){
+                if (keyCode == VK_SPACE) {
                     gameState = GameState.RUNNING;
                     startGame();
                 }
@@ -100,19 +102,19 @@ public class GameView extends BaseView {
                 } else if (keyCode == VK_RIGHT) {
                     playerState = PlayerState.ACCEL_RIGHT;
                 }
-                if(keyCode == VK_SPACE || keyCode == VK_ESCAPE){
+                if (keyCode == VK_SPACE || keyCode == VK_ESCAPE) {
                     gameState = GameState.PAUSE;
                     pauseGame();
                 }
                 break;
             case PAUSE:
-                if(keyCode == VK_SPACE || keyCode == VK_ESCAPE){
+                if (keyCode == VK_SPACE || keyCode == VK_ESCAPE) {
                     gameState = GameState.RUNNING;
                     resumeGame();
                 }
                 break;
             case GAME_OVER:
-                if(keyCode == VK_SPACE){
+                if (keyCode == VK_SPACE) {
                     gameState = GameState.RUNNING;
                     startGame();
                 }
@@ -137,7 +139,7 @@ public class GameView extends BaseView {
     private void startGame() {
         //remove bombs
         final List<DrawingObject> drawingObjects = new ArrayList<>();
-        for(final Bomb b : bombs){
+        for (final Bomb b : bombs) {
             drawingObjects.add(b.getObject());
         }
         gamePanel.removeDrawingObject(drawingObjects);
@@ -174,27 +176,34 @@ public class GameView extends BaseView {
         final int bomb_y = object2.getPoint().y;
         final int player_x = object1.getPoint().x;
         final int player_y = object1.getPoint().y;
-        final int bomb_width = object2.getWidth();
-        final int bomb_height = object2.getHeight();
-        final int player_width = object1.getWidth();
 
-        if (bomb_x < player_x && player_x < bomb_x + bomb_width && bomb_y + bomb_height > player_y) {
-            return true;
+        //crush on left
+        if (bomb_x < player_x + DEFAULT_CRUSH_OFFSET_X && bomb_x + DEFAULT_BOMB_SIZE > player_x + DEFAULT_CRUSH_OFFSET_X) {
+            if (bomb_y + DEFAULT_BOMB_SIZE > player_y + DEFAULT_CRUSH_OFFSET_Y) {
+                return true;
+            }
         }
-        if (bomb_x < player_x + player_width && player_x + player_width < bomb_x + bomb_width && bomb_y + bomb_height > player_y) {
-            return true;
+        //crush on right
+        if (bomb_x < player_x + DEFAULT_CHARACTER_SIZE - DEFAULT_CRUSH_OFFSET_X && player_x + DEFAULT_CHARACTER_SIZE - DEFAULT_CRUSH_OFFSET_X < bomb_x + DEFAULT_BOMB_SIZE) {
+            if (bomb_y + DEFAULT_BOMB_SIZE > player_y + DEFAULT_CRUSH_OFFSET_Y) {
+                return true;
+            }
         }
-        if (player_x < bomb_x && bomb_x + bomb_width < player_x + player_width && bomb_y + bomb_height > player_y) {
-            return true;
+        //crush on center
+        if (bomb_x > player_x + DEFAULT_CRUSH_OFFSET_X && player_x + DEFAULT_CHARACTER_SIZE - DEFAULT_CRUSH_OFFSET_X > bomb_x + DEFAULT_BOMB_SIZE) {
+            if (bomb_y + DEFAULT_BOMB_SIZE > player_y + DEFAULT_CRUSH_OFFSET_Y) {
+                return true;
+            }
         }
         return false;
     }
 
     private void createBomb() {
         if (random.nextDouble() < 0.1) { //폭탄은 30% 확률로 생성됨.
-            final Bomb bomb = new Bomb();
-            bomb.getObject().setPoint(new Point(random.nextInt(SCREEN_WIDTH), 0));
-            bomb.setAy(random.nextDouble() / 10d + 0.1);
+            final Bomb bomb = new BombBuilder()
+                    .setPoint(new Point(random.nextInt(SCREEN_WIDTH), 0))
+                    .setAy(random.nextDouble() / 10d + 0.1)
+                    .build();
             bombs.add(bomb);
             gamePanel.addDrawingObject(bomb.getObject());
         }
@@ -219,16 +228,16 @@ public class GameView extends BaseView {
         switch (playerState) {
             case ACCEL_LEFT: {
                 final double newDx = player.getDx() - player.getAx();
-                player.setDx(newDx > -player.getMax_dx() ? newDx : -player.getMax_dx());
+                player.setDx(newDx > -player.getMaxDx() ? newDx : -player.getMaxDx());
             }
-                break;
+            break;
             case ACCEL_RIGHT: {
                 final double newDx = player.getDx() + player.getAx();
-                player.setDx(newDx < player.getMax_dx() ? newDx : player.getMax_dx());
+                player.setDx(newDx < player.getMaxDx() ? newDx : player.getMaxDx());
             }
-                break;
+            break;
             case BRAKE:
-                final double absDx = Math.abs(player.getDx()) - player.getBraking_force();
+                final double absDx = Math.abs(player.getDx()) - player.getBrakingForce();
                 if (absDx > 0) {
                     player.setDx(player.getDx() > 0 ? absDx : -absDx);
                 } else {

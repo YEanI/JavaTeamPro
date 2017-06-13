@@ -13,8 +13,8 @@ public class Player {
     private double ax = 0;
     private double dx = 0;
 
-    private double max_dx = 0;
-    private double braking_force = 0;
+    private double maxDx = 0;
+    private double brakingForce = 0;
 
     public Player() {
         object = new DrawingObject();

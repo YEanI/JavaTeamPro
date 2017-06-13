@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.awt.*;
 
+import static app.GameConstants.DEFAULT_BOMB_SIZE;
+
 /**
  * Created by 이예은 on 2017-06-08.
  */
@@ -15,7 +17,7 @@ public class Bomb {
 
     public Bomb() {
         object = new DrawingObject();
-        object.setImage("/images/ic_add_circle_outline_black.png", 36);
+        object.setImage("/images/ic_add_circle_outline_black.png", DEFAULT_BOMB_SIZE);
         dy = 0;
         ay = 0;
 
