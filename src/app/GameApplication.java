@@ -10,6 +10,7 @@ import static java.lang.Thread.sleep;
 
 /**
  * Created by minchul on 2017-06-09.
+ *
  */
 public class GameApplication {
 
