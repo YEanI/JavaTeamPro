@@ -1,5 +1,6 @@
 package view;
 
+import app.GameConstants;
 import data.Bomb;
 import data.DrawingObject;
 import data.Game;
@@ -20,8 +21,6 @@ import java.util.Random;
  * Created by minchul on 2017-06-08.
  */
 public class GameView extends BaseView {
-    private static final int SCREEN_WIDTH = 500;
-    private static final int SCREEN_HEIGHT = 650;
     private static final int UPDATE_SCREEN_DELAY = 10;
     private static final int LABEL_UPDATE_DELAY = 100;
 
@@ -45,7 +44,7 @@ public class GameView extends BaseView {
             public void actionPerformed(ActionEvent e) {
                 createBomb();
                 moveBombList();
-                player.move(SCREEN_WIDTH);
+                player.move(GameConstants.SCREEN_WIDTH);
                 gamePanel.repaint();
                 checkCrush();
             }
@@ -63,7 +62,7 @@ public class GameView extends BaseView {
     private void createUIComponents() {
         panel = new JPanel();
         gamePanel = new GamePanel();
-        gamePanel.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        gamePanel.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
 
         levelLabel = new JLabel();
         timeLabel = new JLabel();
@@ -132,7 +131,7 @@ public class GameView extends BaseView {
             player = new Player();
             DrawingObject object = player.getObject();
             int height = object.getHeight();
-            object.setPoint(new Point(SCREEN_WIDTH / 2, SCREEN_HEIGHT - height));
+            object.setPoint(new Point(GameConstants.SCREEN_WIDTH / 2, GameConstants.SCREEN_HEIGHT - height));
             gamePanel.addDrawingObject(object);
 
             player.setMax_dx(10);
@@ -174,7 +173,7 @@ public class GameView extends BaseView {
         final List<Bomb> removeList = new ArrayList<>();
         final List<DrawingObject> drawingObjects = new ArrayList<>();
         for (Bomb b : bombs) {
-            if (b.getObject().getPoint().y > SCREEN_HEIGHT) {
+            if (b.getObject().getPoint().y > GameConstants.SCREEN_HEIGHT) {
                 removeList.add(b);
                 drawingObjects.add(b.getObject());
             }
@@ -186,7 +185,7 @@ public class GameView extends BaseView {
     private void createBomb() {
         if (random.nextDouble() < 0.1) { //폭탄은 30% 확률로 생성됨.
             Bomb bomb = new Bomb();
-            bomb.getObject().setPoint(new Point(random.nextInt(SCREEN_WIDTH), 0));
+            bomb.getObject().setPoint(new Point(random.nextInt(GameConstants.SCREEN_WIDTH), 0));
             bomb.setAy(random.nextDouble() / 10d + 0.1);
             bombs.add(bomb);
             gamePanel.addDrawingObject(bomb.getObject());
