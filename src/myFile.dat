@@ -1,0 +1,6 @@
+[
+{"name":"조은지","path":"/images/character_batman.png","ax":10.0,"maxDx":3.0,"brakingForce":10.0,"percent":{"A":15,"B":20,"C":35,"D":10,"F":20},"gradeSpeed":{"A":15,"B":15,"C":20,"D":15,"F":20}},
+{"name":"임수연","path":"/images/character_hulk.png","ax":10.0,"maxDx":7.0,"brakingForce":17.0,"percent":{"A":25,"B":35,"C":20,"D":10,"F":10},"gradeSpeed":{"A":15,"B":20,"C":15,"D":20,"F":15}},
+{"name":"김민철","path":"/images/character_mario.png","ax":10.0,"maxDx":10.0,"brakingForce":10.0,"percent":{"A":40,"B":30,"C":15,"D":8,"F":7},"gradeSpeed":{"A":10,"B":20,"C":10,"D":10,"F":5}},
+{"name":"염혜지","path":"/images/character_superman.png","ax":10.0,"maxDx":12.0,"brakingForce":7.0,"percent":{"A":20,"B":30,"C":25,"D":10,"F":15},"gradeSpeed":{"A":15,"B":20,"C":20,"D":15,"F":10}},
+{"name":"이예은","path":"/images/character_scream.png","ax":10.0,"maxDx":15.0,"brakingForce":3.0,"percent":{"A":20,"B":35,"C":25,"D":10,"F":10},"gradeSpeed":{"A":15,"B":16,"C":17,"D":18,"F":10}}]

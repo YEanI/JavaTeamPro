@@ -1,8 +1,9 @@
 package view;
 
-import app.BombBuilder;
+import app.BombFactory;
 import app.GameConstants;
-import app.PlayerBuilder;
+import app.PlayerFactory;
+import app.ViewCaller;
 import data.Bomb;
 import data.DrawingObject;
 import data.Game;
@@ -31,8 +32,9 @@ public class GameView extends BaseView {
     private final Timer gameTick;
     private JPanel panel;
     private GamePanel gamePanel;
-    private JLabel timeLabel;
-    private JLabel levelLabel;
+    private JLabel scoreLabel;
+    private JLabel senesterLabel;
+    private JLabel curriculargradeLabel;
 
     private Game game;
     private Player player;
@@ -43,7 +45,7 @@ public class GameView extends BaseView {
     private PlayerState playerState;
 
     public GameView() {
-        initGame();
+
 
         random = new Random();
         gameTick = new Timer(UPDATE_SCREEN_DELAY, e -> {
@@ -53,22 +55,17 @@ public class GameView extends BaseView {
             gamePanel.repaint();
             checkCrush();
         });
-
     }
 
     private void initGame() {
         gameState = GameState.INIT;
         playerState = IDLE;
         bombs = new ArrayList<>();
-
+        game = new Game();
         //init player
-        player = new PlayerBuilder()
-                .setMax_dx(10)
-                .setBraking_force(3)
-                .setAx(3)
-                .setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE)
-                .build();
-
+//        player = PlayerFactory.getInstance().newPlayer(0);
+        int index = viewCaller.getInt();
+        player = PlayerFactory.getInstance().newPlayer(index);
         gamePanel.addDrawingObject(player.getObject());
 
     }
@@ -129,6 +126,12 @@ public class GameView extends BaseView {
         return panel;
     }
 
+    @Override
+    public void onSwiched() {
+        initGame();
+
+    }
+
     private void resumeGame() {
         gameTick.start();
     }
@@ -153,6 +156,7 @@ public class GameView extends BaseView {
     }
 
 
+//여기서부터 가져온 코드
     private void checkCrush() {
         boolean isCrush = false;
         final List<Bomb> crusheds = new ArrayList<>();
@@ -162,58 +166,65 @@ public class GameView extends BaseView {
                 onCrushBomb(b);
                 crusheds.add(b);
                 crushedObjects.add(b.getObject());
-//                isCrush = true;
-//                break;
             }
         }
         bombs.removeAll(crusheds);
         gamePanel.removeDrawingObject(crushedObjects);
-//        if (isCrush) {
-//            gameState = GameState.GAME_OVER;
-//            stopGame();
-//        }
     }
 
-    int score = 0;
-
-    int crushNumber = 0;
-    int senester = 0;
     private void onCrushBomb(Bomb bomb) {
+        switch(bomb.getGrade()){
+            case A:
+                game.setScore(game.getScore() + 4);
+                game.setCurriculargrade(game.getCurriculargrade() + 3);
+                game.getScoreList()[game.getSenester()] += 4;
+                break;
+            case B:
+                game.setScore(game.getScore() + 3);
+                game.setCurriculargrade(game.getCurriculargrade() + 3);
+                game.getScoreList()[game.getSenester()] += 3;
+                break;
+            case C:
+                game.setScore(game.getScore() + 2);
+                game.setCurriculargrade(game.getCurriculargrade() + 3);
+                game.getScoreList()[game.getSenester()] += 2;
+                break;
+            case D:
+                game.setScore(game.getScore() + 1);
+                game.setCurriculargrade(game.getCurriculargrade() + 3);
+                game.getScoreList()[game.getSenester()] += 1;
+                break;
+        }
+        game.setCrushNumber(game.getCrushNumber() + 1);
 
-        bomb.getGrade();
-        if (bomb.getGrade() == Bomb.Grade.A) {
-            score = score + 4;
-        }
-        if (bomb.getGrade() == Bomb.Grade.B) {
-            score = score + 3;
-        }
-        if (bomb.getGrade() == Bomb.Grade.C) {
-            score += 2;
-        }
-        if (bomb.getGrade() == Bomb.Grade.D) {
-            score += 1;
-        }
-
-        //scoreLabel.setText(score);
-        //GUI켜서 편집하는거 어떻게 하지 scoreLabel하나 만들어줘야 하는데
-
-        crushNumber = crushNumber + 1;
-        //이 메소드가 한번 실행된다는 건 한번 부딪혔다는 거니까 부딪힐 때마다 횟수한번씩 늘리기
-        //근데 부딪힐 때마다 이 메소드가 실행되게 하는 거 어떻게 하지<<으앙
+        final int crushNumber = game.getCrushNumber();
         if(crushNumber % 6 == 0){
-            senester += 1;
+            if (game.getCurriculargrade() >= 132) {
+                stopGame();
+                ViewCaller viewCaller = new ViewCaller(GameResultView.class);
+                viewCaller.setBundleJson(game);
+                startView(viewCaller);
+            }
+            game.getScoreList()[game.getSenester()] /= 6;
+            game.setSenester(game.getSenester() + 1);
+
         }
-        levelLabel.setText(String.valueOf(senester));
-        timeLabel.setText(String.valueOf(score));
-        //semesterLabel.setText(semester)
-        //학기라벨도 하나더 만들어줘야 함...
-        if (senester == 8) {
-            //48번 부딪히면 게임멈춰라
+
+
+        if(game.getSenester() == 12){
             stopGame();
-            //이러면 되나
+            gameOver();
+
         }
 
+        senesterLabel.setText(String.valueOf(game.getSenester())+"학기");
+        final String point = String.format("%.1f", (double)game.getScore() / (double)game.getCrushNumber());
+        scoreLabel.setText("평점 : " + point);
+        curriculargradeLabel.setText("이수학점 : "+String.valueOf(game.getCurriculargrade()));
 
+    }
+    public void gameOver(){
+        JOptionPane.showMessageDialog(gamePanel, "혁명의 씨앗이여, 더 큰 세상으로 나아가라");
     }
 
     private boolean checkCrush(final Player player, final Bomb bomb) {
@@ -247,17 +258,19 @@ public class GameView extends BaseView {
 
     private void createBomb() {
         if (random.nextDouble() < 0.1) { //폭탄은 30% 확률로 생성됨.
-            final Bomb bomb = new BombBuilder()
-                    .setPoint(new Point(random.nextInt(SCREEN_WIDTH), 0))
-                    .setAy(random.nextDouble() / 10d + 0.1)
-                    .build();
+            final Bomb bomb = BombFactory.newBomb();
             bombs.add(bomb);
             gamePanel.addDrawingObject(bomb.getObject());
         }
     }
 
+    private void moveBomb(Bomb bomb) {
+        final Point point = bomb.getObject().getPoint();
+        bomb.setDy(bomb.getDy() + bomb.getAy());
+        point.setLocation(point.getX(), point.getY() + bomb.getDy());
+    }
     private void moveBombList() {
-        bombs.forEach(Bomb::move);
+        bombs.forEach(this::moveBomb);
 
         final List<Bomb> removeList = new ArrayList<>();
         final List<DrawingObject> drawingObjects = new ArrayList<>();

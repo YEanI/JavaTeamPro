@@ -26,20 +26,18 @@ public class GameViewTest {
 
     public GameViewTest() {
         gameView = new GameView();
-        player = new PlayerBuilder()
-                .setMax_dx(10)
-                .setBraking_force(3)
-                .setAx(3)
-                .setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE)
-                .build();
-
+        player = null;
+//        player = new PlayerBuilder()
+//                .setMax_dx(10)
+//                .setBraking_force(3)
+//                .setAx(3)
+//                .setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE)
+//                .build();
         bomb = new BombBuilder().build();
         try {
             checkCrushMethod = GameView.class.getDeclaredMethod("checkCrush", Player.class, Bomb.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-        } finally {
-
         }
         checkCrushMethod.setAccessible(true);
     }
@@ -52,7 +50,6 @@ public class GameViewTest {
         final int py = y - DEFAULT_BOMB_SIZE;
         player.getObject().setPoint(new Point(x, y));
         bomb.getObject().setPoint(new Point(px, py));
-
         assertFalse((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
