@@ -1,6 +1,7 @@
 package view;
 
 import app.BombBuilder;
+import app.BombFactory;
 import app.GameConstants;
 import app.PlayerBuilder;
 import data.Bomb;
@@ -259,10 +260,7 @@ public class GameView extends BaseView {
 
     private void createBomb() {
         if (random.nextDouble() < 0.1) { //폭탄은 30% 확률로 생성됨.
-            final Bomb bomb = new BombBuilder()
-                    .setPoint(new Point(random.nextInt(SCREEN_WIDTH), 0))
-                    .setAy(random.nextDouble() / 10d + 0.1)
-                    .build();
+            final Bomb bomb = BombFactory.newBomb();
             bombs.add(bomb);
             gamePanel.addDrawingObject(bomb.getObject());
         }
