@@ -2,7 +2,7 @@ package view;
 
 import app.BombBuilder;
 import app.GameConstants;
-import app.PlayerBuilder;
+import app.PlayerFactory;
 import data.Bomb;
 import data.DrawingObject;
 import data.Game;
@@ -61,12 +61,7 @@ public class GameView extends BaseView {
         bombs = new ArrayList<>();
 
         //init player
-        player = new PlayerBuilder()
-                .setMax_dx(10)
-                .setBraking_force(3)
-                .setAx(3)
-                .setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE)
-                .build();
+        player = PlayerFactory.getInstance().newPlayer(2);
 
         gamePanel.addDrawingObject(player.getObject());
 

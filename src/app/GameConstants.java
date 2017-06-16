@@ -11,4 +11,6 @@ public class GameConstants {
     public static final int DEFAULT_CRUSH_OFFSET_X = 24;
     public static final int DEFAULT_CRUSH_OFFSET_Y = 10;
     public static final int DEFAULT_BOMB_SIZE = 36;
+
+    public static final String CHARACTER_REPORT_PATH = "src/myFile.dat";
 }
