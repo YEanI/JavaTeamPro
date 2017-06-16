@@ -32,11 +32,14 @@ public class GameViewTest {
                 .setAx(3)
                 .setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE)
                 .build();
+
         bomb = new BombBuilder().build();
         try {
             checkCrushMethod = GameView.class.getDeclaredMethod("checkCrush", Player.class, Bomb.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
+        } finally {
+
         }
         checkCrushMethod.setAccessible(true);
     }
@@ -49,6 +52,7 @@ public class GameViewTest {
         final int py = y - DEFAULT_BOMB_SIZE;
         player.getObject().setPoint(new Point(x, y));
         bomb.getObject().setPoint(new Point(px, py));
+
         assertFalse((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")

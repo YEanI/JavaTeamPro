@@ -53,6 +53,7 @@ public class GameView extends BaseView {
             gamePanel.repaint();
             checkCrush();
         });
+
     }
 
     private void initGame() {
@@ -154,20 +155,66 @@ public class GameView extends BaseView {
 
     private void checkCrush() {
         boolean isCrush = false;
-
+        final List<Bomb> crusheds = new ArrayList<>();
+        final List<DrawingObject> crushedObjects = new ArrayList<>();
         for (final Bomb b : bombs) {
             if (checkCrush(player, b)) {
-                isCrush = true;
-                break;
+                onCrushBomb(b);
+                crusheds.add(b);
+                crushedObjects.add(b.getObject());
+//                isCrush = true;
+//                break;
             }
         }
-
-        if (isCrush) {
-            gameState = GameState.GAME_OVER;
-            stopGame();
-        }
+        bombs.removeAll(crusheds);
+        gamePanel.removeDrawingObject(crushedObjects);
+//        if (isCrush) {
+//            gameState = GameState.GAME_OVER;
+//            stopGame();
+//        }
     }
 
+    int score = 0;
+
+    int crushNumber = 0;
+    int senester = 0;
+    private void onCrushBomb(Bomb bomb) {
+
+        bomb.getGrade();
+        if (bomb.getGrade() == Bomb.Grade.A) {
+            score = score + 4;
+        }
+        if (bomb.getGrade() == Bomb.Grade.B) {
+            score = score + 3;
+        }
+        if (bomb.getGrade() == Bomb.Grade.C) {
+            score += 2;
+        }
+        if (bomb.getGrade() == Bomb.Grade.D) {
+            score += 1;
+        }
+
+        //scoreLabel.setText(score);
+        //GUI켜서 편집하는거 어떻게 하지 scoreLabel하나 만들어줘야 하는데
+
+        crushNumber = crushNumber + 1;
+        //이 메소드가 한번 실행된다는 건 한번 부딪혔다는 거니까 부딪힐 때마다 횟수한번씩 늘리기
+        //근데 부딪힐 때마다 이 메소드가 실행되게 하는 거 어떻게 하지<<으앙
+        if(crushNumber % 6 == 0){
+            senester += 1;
+        }
+        levelLabel.setText(String.valueOf(senester));
+        timeLabel.setText(String.valueOf(score));
+        //semesterLabel.setText(semester)
+        //학기라벨도 하나더 만들어줘야 함...
+        if (senester == 8) {
+            //48번 부딪히면 게임멈춰라
+            stopGame();
+            //이러면 되나
+        }
+
+
+    }
 
     private boolean checkCrush(final Player player, final Bomb bomb) {
         final DrawingObject object1 = player.getObject();
