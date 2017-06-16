@@ -9,7 +9,8 @@ import javax.swing.*;
  * Created by minchul on 2017-06-09.
  */
 public abstract class BaseView {
-    public String bundleJson;
+
+    public ViewCaller viewCaller;
 
     public abstract JPanel getContentPanel();
 

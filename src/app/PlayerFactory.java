@@ -52,4 +52,8 @@ public class PlayerFactory {
     public List<CharacterReport> getCharacterReports() {
         return characterReports;
     }
+
+    public int getReportSize(){
+        return characterReports.size();
+    }
 }

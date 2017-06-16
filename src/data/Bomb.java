@@ -18,8 +18,11 @@ public class Bomb {
     private Grade grade;
 
     public Bomb() {
+        object = new DrawingObject();
+        object.setImage("/images/ic_add_circle_outline_black.png", DEFAULT_BOMB_SIZE);
         dy = 0;
         ay = 0;
+
     }
 
 

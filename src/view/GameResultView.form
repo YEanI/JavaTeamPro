@@ -6,6 +6,20 @@
     </constraints>
     <properties/>
     <border type="none"/>
-    <children/>
+    <children>
+      <component id="2af6a" class="javax.swing.JTextArea" binding="scoretextArea">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="1c0e3" class="javax.swing.JLabel" binding="denominationLabel">
+        <constraints border-constraint="South"/>
+        <properties>
+          <horizontalAlignment value="0"/>
+          <text value="Label"/>
+        </properties>
+      </component>
+    </children>
   </grid>
 </form>
