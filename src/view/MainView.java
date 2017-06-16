@@ -1,7 +1,6 @@
 package view;
 
 import app.GameConstants;
-import app.PlayerBuilder;
 import data.DrawingObject;
 import viewcomponent.GamePanel;
 
@@ -36,7 +35,7 @@ public class MainView extends BaseView {
         ON_SCREEN_PLAYER = SCREEN_WIDTH / DEFAULT_CHARACTER_SIZE;
         drawingObjects = new ArrayList<>();
         for (int i = 0; i < ON_SCREEN_PLAYER + 2; i++) {
-            drawingObjects.add(new PlayerBuilder().setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE).build().getObject());
+//            drawingObjects.add(new PlayerBuilder().setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE).build().getObject());
         }
         gamePanel.addDrawingObject(drawingObjects);
         new Timer(ANIM_DELAY, new ActionListener() {
@@ -81,7 +80,7 @@ public class MainView extends BaseView {
         btnStartGame.setAction(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                startView(GameView.class);
+                startView(CharacterSelectView.class);
             }
         });
         btnRanking = new JButton();

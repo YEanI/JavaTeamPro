@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import data.CharacterReport;
 import view.BaseView;
-import view.GameView;
 import view.MainView;
 
 import javax.swing.*;
@@ -13,8 +12,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static app.GameConstants.CHARACTER_REPORT_PATH;
 import static java.lang.Thread.sleep;
@@ -55,7 +54,7 @@ public class GameApplication {
         try {
             FileReader fileReader = new FileReader(CHARACTER_REPORT_PATH);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-            json = bufferedReader.readLine();
+            json = bufferedReader.lines().collect(Collectors.joining());
             bufferedReader.close();
             fileReader.close();
         } catch (FileNotFoundException e) {
@@ -70,7 +69,7 @@ public class GameApplication {
         List<CharacterReport> characterReports;
         Gson gson = new Gson();
         characterReports = gson.fromJson(json, new TypeToken<List<CharacterReport>>(){}.getType());
-        PlayerFactory.getInstance().setChararterReportList(characterReports);
+        PlayerFactory.getInstance().setCharacterReports(characterReports);
     }
 
     public void startView(Class<? extends BaseView> newViewType) {

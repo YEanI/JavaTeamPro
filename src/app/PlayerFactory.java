@@ -30,7 +30,7 @@ public class PlayerFactory {
 
     ///
 
-    public void setChararterReportList(List<CharacterReport> list){
+    public void setCharacterReports(List<CharacterReport> list){
         this.characterReports = list;
     }
 
@@ -47,5 +47,9 @@ public class PlayerFactory {
         final int height = object.getHeight();
         object.setPoint(new Point(SCREEN_WIDTH / 2, GameConstants.SCREEN_HEIGHT - height));
         return player;
+    }
+
+    public List<CharacterReport> getCharacterReports() {
+        return characterReports;
     }
 }
