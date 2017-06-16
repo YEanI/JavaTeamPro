@@ -85,7 +85,7 @@ public class GameApplication {
         try {
 
             BaseView viewInstance = viewCaller.target.newInstance();
-            viewInstance.bundleJson = viewCaller.getBundleJson();
+            viewInstance.viewCaller = viewCaller;
             switchView(viewInstance);
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();

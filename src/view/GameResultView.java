@@ -22,8 +22,8 @@ public class GameResultView extends BaseView{
     @Override
     public void onSwiched() {
         Gson gson = new Gson();
-        if(this.bundleJson != null) {
-            game = gson.fromJson(this.bundleJson, Game.class);
+        if(this.viewCaller.getBundleJson() != null) {
+            game = gson.fromJson(this.viewCaller.getBundleJson(), Game.class);
             System.out.println(game.getScore());
         }
     }

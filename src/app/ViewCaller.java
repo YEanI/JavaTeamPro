@@ -2,7 +2,6 @@ package app;
 
 import com.google.gson.Gson;
 import view.BaseView;
-import view.GameResultView;
 
 /**
  * Created by hyeji on 2017-06-16.
@@ -10,6 +9,7 @@ import view.GameResultView;
 public class ViewCaller {
     final Class<? extends BaseView> target;
     private String bundleJson;
+    private int intValue = 0;
 
     public ViewCaller(Class<? extends BaseView> viewClass) {
         target = viewClass;
@@ -23,5 +23,12 @@ public class ViewCaller {
 
     public String getBundleJson() {
         return bundleJson;
+    }
+
+    public void setInt(int value) {
+        this.intValue = value;
+    }
+    public int getInt(){
+        return intValue;
     }
 }

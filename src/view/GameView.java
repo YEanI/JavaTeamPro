@@ -45,7 +45,7 @@ public class GameView extends BaseView {
     private PlayerState playerState;
 
     public GameView() {
-        initGame();
+
 
         random = new Random();
         gameTick = new Timer(UPDATE_SCREEN_DELAY, e -> {
@@ -63,8 +63,9 @@ public class GameView extends BaseView {
         bombs = new ArrayList<>();
         game = new Game();
         //init player
-        player = PlayerFactory.getInstance().newPlayer(0);
-
+//        player = PlayerFactory.getInstance().newPlayer(0);
+        int index = viewCaller.getInt();
+        player = PlayerFactory.getInstance().newPlayer(index);
         gamePanel.addDrawingObject(player.getObject());
 
     }
@@ -127,6 +128,7 @@ public class GameView extends BaseView {
 
     @Override
     public void onSwiched() {
+        initGame();
 
     }
 
