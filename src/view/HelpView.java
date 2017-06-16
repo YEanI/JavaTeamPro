@@ -4,6 +4,8 @@ import app.GameConstants;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
@@ -16,6 +18,7 @@ public class HelpView extends BaseView {
     private JPanel panel;
     private JLabel label1;
     private JLabel label2;
+    private JButton button1;
 
 
     @Override
@@ -34,8 +37,6 @@ public class HelpView extends BaseView {
         Image scaleImage2 = getScaleImage(icon2.getImage(), 350, 350);
         icon2.setImage(scaleImage2);
         label1.setIcon(icon2);
-        label1.setName(null);
-        label1.setText(null);
 
         label2 = new JLabel();
         URL imageURL = HelpView.class.getResource("/images/Class.png");
@@ -43,9 +44,15 @@ public class HelpView extends BaseView {
         Image scaleImage = getScaleImage(icon.getImage(), 350, 200);
         icon.setImage(scaleImage);
         label2.setIcon(icon);
-        label2.setName(null);
-        label2.setText(null);
 
+        button1 = new JButton();
+        button1.setText("BACK");
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startView(MainView.class);
+            }
+        });
 
     }
 
