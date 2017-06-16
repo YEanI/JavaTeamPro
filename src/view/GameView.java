@@ -1,6 +1,7 @@
 package view;
 
 import app.BombBuilder;
+import app.BombFactory;
 import app.GameConstants;
 import app.PlayerBuilder;
 import data.Bomb;
@@ -152,21 +153,80 @@ public class GameView extends BaseView {
     }
 
 
+//여기서부터 가져온 코드
     private void checkCrush() {
         boolean isCrush = false;
-
+        final List<Bomb> crusheds = new ArrayList<>();
+        final List<DrawingObject> crushedObjects = new ArrayList<>();
         for (final Bomb b : bombs) {
             if (checkCrush(player, b)) {
-                isCrush = true;
-                break;
+                onCrushBomb(b);
+                crusheds.add(b);
+                crushedObjects.add(b.getObject());
+//                isCrush = true;
+//                break;
+            }
+        }
+        bombs.removeAll(crusheds);
+        gamePanel.removeDrawingObject(crushedObjects);
+//        if (isCrush) {
+//            gameState = GameState.GAME_OVER;
+//            stopGame();
+//        }
+    }
+
+    int score = 0;
+    int crushNumber = 0;
+    int senester = 0;
+    int curriculargrade = 0; //이수학점
+    private void onCrushBomb(Bomb bomb) {
+
+        bomb.getGrade();
+        if (bomb.getGrade() == Bomb.Grade.A) {
+            score = score + 4;
+            curriculargrade += 3;
+        }
+        if (bomb.getGrade() == Bomb.Grade.B) {
+            score = score + 3;
+            curriculargrade += 3;
+        }
+        if (bomb.getGrade() == Bomb.Grade.C) {
+            score += 2;
+            curriculargrade += 3;
+        }
+        if (bomb.getGrade() == Bomb.Grade.D) {
+            score += 1;
+            curriculargrade += 3;
+        }
+
+        crushNumber = crushNumber + 1;
+
+
+        if(crushNumber % 6 == 0){
+            senester += 1;
+            if (curriculargrade >= 132) {
+                stopGame();
             }
         }
 
-        if (isCrush) {
-            gameState = GameState.GAME_OVER;
+        if(senester == 12){
             stopGame();
+            gameOver();
+
         }
+
+        levelLabel.setText(String.valueOf(senester));
+        timeLabel.setText(String.valueOf(score));
+
+
     }
+    public void gameOver(){
+        //'혁명의 씨앗이여, 더 큰 세상으로 나아가라' 출력창을 띄워야 함
+        //GameResultView클래스에 넣어줘야 하는 건가 아냐 거기에는 평균학점이랑 계급 띄워주는 창 넣는 곳이고
+        //창 띄우는 거 어떻게 하지?
+        JOptionPane.showMessageDialog(gamePanel, "My Goodness, this is so concise");
+    }
+//여기까지
 
 
     private boolean checkCrush(final Player player, final Bomb bomb) {
@@ -200,10 +260,7 @@ public class GameView extends BaseView {
 
     private void createBomb() {
         if (random.nextDouble() < 0.1) { //폭탄은 30% 확률로 생성됨.
-            final Bomb bomb = new BombBuilder()
-                    .setPoint(new Point(random.nextInt(SCREEN_WIDTH), 0))
-                    .setAy(random.nextDouble() / 10d + 0.1)
-                    .build();
+            final Bomb bomb = BombFactory.newBomb();
             bombs.add(bomb);
             gamePanel.addDrawingObject(bomb.getObject());
         }
