@@ -13,9 +13,7 @@ import java.awt.*;
 public class GameResultView extends BaseView{
     Game game;
     private JPanel panel;
-    private JLabel denominationLabel;
-    private JTextArea scoretextArea;
-    private double point;
+
     @Override
     public JPanel getContentPanel() {
         return panel;
@@ -24,9 +22,8 @@ public class GameResultView extends BaseView{
     @Override
     public void onSwiched() {
         Gson gson = new Gson();
-        if(this.bundleJson != null) {
-            game = gson.fromJson(this.bundleJson, Game.class);
-            point = (double)game.getScore()/(double)game.getCrushNumber();
+        if(this.viewCaller.getBundleJson() != null) {
+            game = gson.fromJson(this.viewCaller.getBundleJson(), Game.class);
 
             if(point == 4.5){
                 game.setDenomination("신");
@@ -65,9 +62,8 @@ public class GameResultView extends BaseView{
             StringBuilder t = new StringBuilder();
             for(i=0; i<12;i++) {
                 t.append(i+1).append("학기평점 : ").append(String.format("%.2f", game.getScoreList()[i])).append("\n");
-             }
+            }
             scoretextArea.setText(t.toString()+ "총평점"+point);
-
         }
     }
 

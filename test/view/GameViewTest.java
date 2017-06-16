@@ -1,7 +1,6 @@
 package view;
 
 import app.BombBuilder;
-import app.PlayerBuilder;
 import data.Bomb;
 import data.Player;
 import org.junit.Test;
@@ -26,12 +25,13 @@ public class GameViewTest {
 
     public GameViewTest() {
         gameView = new GameView();
-        player = new PlayerBuilder()
-                .setMax_dx(10)
-                .setBraking_force(3)
-                .setAx(3)
-                .setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE)
-                .build();
+        player = null;
+//        player = new PlayerBuilder()
+//                .setMax_dx(10)
+//                .setBraking_force(3)
+//                .setAx(3)
+//                .setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE)
+//                .build();
         bomb = new BombBuilder().build();
         try {
             checkCrushMethod = GameView.class.getDeclaredMethod("checkCrush", Player.class, Bomb.class);

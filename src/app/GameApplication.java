@@ -1,11 +1,21 @@
 package app;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import data.CharacterReport;
 import view.BaseView;
-import view.GameView;
 import view.MainView;
 
 import javax.swing.*;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static app.GameConstants.CHARACTER_REPORT_PATH;
 import static java.lang.Thread.sleep;
 
 /**
@@ -13,6 +23,7 @@ import static java.lang.Thread.sleep;
  *
  */
 public class GameApplication {
+
 
     static private GameApplication instance;
     static public GameApplication getInstance(){
@@ -32,7 +43,33 @@ public class GameApplication {
     }
 
     private void start(){
+        loadCharacterReport();
+
         startView(MainView.class);
+
+    }
+
+    private void loadCharacterReport() {
+        String json = null;
+        try {
+            FileReader fileReader = new FileReader(CHARACTER_REPORT_PATH);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            json = bufferedReader.lines().collect(Collectors.joining());
+            bufferedReader.close();
+            fileReader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(json == null){
+            //TODO read fail!
+            return;
+        }
+        List<CharacterReport> characterReports;
+        Gson gson = new Gson();
+        characterReports = gson.fromJson(json, new TypeToken<List<CharacterReport>>(){}.getType());
+        PlayerFactory.getInstance().setCharacterReports(characterReports);
     }
 
     public void startView(Class<? extends BaseView> newViewType) {
@@ -48,7 +85,7 @@ public class GameApplication {
         try {
 
             BaseView viewInstance = viewCaller.target.newInstance();
-            viewInstance.bundleJson = viewCaller.getBundleJson();
+            viewInstance.viewCaller = viewCaller;
             switchView(viewInstance);
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
@@ -57,7 +94,7 @@ public class GameApplication {
 
     private void switchView(BaseView newView) {
         JPanel content = newView.getContentPanel();
-        frame.setVisible(false);
+        frame.setVisible(true);
         frame.setContentPane(content);
         frame.pack();
         frame.setLocationRelativeTo(null);
