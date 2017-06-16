@@ -46,7 +46,7 @@ public class GameApplication {
 
     private void switchView(BaseView newView) {
         JPanel content = newView.getContentPanel();
-        frame.setVisible(false);
+        frame.setVisible(true);
         frame.setContentPane(content);
         frame.pack();
         frame.setLocationRelativeTo(null);
