@@ -13,6 +13,8 @@ import java.awt.*;
 public class GameResultView extends BaseView{
     Game game;
     private JPanel panel;
+    private JTextArea scoretextArea;
+    private JLabel denominationLabel;
 
     @Override
     public JPanel getContentPanel() {
@@ -24,7 +26,7 @@ public class GameResultView extends BaseView{
         Gson gson = new Gson();
         if(this.viewCaller.getBundleJson() != null) {
             game = gson.fromJson(this.viewCaller.getBundleJson(), Game.class);
-
+            double point = (double)game.getScore()/(double)game.getCrushNumber();
             if(point == 4.5){
                 game.setDenomination("신");
             }
