@@ -65,7 +65,7 @@ public class GameResultView extends BaseView{
             for(i=0; i<12;i++) {
                 t.append(i+1).append("학기평점 : ").append(String.format("%.2f", game.getScoreList()[i])).append("\n");
             }
-            scoretextArea.setText(t.toString()+ "총평점"+point);
+            scoretextArea.setText(t.toString()+ "총평점"+String.format("%.2f", point));
         }
     }
 

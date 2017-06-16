@@ -199,14 +199,15 @@ public class GameView extends BaseView {
 
         final int crushNumber = game.getCrushNumber();
         if(crushNumber % 6 == 0){
+            game.getScoreList()[game.getSenester()] /= 6;
+            game.setSenester(game.getSenester() + 1);
+
             if (game.getCurriculargrade() >= 132) {
                 stopGame();
                 ViewCaller viewCaller = new ViewCaller(GameResultView.class);
                 viewCaller.setBundleJson(game);
                 startView(viewCaller);
             }
-            game.getScoreList()[game.getSenester()] /= 6;
-            game.setSenester(game.getSenester() + 1);
 
         }
 
