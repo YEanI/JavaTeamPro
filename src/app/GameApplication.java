@@ -38,7 +38,7 @@ public class GameApplication {
 
     private GameApplication(){
         frame = new JFrame("JavaTeamProject");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
     }
@@ -82,6 +82,17 @@ public class GameApplication {
         }
     }
 
+    public void startView(ViewCaller viewCaller) {
+        try {
+
+            BaseView viewInstance = viewCaller.target.newInstance();
+            viewInstance.bundleJson = viewCaller.getBundleJson();
+            switchView(viewInstance);
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void switchView(BaseView newView) {
         JPanel content = newView.getContentPanel();
         frame.setVisible(false);
@@ -90,6 +101,7 @@ public class GameApplication {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         content.requestFocus();
+        newView.onSwiched();
     }
 
     public static void main(String[] args) {
