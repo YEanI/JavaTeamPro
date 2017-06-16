@@ -22,11 +22,6 @@ public class Bomb {
         ay = 0;
     }
 
-    public void move() {
-        dy += ay;
-        Point point = object.getPoint();
-        point.setLocation(point.getX(), point.getY() + dy);
-    }
 
     public void setImage(String s, int defaultBombSize) {
         object = new DrawingObject();

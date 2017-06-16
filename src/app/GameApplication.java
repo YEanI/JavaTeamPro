@@ -26,7 +26,7 @@ public class GameApplication {
 
     private GameApplication(){
         frame = new JFrame("JavaTeamProject");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
     }
