@@ -63,8 +63,8 @@ public class GameView extends BaseView {
         //init player
         player = new PlayerBuilder()
                 .setMax_dx(10)
-                .setBraking_force(3)
-                .setAx(3)
+                .setBraking_force(10)
+                .setAx(10)
                 .setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE)
                 .build();
 
@@ -209,8 +209,13 @@ public class GameView extends BaseView {
         }
     }
 
+    private void moveBomb(Bomb bomb) {
+        final Point point = bomb.getObject().getPoint();
+        bomb.setDy(bomb.getDy() + bomb.getAy());
+        point.setLocation(point.getX(), point.getY() + bomb.getDy());
+    }
     private void moveBombList() {
-        bombs.forEach(Bomb::move);
+        bombs.forEach(this::moveBomb);
 
         final List<Bomb> removeList = new ArrayList<>();
         final List<DrawingObject> drawingObjects = new ArrayList<>();

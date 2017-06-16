@@ -2,6 +2,8 @@ package data;
 
 import lombok.Data;
 
+import static app.GameConstants.DEFAULT_CHARACTER_SIZE;
+
 /**
  * Created by 이예은 on 2017-06-08.
  */
@@ -18,7 +20,7 @@ public class Player {
 
     public Player() {
         object = new DrawingObject();
-        object.setImage("/images/character_mario.png", 96);
+        object.setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE);
     }
 
 }

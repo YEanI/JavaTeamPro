@@ -23,11 +23,6 @@ public class Bomb {
 
     }
 
-    public void move() {
-        dy += ay;
-        Point point = object.getPoint();
-        point.setLocation(point.getX(), point.getY() + dy);
-    }
 
 
 }
