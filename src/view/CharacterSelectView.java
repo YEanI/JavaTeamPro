@@ -10,4 +10,9 @@ public class CharacterSelectView extends BaseView{
     public JPanel getContentPanel(){
         throw new RuntimeException("not yet implement!");
     }
+
+    @Override
+    public void onSwiched() {
+
+    }
 }

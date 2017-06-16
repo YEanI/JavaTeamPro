@@ -14,7 +14,6 @@ public class MainView extends BaseView {
     private JPanel panel;
     private JButton btnStartGame;
     private JButton btnRanking;
-    private JButton btnSettings;
     private JButton btnHelp;
 
     public MainView(){
@@ -38,13 +37,6 @@ public class MainView extends BaseView {
                 startView(RankingView.class);
             }
         });
-        btnSettings = new JButton();
-        btnSettings.setAction(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                startView(SettingView.class);
-            }
-        });
         btnHelp = new JButton();
         btnHelp.setAction(new AbstractAction() {
             @Override
@@ -56,5 +48,10 @@ public class MainView extends BaseView {
 
     public JPanel getContentPanel() {
         return panel;
+    }
+
+    @Override
+    public void onSwiched() {
+
     }
 }
