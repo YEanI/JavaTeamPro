@@ -65,4 +65,9 @@ public class HelpView extends BaseView {
 
         return resizedImg;
     }
+
+    @Override
+    public void onSwiched() {
+
+    }
 }

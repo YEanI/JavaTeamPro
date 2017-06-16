@@ -10,5 +10,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="org.projectlombok:lombok-maven-plugin:1.16.16.0" level="project" />
     <orderEntry type="library" name="junit:junit:4.12" level="project" />
+    <orderEntry type="library" name="com.google.code.gson:gson:2.8.1" level="project" />
   </component>
 </module>

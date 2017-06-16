@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GamePanel extends JPanel {
 
-    private List<DrawingObject> drawingObjectList;
+    private final List<DrawingObject> drawingObjectList;
 
     public GamePanel() {
         super();
@@ -20,6 +20,10 @@ public class GamePanel extends JPanel {
 
     public void addDrawingObject(DrawingObject object) {
         drawingObjectList.add(object);
+    }
+
+    public void addDrawingObject(Collection<DrawingObject> newDrawingObjectList) {
+        drawingObjectList.addAll(newDrawingObjectList);
     }
 
     public void removeDrawingObject(Collection<DrawingObject> objects) {
@@ -34,7 +38,6 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         final Graphics2D graphics2D = (Graphics2D) g;
-
         drawingObjectList.forEach(object -> graphics2D.drawImage(object.getImage(), object.getPoint().x, object.getPoint().y, GamePanel.this));
         Toolkit.getDefaultToolkit().sync();
     }

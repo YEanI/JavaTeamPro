@@ -1,9 +1,9 @@
 package view;
 
-import app.BombBuilder;
 import app.BombFactory;
 import app.GameConstants;
-import app.PlayerBuilder;
+import app.PlayerFactory;
+import app.ViewCaller;
 import data.Bomb;
 import data.DrawingObject;
 import data.Game;
@@ -32,8 +32,9 @@ public class GameView extends BaseView {
     private final Timer gameTick;
     private JPanel panel;
     private GamePanel gamePanel;
-    private JLabel timeLabel;
-    private JLabel levelLabel;
+    private JLabel scoreLabel;
+    private JLabel senesterLabel;
+    private JLabel curriculargradeLabel;
 
     private Game game;
     private Player player;
@@ -60,14 +61,9 @@ public class GameView extends BaseView {
         gameState = GameState.INIT;
         playerState = IDLE;
         bombs = new ArrayList<>();
-
+        game = new Game();
         //init player
-        player = new PlayerBuilder()
-                .setMax_dx(10)
-                .setBraking_force(3)
-                .setAx(3)
-                .setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE)
-                .build();
+        player = PlayerFactory.getInstance().newPlayer(0);
 
         gamePanel.addDrawingObject(player.getObject());
 
@@ -129,6 +125,11 @@ public class GameView extends BaseView {
         return panel;
     }
 
+    @Override
+    public void onSwiched() {
+
+    }
+
     private void resumeGame() {
         gameTick.start();
     }
@@ -163,71 +164,61 @@ public class GameView extends BaseView {
                 onCrushBomb(b);
                 crusheds.add(b);
                 crushedObjects.add(b.getObject());
-//                isCrush = true;
-//                break;
             }
         }
         bombs.removeAll(crusheds);
         gamePanel.removeDrawingObject(crushedObjects);
-//        if (isCrush) {
-//            gameState = GameState.GAME_OVER;
-//            stopGame();
-//        }
     }
 
-    int score = 0;
-    int crushNumber = 0;
-    int senester = 0;
-    int curriculargrade = 0; //이수학점
+
     private void onCrushBomb(Bomb bomb) {
-
-        bomb.getGrade();
-        if (bomb.getGrade() == Bomb.Grade.A) {
-            score = score + 4;
-            curriculargrade += 3;
+        switch(bomb.getGrade()){
+            case A:
+                game.setScore(game.getScore() + 4);
+                game.setCurriculargrade(game.getCurriculargrade() + 3);
+                break;
+            case B:
+                game.setScore(game.getScore() + 3);
+                game.setCurriculargrade(game.getCurriculargrade() + 3);
+                break;
+            case C:
+                game.setScore(game.getScore() + 2);
+                game.setCurriculargrade(game.getCurriculargrade() + 3);
+                break;
+            case D:
+                game.setScore(game.getScore() + 1);
+                game.setCurriculargrade(game.getCurriculargrade() + 3);
+                break;
         }
-        if (bomb.getGrade() == Bomb.Grade.B) {
-            score = score + 3;
-            curriculargrade += 3;
-        }
-        if (bomb.getGrade() == Bomb.Grade.C) {
-            score += 2;
-            curriculargrade += 3;
-        }
-        if (bomb.getGrade() == Bomb.Grade.D) {
-            score += 1;
-            curriculargrade += 3;
-        }
+        game.setCrushNumber(game.getCrushNumber() + 1);
 
-        crushNumber = crushNumber + 1;
-
-
+        final int crushNumber = game.getCrushNumber();
         if(crushNumber % 6 == 0){
-            senester += 1;
-            if (curriculargrade >= 132) {
+            game.setSenester(game.getSenester() + 1);
+            if (game.getCurriculargrade() >= 132) {
                 stopGame();
+                //게임끝나고 계급이랑 평균학점 출력하는 창으로 넘어가야 함 GameResultView창으로
+                ViewCaller viewCaller = new ViewCaller(GameResultView.class);
+                viewCaller.setBundleJson(game);
+                startView(viewCaller);
             }
         }
 
-        if(senester == 12){
+        if(game.getSenester() == 12){
             stopGame();
             gameOver();
 
         }
 
-        levelLabel.setText(String.valueOf(senester));
-        timeLabel.setText(String.valueOf(score));
-
+        senesterLabel.setText(String.valueOf(game.getSenester())+"학기");
+        final String point = String.format("%.1f", (double)game.getScore() / (double)game.getCrushNumber());
+        scoreLabel.setText("평점 : " + point);
+        curriculargradeLabel.setText("이수학점 : "+String.valueOf(game.getCurriculargrade()));
 
     }
     public void gameOver(){
-        //'혁명의 씨앗이여, 더 큰 세상으로 나아가라' 출력창을 띄워야 함
-        //GameResultView클래스에 넣어줘야 하는 건가 아냐 거기에는 평균학점이랑 계급 띄워주는 창 넣는 곳이고
-        //창 띄우는 거 어떻게 하지?
-        JOptionPane.showMessageDialog(gamePanel, "My Goodness, this is so concise");
+        JOptionPane.showMessageDialog(gamePanel, "혁명의 씨앗이여, 더 큰 세상으로 나아가라");
     }
-//여기까지
-
 
     private boolean checkCrush(final Player player, final Bomb bomb) {
         final DrawingObject object1 = player.getObject();
@@ -266,8 +257,13 @@ public class GameView extends BaseView {
         }
     }
 
+    private void moveBomb(Bomb bomb) {
+        final Point point = bomb.getObject().getPoint();
+        bomb.setDy(bomb.getDy() + bomb.getAy());
+        point.setLocation(point.getX(), point.getY() + bomb.getDy());
+    }
     private void moveBombList() {
-        bombs.forEach(Bomb::move);
+        bombs.forEach(this::moveBomb);
 
         final List<Bomb> removeList = new ArrayList<>();
         final List<DrawingObject> drawingObjects = new ArrayList<>();

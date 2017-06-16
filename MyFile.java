@@ -69,13 +69,14 @@ public class MyFile {
         myKeyValueArrayList.add(myKeyValue);
         myKeyValueArrayList.add(myKeyValue);
         myKeyValueArrayList.add(myKeyValue);
+        myKeyValueArrayList.add(myKeyValue);
         return gson.toJson(myKeyValueArrayList);
 
     }
 
     private static void fileWrite() {
         try {
-            FileWriter fin = new FileWriter("../myFile.dat");
+            FileWriter fin = new FileWriter("myFile.dat");
             BufferedWriter bin = new BufferedWriter(fin);
             bin.write("hello java!");
             bin.close();
