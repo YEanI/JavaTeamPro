@@ -10,12 +10,14 @@
       <component id="2af6a" class="javax.swing.JTextArea" binding="scoretextArea">
         <constraints border-constraint="Center"/>
         <properties>
+          <font name="HYPost-Light" size="20"/>
           <text value=""/>
         </properties>
       </component>
       <component id="1c0e3" class="javax.swing.JLabel" binding="denominationLabel">
         <constraints border-constraint="South"/>
         <properties>
+          <font name="HYbdaL" size="28"/>
           <horizontalAlignment value="0"/>
           <text value="Label"/>
         </properties>
