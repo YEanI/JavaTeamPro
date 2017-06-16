@@ -175,39 +175,44 @@ public class GameView extends BaseView {
         gamePanel.removeDrawingObject(crushedObjects);
     }
 
-
     private void onCrushBomb(Bomb bomb) {
         switch(bomb.getGrade()){
             case A:
                 game.setScore(game.getScore() + 4);
                 game.setCurriculargrade(game.getCurriculargrade() + 3);
+                game.getScoreList()[game.getSenester()] += 4;
                 break;
             case B:
                 game.setScore(game.getScore() + 3);
                 game.setCurriculargrade(game.getCurriculargrade() + 3);
+                game.getScoreList()[game.getSenester()] += 3;
                 break;
             case C:
                 game.setScore(game.getScore() + 2);
                 game.setCurriculargrade(game.getCurriculargrade() + 3);
+                game.getScoreList()[game.getSenester()] += 2;
                 break;
             case D:
                 game.setScore(game.getScore() + 1);
                 game.setCurriculargrade(game.getCurriculargrade() + 3);
+                game.getScoreList()[game.getSenester()] += 1;
                 break;
         }
         game.setCrushNumber(game.getCrushNumber() + 1);
 
         final int crushNumber = game.getCrushNumber();
         if(crushNumber % 6 == 0){
-            game.setSenester(game.getSenester() + 1);
             if (game.getCurriculargrade() >= 132) {
                 stopGame();
-                //게임끝나고 계급이랑 평균학점 출력하는 창으로 넘어가야 함 GameResultView창으로
                 ViewCaller viewCaller = new ViewCaller(GameResultView.class);
                 viewCaller.setBundleJson(game);
                 startView(viewCaller);
             }
+            game.getScoreList()[game.getSenester()] /= 6;
+            game.setSenester(game.getSenester() + 1);
+
         }
+
 
         if(game.getSenester() == 12){
             stopGame();
