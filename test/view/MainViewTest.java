@@ -14,7 +14,7 @@ public class MainViewTest {
     private Method getLocationMethod;
 
     public MainViewTest() {
-        mainView = new MainView();
+        mainView = new MainView(null);
         try {
             getLocationMethod = MainView.class.getDeclaredMethod("getLocation", int.class, double.class);
         } catch (NoSuchMethodException e) {

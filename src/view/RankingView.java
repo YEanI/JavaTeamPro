@@ -2,6 +2,7 @@ package view;
 
 import DB.DBRecord;
 import DB.DataBaseHelper;
+import app.ViewCaller;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +20,9 @@ public class RankingView extends BaseView {
     private JTable table1;
     private JButton button1;
 
-    public RankingView() {
+    public RankingView(ViewCaller viewCaller) {
+        super(viewCaller);
+
         DataBaseHelper dbHelper = DataBaseHelper.getInstance();
         data = dbHelper.readRecord();
         final DefaultTableModel model = (DefaultTableModel) table1.getModel();

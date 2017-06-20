@@ -35,8 +35,9 @@
             </constraints>
             <properties>
               <editable value="false"/>
+              <enabled value="false"/>
               <font size="22"/>
-              <text value=""/>
+              <text value="안녕하세요"/>
             </properties>
           </component>
         </children>

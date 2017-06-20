@@ -1,10 +1,12 @@
 package view;
 
+import app.ViewCaller;
 import util.GameConstants;
 import data.DrawingObject;
 import viewcomponent.GamePanel;
 
 import javax.swing.*;
+import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +33,8 @@ public class MainView extends BaseView {
     private final List<DrawingObject> drawingObjects;
     private final int ON_SCREEN_PLAYER;
 
-    public MainView() {
+    public MainView(ViewCaller viewCaller) {
+        super(viewCaller);
         ON_SCREEN_PLAYER = SCREEN_WIDTH / DEFAULT_CHARACTER_SIZE;
         drawingObjects = new ArrayList<>();
         for (int i = 0; i < ON_SCREEN_PLAYER + 2; i++) {

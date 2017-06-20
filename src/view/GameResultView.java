@@ -1,9 +1,10 @@
 package view;
 
 import DB.DataBaseHelper;
-import util.GameConstants;
+import app.ViewCaller;
 import com.google.gson.Gson;
 import data.GameInfo;
+import util.GameConstants;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -16,7 +17,6 @@ import java.awt.event.ActionListener;
  * Created by minchul on 2017-06-12.
  */
 public class GameResultView extends BaseView {
-    GameInfo gameInfo;
     private JPanel panel;
     private JTextArea textArea1;
     private JLabel label1;
@@ -26,7 +26,14 @@ public class GameResultView extends BaseView {
     private JLabel label2;
     private JTextField textField1;
 
-    public GameResultView(){
+
+    private GameInfo gameInfo;
+
+    public GameResultView(ViewCaller viewCaller) {
+        super(viewCaller);
+        Gson gson = new Gson();
+        gameInfo = gson.fromJson(viewCaller.getBundleJson(), GameInfo.class);
+
         btnRanking.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,7 +94,7 @@ public class GameResultView extends BaseView {
         if (2.5 <= point && point <= 2.9) {
             return "오락문화의 선구자";
         }
-        if (2.0<= point && point <= 2.49) {
+        if (2.0 <= point && point <= 2.49) {
             return "불가촉천민";
         }
         if (1.5 <= point && point <= 1.9) {
@@ -98,19 +105,15 @@ public class GameResultView extends BaseView {
 
     @Override
     public void onViewChanged() {
-        Gson gson = new Gson();
-        if (this.viewCaller.getBundleJson() != null) {
-            gameInfo = gson.fromJson(this.viewCaller.getBundleJson(), GameInfo.class);
-            double point = (double) gameInfo.getScore() / (double) gameInfo.getAcademicCredit();
+        double point = (double) gameInfo.getScore() / (double) gameInfo.getAcademicCredit();
 
-            label1.setText("당신은 " + getDenomination(point) + " 입니다");
-            label1.setForeground(Color.BLUE);
-            StringBuilder t = new StringBuilder();
-            for (int i = 0; i < 12; i++) {
-                t.append(i + 1).append("학기평점 : ").append(String.format("%.2f", gameInfo.getScoreList()[i])).append("\n");
-            }
-            textArea1.setText(t.toString() + "총평점" + String.format("%.2f", point));
+        label1.setText("당신은 " + getDenomination(point) + " 입니다");
+        label1.setForeground(Color.BLUE);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < 12; i++) {
+            stringBuilder.append(i + 1).append("학기평점 : ").append(String.format("%.1f", gameInfo.getScoreList()[i])).append("\n");
         }
+        textArea1.setText(stringBuilder.toString() + "총평점 : " + String.format("%.1f", point));
     }
 
     private void createUIComponents() {

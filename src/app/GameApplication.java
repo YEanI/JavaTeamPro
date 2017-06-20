@@ -26,7 +26,16 @@ import static java.lang.Thread.sleep;
 public class GameApplication {
 
     private final JFrame frame;
-    private final List<CharacterReport> characterReports;
+    private final Class<? extends BaseView> MAIN_VIEW_CLASS = MainView.class;
+
+    private static GameApplication application;
+
+    public static GameApplication getApplication(){
+        if(application == null){
+            application = new GameApplication();
+        }
+        return application;
+    }
 
     private GameApplication(){
         frame = new JFrame("JavaTeamProject");
@@ -40,44 +49,20 @@ public class GameApplication {
 
         });
         frame.setLocationRelativeTo(null);
-        characterReports = new ArrayList<>();
     }
 
     private void start(){
-        loadCharacterReport();
         DataBaseHelper.getInstance().connectDB();
 
-        final ViewCaller viewCaller = new ViewCaller(null, MainView.class);
+        final ViewCaller viewCaller = new ViewCaller(MAIN_VIEW_CLASS);
         startView(viewCaller);
-    }
-
-    private void loadCharacterReport() {
-        String json = null;
-        try {
-            InputStream reportStream= GameApplication.class.getResourceAsStream("/myFile.dat");
-            InputStreamReader inputStreamReader = new InputStreamReader(reportStream, "UTF-8");
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            json = bufferedReader.lines().collect(Collectors.joining());
-            bufferedReader.close();
-            inputStreamReader.close();
-            reportStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(json == null){
-            //TODO read fail!
-            return;
-        }
-        Gson gson = new Gson();
-        characterReports.clear();
-        characterReports.addAll(gson.fromJson(json, new TypeToken<List<CharacterReport>>(){}.getType()));
     }
 
     public void startView(ViewCaller viewCaller) {
         try {
             BaseView viewInstance = viewCaller.target
-                    .getDeclaredConstructor(GameApplication.class, ViewCaller.class)
-                    .newInstance(this, viewCaller);
+                    .getDeclaredConstructor(ViewCaller.class)
+                    .newInstance(viewCaller);
             switchView(viewInstance);
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
@@ -96,7 +81,7 @@ public class GameApplication {
     }
 
     public static void main(String[] args) {
-        GameApplication application = new GameApplication();
+        GameApplication application = GameApplication.getApplication();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {

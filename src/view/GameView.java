@@ -29,15 +29,15 @@ import static view.GameView.PlayerState.IDLE;
 public class GameView extends BaseView {
     private static final int UPDATE_SCREEN_DELAY = 10;
 
-    private final Timer gameTick;
     private JPanel panel;
     private GamePanel gamePanel;
     private JLabel scoreLabel;
     private JLabel semesterLabel;
     private JLabel currCalcGradeLabel;
 
+    private final Timer gameTick;
     private GameInfo gameInfo;
-    private CharacterReport characterReport;
+    private final CharacterReport characterReport;
 
     private Player player;
     private List<Bomb> bombs;
@@ -48,8 +48,11 @@ public class GameView extends BaseView {
     private PlayerState playerState;
 
 
-    public GameView(GameApplication application, ViewCaller viewCaller) {
-        super(application, viewCaller);
+    public GameView(ViewCaller viewCaller) {
+        super(viewCaller);
+        Gson gson = new Gson();
+        characterReport = gson.fromJson(viewCaller.getBundleJson(), CharacterReport.class);
+
         random = new Random();
         gameTick = new Timer(UPDATE_SCREEN_DELAY, e -> {
             createBomb();
@@ -426,7 +429,6 @@ public class GameView extends BaseView {
     }
 
     private void onInitGame() {
-        initCharacterReport();
         playerState = IDLE;
         if(bombs != null){
             removeAllBombs();
@@ -436,11 +438,6 @@ public class GameView extends BaseView {
         gameInfo = new GameInfo();
         gameInfo.setCharacterName(characterReport.getName());
         gamePanel.addDrawingObject(player.getObject());
-    }
-
-    private void initCharacterReport() {
-        Gson gson = new Gson();
-        characterReport = gson.fromJson(viewCaller.getBundleJson(), CharacterReport.class);
     }
 
     private void initPlayer() {
@@ -475,7 +472,7 @@ public class GameView extends BaseView {
     private void onGameOver() {
         gameTick.stop();
         if(gameInfo.getSemester() < 12) {
-            ViewCaller viewCaller = new ViewCaller(this, GameResultView.class);
+            ViewCaller viewCaller = new ViewCaller(GameResultView.class);
             viewCaller.setBundleJson(gameInfo);
             startView(viewCaller);
         }else {

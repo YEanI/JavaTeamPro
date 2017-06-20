@@ -10,29 +10,24 @@ import javax.swing.*;
  * Created by minchul on 2017-06-09.
  */
 public abstract class BaseView {
-    final protected GameApplication application;
-    final protected ViewCaller viewCaller;
+    final private ViewCaller viewCaller;
 
-    public BaseView(GameApplication application, ViewCaller viewCaller){
-        this.application = application;
+    public BaseView(ViewCaller viewCaller){
         this.viewCaller = viewCaller;
     }
+
     public abstract JPanel getContentPanel();
 
-    void startView(Class<? extends BaseView> viewClass){
-        application.startView(viewClass);
-    }
-
     void startView(ViewCaller viewCaller){
-        application.startView(viewCaller);
+        GameApplication.getApplication().startView(viewCaller);
     }
-
+    void startView(Class<? extends BaseView> target){
+        final ViewCaller newViewCaller = new ViewCaller(target);
+        GameApplication.getApplication().startView(newViewCaller);
+    }
     public abstract void onViewChanged();
 
-    public GameApplication getApplication(){
-        return application;
-    }
-    public ViewCaller getViewCaller(){
+    protected ViewCaller getViewCaller(){
         return viewCaller;
     }
 }

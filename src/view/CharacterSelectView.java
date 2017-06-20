@@ -1,6 +1,9 @@
 package view;
 
+import app.GameApplication;
 import app.ViewCaller;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import data.CharacterReport;
 
 import javax.swing.*;
@@ -8,31 +11,43 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by minchul on 2017-06-12.
  */
 public class CharacterSelectView extends BaseView{
-    JPanel panel1;
+    private JPanel panel1;
     private JButton btnStartGame;
     private JLabel label1;
     private JTextPane textPane1;
     private JButton btnBack;
-    private List<CharacterReport> characterReports;
-    private int index = 0;
 
-    public CharacterSelectView() {
+    final private List<CharacterReport> characterReports;
+    private int currentReport = 0;
+
+    public CharacterSelectView(ViewCaller viewCaller) {
+        super(viewCaller);
+        characterReports = new ArrayList<>();
+        loadCharacterReport();
+        setCharacterImage(0);
+
         panel1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
-                index++;
-                if(index >= PlayerFactory.getInstance().getReportSize()){
-                    index = 0;
+                currentReport++;
+                if(currentReport >= characterReports.size()){
+                    currentReport = 0;
                 }
-                setCharacterImage(index);
+                setCharacterImage(currentReport);
             }
 
         });
@@ -47,7 +62,7 @@ public class CharacterSelectView extends BaseView{
             @Override
             public void actionPerformed(ActionEvent e) {
                 final ViewCaller viewCaller = new ViewCaller(GameView.class);
-                viewCaller.setInt(index);
+                viewCaller.setBundleJson(characterReports.get(currentReport));
                 startView(viewCaller);
             }
         });
@@ -60,8 +75,7 @@ public class CharacterSelectView extends BaseView{
 
     @Override
     public void onViewChanged() {
-        this.characterReports = PlayerFactory.getInstance().getCharacterReports();
-        setCharacterImage(0);
+
     }
 
     private void setCharacterImage(int index) {
@@ -76,11 +90,32 @@ public class CharacterSelectView extends BaseView{
                 .append("제동력").append(report.getBrakingForce()).append('\n')
                 .append("학점의 속도").append(report.getGradeSpeed()).append('\n')
                 .append("학점의 확률").append(report.getPercent()).append('\n');
-
         textPane1.setText(stringBuilder.toString());
     }
 
     private void createUIComponents() {
 
+    }
+
+    private void loadCharacterReport() {
+        String json = null;
+        try {
+            InputStream reportStream= GameApplication.class.getResourceAsStream("/myFile.dat");
+            InputStreamReader inputStreamReader = new InputStreamReader(reportStream, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            json = bufferedReader.lines().collect(Collectors.joining());
+            bufferedReader.close();
+            inputStreamReader.close();
+            reportStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(json == null){
+            //TODO read fail!
+            return;
+        }
+        Gson gson = new Gson();
+        characterReports.clear();
+        characterReports.addAll(gson.fromJson(json, new TypeToken<List<CharacterReport>>(){}.getType()));
     }
 }

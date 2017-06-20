@@ -22,7 +22,7 @@ public class GameInfoViewTest {
     private final int y = 100;
 
     public GameInfoViewTest() {
-        gameView = new GameView();
+        gameView = new GameView(null);
         player = null;
 //        player = new PlayerBuilder()
 //                .setMax_dx(10)
