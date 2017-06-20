@@ -14,6 +14,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -73,9 +75,18 @@ public class GameView extends BaseView {
 
     private void createUIComponents() {
         panel = new JPanel();
+        URL imageURL = HelpView.class.getResource("/images/background.png");
+        ImageIcon icon = new ImageIcon(imageURL);
+        Image scaleImage = getScaleImage(icon.getImage(), GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT);
+        icon.setImage(scaleImage);
+
+
         gamePanel = new GamePanel();
         gamePanel.setPreferredSize(new Dimension(SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
-
+        DrawingObject background = new DrawingObject();
+        gamePanel.addDrawingObject(background);
+        background.setImage(scaleImage);
+        background.setPoint(new Point(0,0));
         panel.addKeyListener(new MyKeyListener());
 
     }
@@ -120,6 +131,16 @@ public class GameView extends BaseView {
         }
     }
 
+    private Image getScaleImage(Image image, int width, int height) {
+        BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = resizedImg.createGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(image, 0, 0, width, height, null);
+        g2.dispose();
+
+        return resizedImg;
+    }
 
     @Override
     public JPanel getContentPanel() {
@@ -156,7 +177,7 @@ public class GameView extends BaseView {
     }
 
 
-//여기서부터 가져온 코드
+    //여기서부터 가져온 코드
     private void checkCrush() {
         boolean isCrush = false;
         final List<Bomb> crusheds = new ArrayList<>();
@@ -173,7 +194,7 @@ public class GameView extends BaseView {
     }
 
     private void onCrushBomb(Bomb bomb) {
-        switch(bomb.getGrade()){
+        switch (bomb.getGrade()) {
             case A:
                 game.setScore(game.getScore() + 4);
                 game.setCurriculargrade(game.getCurriculargrade() + 3);
@@ -198,7 +219,7 @@ public class GameView extends BaseView {
         game.setCrushNumber(game.getCrushNumber() + 1);
 
         final int crushNumber = game.getCrushNumber();
-        if(crushNumber % 6 == 0){
+        if (crushNumber % 6 == 0) {
             game.getScoreList()[game.getSenester()] /= 6;
             game.setSenester(game.getSenester() + 1);
 
@@ -212,19 +233,20 @@ public class GameView extends BaseView {
         }
 
 
-        if(game.getSenester() == 12){
+        if (game.getSenester() == 12) {
             stopGame();
             gameOver();
 
         }
 
-        senesterLabel.setText(String.valueOf(game.getSenester())+"학기");
-        final String point = String.format("%.1f", (double)game.getScore() / (double)game.getCrushNumber());
+        senesterLabel.setText(String.valueOf(game.getSenester()) + "학기");
+        final String point = String.format("%.1f", (double) game.getScore() / (double) game.getCrushNumber());
         scoreLabel.setText("평점 : " + point);
-        curriculargradeLabel.setText("이수학점 : "+String.valueOf(game.getCurriculargrade()));
+        curriculargradeLabel.setText("이수학점 : " + String.valueOf(game.getCurriculargrade()));
 
     }
-    public void gameOver(){
+
+    public void gameOver() {
         JOptionPane.showMessageDialog(gamePanel, "혁명의 씨앗이여, 더 큰 세상으로 나아가라");
     }
 
@@ -270,6 +292,7 @@ public class GameView extends BaseView {
         bomb.setDy(bomb.getDy() + bomb.getAy());
         point.setLocation(point.getX(), point.getY() + bomb.getDy());
     }
+
     private void moveBombList() {
         bombs.forEach(this::moveBomb);
 
