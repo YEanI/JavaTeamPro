@@ -1,5 +1,6 @@
 package app;
 
+import DB.DataBaseHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import data.CharacterReport;
@@ -8,6 +9,8 @@ import view.MainView;
 
 import javax.swing.*;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,15 +37,50 @@ public class GameApplication {
     private GameApplication(){
         frame = new JFrame("JavaTeamProject");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                DataBaseHelper.getInstance().disconnectDB();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
         frame.setLocationRelativeTo(null);
 
     }
 
     private void start(){
         loadCharacterReport();
-//        startView(GameResultView.class);
+        DataBaseHelper.getInstance().connectDB();
         startView(MainView.class);
-
     }
 
     private void loadCharacterReport() {

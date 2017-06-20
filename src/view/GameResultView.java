@@ -28,9 +28,7 @@ public class GameResultView extends BaseView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DataBaseHelper dataBaseHelper = DataBaseHelper.getInstance();
-                dataBaseHelper.connectDB();
                 dataBaseHelper.addRecord(game.getUserName(), game.getScore(), game.getSemester(), game.getCharacterName());
-                dataBaseHelper.disconnectDB();
                 startView(RankingView.class);
             }
         });
