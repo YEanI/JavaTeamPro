@@ -8,7 +8,6 @@ import lombok.Data;
 
 @Data
 public class Game {
-    private String userName;
     private String characterName;
     private int score;
     private int academicCredit;
