@@ -10,6 +10,7 @@ import data.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.URL;
@@ -40,6 +41,14 @@ public class CharacterSelectView extends BaseView{
 
 
         });
+        btnStartGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final ViewCaller viewCaller = new ViewCaller(GameView.class);
+                viewCaller.setInt(index);
+                startView(viewCaller);
+            }
+        });
     }
 
     @Override
@@ -48,17 +57,7 @@ public class CharacterSelectView extends BaseView{
     }
 
     @Override
-    public void onSwiched() {
-        btnStartGame.setAction(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final ViewCaller viewCaller = new ViewCaller(GameView.class);
-                viewCaller.setInt(index);
-                startView(viewCaller);
-            }
-
-        });
-
+    public void onViewChanged() {
         this.characterReports = PlayerFactory.getInstance().getCharacterReports();
         setCharacterImage(0);
     }
@@ -80,11 +79,6 @@ public class CharacterSelectView extends BaseView{
     }
 
     private void createUIComponents() {
-        panel1 = new JPanel();
-        label1 = new JLabel();
-        textPane1 = new JTextPane();
-//        gamePanel1 = new GamePanel();
-        panel1.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
-        btnStartGame = new JButton();
+
     }
 }

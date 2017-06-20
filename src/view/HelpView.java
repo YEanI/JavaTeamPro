@@ -74,7 +74,7 @@ public class HelpView extends BaseView {
     }
 
     @Override
-    public void onSwiched() {
+    public void onViewChanged() {
 
     }
 }

@@ -72,7 +72,7 @@ public class RankingView extends BaseView {
     }
 
     @Override
-    public void onSwiched() {
+    public void onViewChanged() {
 
     }
 }

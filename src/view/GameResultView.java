@@ -48,7 +48,7 @@ public class GameResultView extends BaseView{
     }
 
     @Override
-    public void onSwiched() {
+    public void onViewChanged() {
         Gson gson = new Gson();
         if(this.viewCaller.getBundleJson() != null) {
             game = gson.fromJson(this.viewCaller.getBundleJson(), Game.class);

@@ -4,17 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import data.CharacterReport;
 import view.BaseView;
-import view.GameResultView;
 import view.MainView;
 
 import javax.swing.*;
 
 import java.io.*;
-import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static app.GameConstants.CHARACTER_REPORT_PATH;
 import static java.lang.Thread.sleep;
 
 /**
@@ -101,7 +98,7 @@ public class GameApplication {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         content.requestFocus();
-        newView.onSwiched();
+        newView.onViewChanged();
     }
 
     public static void main(String[] args) {

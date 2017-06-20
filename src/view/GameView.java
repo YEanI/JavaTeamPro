@@ -148,7 +148,7 @@ public class GameView extends BaseView {
     }
 
     @Override
-    public void onSwiched() {
+    public void onViewChanged() {
         initGame();
 
     }

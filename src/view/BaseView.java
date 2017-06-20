@@ -22,5 +22,5 @@ public abstract class BaseView {
         GameApplication.getInstance().startView(viewCaller);
     }
 
-    public abstract void onSwiched();
+    public abstract void onViewChanged();
 }
