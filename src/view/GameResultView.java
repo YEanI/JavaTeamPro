@@ -52,31 +52,22 @@ public class GameResultView extends BaseView {
     }
 
     private String getDenomination(double point) {
-        if (point == 4.5) {
+        if (point == 4.0) {
             return "신";
         }
-        if (4.2 <= point && point <= 4.49) {
+        if (3.5 <= point && point <= 3.9) {
             return "교수님의 사랑";
         }
-        if (3.5 <= point && point <= 4.19) {
-            return "현 체제의 수호자";
-        }
-        if (2.8 <= point && point <= 3.49) {
+        if (3.0 <= point && point <= 3.49) {
             return "일반인";
         }
-        if (2.3 <= point && point <= 2.79) {
-            return "일탈을 꿈꾸는 소시민";
-        }
-        if (1.75 <= point && point <= 2.29) {
+        if (2.5 <= point && point <= 2.9) {
             return "오락문화의 선구자";
         }
-        if (1.0 <= point && point <= 1.74) {
+        if (2.0<= point && point <= 2.49) {
             return "불가촉천민";
         }
-        if (0.5 <= point && point <= 0.99) {
-            return "자벌레";
-        }
-        if (0.1 <= point && point <= 0.49) {
+        if (1.5 <= point && point <= 1.9) {
             return "플랑크톤";
         }
         return "시대를 앞서가는 혁명의 씨앗";
