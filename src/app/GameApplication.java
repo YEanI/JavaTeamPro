@@ -4,14 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import data.CharacterReport;
 import view.BaseView;
+import view.GameResultView;
 import view.MainView;
 
 import javax.swing.*;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +43,7 @@ public class GameApplication {
 
     private void start(){
         loadCharacterReport();
-
+//        startView(GameResultView.class);
         startView(MainView.class);
 
     }
@@ -52,11 +51,13 @@ public class GameApplication {
     private void loadCharacterReport() {
         String json = null;
         try {
-            FileReader fileReader = new FileReader(CHARACTER_REPORT_PATH);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            InputStream reportStream= GameApplication.class.getResourceAsStream("/myFile.dat");
+            InputStreamReader inputStreamReader = new InputStreamReader(reportStream, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             json = bufferedReader.lines().collect(Collectors.joining());
             bufferedReader.close();
-            fileReader.close();
+            inputStreamReader.close();
+            reportStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

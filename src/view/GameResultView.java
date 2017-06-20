@@ -6,6 +6,8 @@ import data.Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by minchul on 2017-06-12.
@@ -13,8 +15,32 @@ import java.awt.*;
 public class GameResultView extends BaseView{
     Game game;
     private JPanel panel;
-    private JTextArea scoretextArea;
-    private JLabel denominationLabel;
+    private JTextArea textArea1;
+    private JLabel label1;
+    private JButton btnRanking;
+    private JButton btnRetry;
+    private JButton btnMain;
+
+    public GameResultView() {
+        btnRanking.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startView(RankingView.class);
+            }
+        });
+        btnRetry.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startView(CharacterSelectView.class);
+            }
+        });
+        btnMain.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startView(MainView.class);
+            }
+        });
+    }
 
     @Override
     public JPanel getContentPanel() {
@@ -59,13 +85,13 @@ public class GameResultView extends BaseView{
             }
 
 
-            denominationLabel.setText("당신은 " + game.getDenomination() + " 입니다");
+            label1.setText("당신은 " + game.getDenomination() + " 입니다");
             int i;
             StringBuilder t = new StringBuilder();
             for(i=0; i<12;i++) {
                 t.append(i+1).append("학기평점 : ").append(String.format("%.2f", game.getScoreList()[i])).append("\n");
             }
-            scoretextArea.setText(t.toString()+ "총평점"+String.format("%.2f", point));
+            textArea1.setText(t.toString()+ "총평점"+String.format("%.2f", point));
         }
     }
 
