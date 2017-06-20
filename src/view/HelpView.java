@@ -1,6 +1,5 @@
 package view;
 
-import app.ViewCaller;
 import util.GameConstants;
 import util.ImageUtil;
 
@@ -22,8 +21,8 @@ public class HelpView extends BaseView {
     private JButton button1;
     private JTextField textField1;
 
-    public HelpView(ViewCaller viewCaller) {
-        super(viewCaller);
+    public HelpView(Object param) {
+        super(param);
     }
 
 

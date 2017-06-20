@@ -24,6 +24,20 @@ public class ImageUtil {
         }
         return image;
     }
+
+    public static Image loadImage(String filePath, int width, int height){
+        final URL imageURL = DrawingObject.class.getResource(filePath);
+        Image image;
+        try {
+            image = ImageIO.read(imageURL).getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            image = null;
+        }
+        return image;
+    }
+
     public static Image getScaleImage(Image image, int width, int height) {
         BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = resizedImg.createGraphics();

@@ -13,7 +13,7 @@ public class GameConstants {
     public static final int DEFAULT_BOMB_SIZE = 36;
 
     public static final int MAX_SEMESTER = 12;
-    public static final int MAX_ACADEMIC_CREDIT = 20;
-    public static final int ACADEMIC_CREDIT_PER_SEMESTER = 6;
+    public static final int MAX_ACADEMIC_CREDIT = 132;
+    public static final int CREDIT_PER_SEMESTER = 18;
     public static final int CREDIT_PER_CRASH = 3;
 }

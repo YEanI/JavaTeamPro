@@ -53,20 +53,7 @@ public class GameApplication {
 
     private void start(){
         DataBaseHelper.getInstance().connectDB();
-
-        final ViewCaller viewCaller = new ViewCaller(MAIN_VIEW_CLASS);
-        startView(viewCaller);
-    }
-
-    public void startView(ViewCaller viewCaller) {
-        try {
-            BaseView viewInstance = viewCaller.target
-                    .getDeclaredConstructor(ViewCaller.class)
-                    .newInstance(viewCaller);
-            switchView(viewInstance);
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
+        startView(MAIN_VIEW_CLASS, null);
     }
 
     private void switchView(BaseView newView) {
@@ -88,6 +75,17 @@ public class GameApplication {
             e.printStackTrace();
         }
         SwingUtilities.invokeLater(application::start);
+    }
+
+    public void startView(Class<? extends BaseView> target, Object param) {
+        try {
+            BaseView viewInstance = target
+                    .getDeclaredConstructor(Object.class)
+                    .newInstance(param);
+            switchView(viewInstance);
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     class MyWindowListener implements WindowListener {

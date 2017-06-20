@@ -1,7 +1,6 @@
 package view;
 
 import DB.DataBaseHelper;
-import app.ViewCaller;
 import com.google.gson.Gson;
 import data.GameInfo;
 import util.GameConstants;
@@ -29,10 +28,9 @@ public class GameResultView extends BaseView {
 
     private GameInfo gameInfo;
 
-    public GameResultView(ViewCaller viewCaller) {
-        super(viewCaller);
-        Gson gson = new Gson();
-        gameInfo = gson.fromJson(viewCaller.getBundleJson(), GameInfo.class);
+    public GameResultView(Object param) {
+        super(param);
+        gameInfo = (GameInfo) param;
 
         btnRanking.addActionListener(new ActionListener() {
             @Override
@@ -105,16 +103,11 @@ public class GameResultView extends BaseView {
 
     @Override
     public void onViewChanged() {
-        double point = (double) gameInfo.getScore() / (double) (gameInfo.getAcademicCredit()/GameConstants.CREDIT_PER_CRASH );
+        double point = gameInfo.getPoint();
 
         label1.setText("당신은 " + getDenomination(point) + " 입니다");
         label1.setForeground(Color.BLUE);
-        StringBuilder stringBuilder = new StringBuilder();
-        final int semester = gameInfo.getSemester();
-        for (int i = 0; i < semester; i++) {
-            stringBuilder.append(i + 1).append("학기평점 : ").append(String.format("%.1f", gameInfo.getScoreList()[i])).append("\n");
-        }
-        textArea1.setText(stringBuilder.toString() + "총평점 : " + String.format("%.1f", point));
+        textArea1.setText(gameInfo.getString() + "총평점 : " + String.format("%.1f", point));
     }
 
     private void createUIComponents() {

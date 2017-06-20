@@ -12,6 +12,7 @@ import java.util.List;
 public class GamePanel extends JPanel {
 
     private final List<DrawingObject> drawingObjectList;
+    private Image backgroundImage;
 
     public GamePanel() {
         super();
@@ -38,9 +39,15 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         final Graphics2D graphics2D = (Graphics2D) g;
+        if(backgroundImage != null){
+            graphics2D.drawImage(backgroundImage, 0, 0, GamePanel.this);
+        }
         drawingObjectList.forEach(object -> graphics2D.drawImage(object.getImage(), object.getPoint().x, object.getPoint().y, GamePanel.this));
         Toolkit.getDefaultToolkit().sync();
     }
 
 
+    public void setBackgroundImage(Image backgroundImage) {
+        this.backgroundImage = backgroundImage;
+    }
 }

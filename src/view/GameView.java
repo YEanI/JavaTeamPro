@@ -3,7 +3,6 @@ package view;
 import com.google.gson.Gson;
 import data.*;
 import util.GameConstants;
-import app.ViewCaller;
 import util.ImageUtil;
 import viewcomponent.GamePanel;
 
@@ -12,11 +11,9 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.net.URL;
 import java.util.*;
 import java.util.List;
 
-import static data.Grade.*;
 import static util.GameConstants.*;
 import static java.awt.event.KeyEvent.*;
 import static view.GameView.PlayerState.IDLE;
@@ -48,10 +45,9 @@ public class GameView extends BaseView {
     private PlayerState playerState;
 
 
-    public GameView(ViewCaller viewCaller) {
-        super(viewCaller);
-        Gson gson = new Gson();
-        characterReport = gson.fromJson(viewCaller.getBundleJson(), CharacterReport.class);
+    public GameView(Object param) {
+        super(param);
+        characterReport = (CharacterReport) param;
 
         random = new Random();
         gameTick = new Timer(UPDATE_SCREEN_DELAY, e -> {
@@ -66,17 +62,11 @@ public class GameView extends BaseView {
 
     private void createUIComponents() {
         panel = new JPanel();
-        URL imageURL = HelpView.class.getResource("/images/background.png");
-        ImageIcon icon = new ImageIcon(imageURL);
-        Image scaleImage = ImageUtil.getScaleImage(icon.getImage(), GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT);
 
         gamePanel = new GamePanel();
+        gamePanel.setBackgroundImage(ImageUtil.loadImage("/images/background.png", GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
         gamePanel.setPreferredSize(new Dimension(SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
-        DrawingObject background = new DrawingObject();
-        gamePanel.addDrawingObject(background);
-        background.setImage(scaleImage);
-        final Point point = background.getPoint();
-        point.setLocation(0, 0);
+
         panel.addKeyListener(new MyKeyListener());
     }
 
@@ -144,18 +134,8 @@ public class GameView extends BaseView {
     }
 
     private void onCrushBomb(Bomb bomb) {
-        gameInfo.setScore(gameInfo.getScore() + bomb.getGrade().getScore());
-        gameInfo.getScoreList()[gameInfo.getSemester()] += bomb.getGrade().getScore();
-        gameInfo.setFullCredit(gameInfo.getFullCredit() + CREDIT_PER_CRASH);
+        gameInfo.onCrushBomb(bomb);
 
-        if(bomb.getGrade() != F){
-            gameInfo.setAcademicCredit(gameInfo.getAcademicCredit() + CREDIT_PER_CRASH);
-        }
-
-        if (gameInfo.getFullCredit() % ACADEMIC_CREDIT_PER_SEMESTER == 0) {
-            gameInfo.getScoreList()[gameInfo.getSemester()] /= (ACADEMIC_CREDIT_PER_SEMESTER / CREDIT_PER_CRASH);
-            gameInfo.setSemester(gameInfo.getSemester() + 1);
-        }
         if (gameInfo.getAcademicCredit() >= MAX_ACADEMIC_CREDIT) {
             setGameState(GameState.GAME_OVER);
         }
@@ -168,14 +148,15 @@ public class GameView extends BaseView {
     }
 
     private void updateLabel() {
-        semesterLabel.setText(String.valueOf(gameInfo.getSemester()) + "학기");
-        if(gameInfo.getAcademicCredit() != 0) {
-            final String point = String.format("%.1f", (double) gameInfo.getScore() / (double) gameInfo.getAcademicCredit());
+        semesterLabel.setText(String.valueOf(gameInfo.getSemester() + 1) + "학기");
+        if(gameInfo.getFullCredit() != 0) {
+            final int creditCount = gameInfo.getFullCredit() / CREDIT_PER_CRASH;
+            final String point = String.format("%.1f", (double) gameInfo.getScore() / creditCount);
             scoreLabel.setText("평점 : " + point);
         }else{
             scoreLabel.setText("평점 : 0");
         }
-        currCalcGradeLabel.setText("이수학점 : " + String.valueOf(gameInfo.getFullCredit()));
+        currCalcGradeLabel.setText("이수학점 : " + String.valueOf(gameInfo.getAcademicCredit()));
     }
 
 
@@ -210,45 +191,14 @@ public class GameView extends BaseView {
 
     private void createBomb() {
         if (random.nextDouble() < 0.1) { //폭탄은 30% 확률로 생성됨.
-            final Bomb bomb = newBomb();
+            final Bomb bomb = new Bomb(characterReport);
             bombs.add(bomb);
             gamePanel.addDrawingObject(bomb.getObject());
         }
     }
-    private Bomb newBomb() {
-        final int prob = random.nextInt(100);
-        Bomb b = new Bomb();
-        final DrawingObject drawingObject = b.getObject();
-        final Point point = b.getObject().getPoint();
-
-        final Map<String, Integer> probability = characterReport.getPercent();
-        final Map<String, Double> speed = characterReport.getGradeSpeed();
-
-        if(prob < probability.get("A")){
-            b.setGrade(A);
-        }else if(prob < probability.get("A") + probability.get("B")){
-            b.setGrade(B);
-        }else if(prob < probability.get("A") + probability.get("B") + probability.get("C")){
-            b.setGrade(C);
-        }else if(prob < probability.get("A") + probability.get("B") + probability.get("C") + probability.get("D")){
-            b.setGrade(D);
-        }else{
-            b.setGrade(F);
-        }
-
-        b.setAy(speed.get(b.getGrade().name()));
-        drawingObject.setImage(ImageUtil.loadImage(b.getGrade().getImagePath(), DEFAULT_BOMB_SIZE));
-        point.setLocation(random.nextInt(SCREEN_WIDTH) - DEFAULT_BOMB_SIZE, 0);
-        return b;
-    }
-    private void moveBomb(Bomb bomb) {
-        final Point point = bomb.getObject().getPoint();
-        bomb.setDy(bomb.getDy() + bomb.getAy());
-        point.setLocation(point.getX(), point.getY() + bomb.getDy());
-    }
 
     private void moveBombList() {
-        bombs.forEach(this::moveBomb);
+        bombs.forEach(Bomb::move);
 
         final List<Bomb> removeList = new ArrayList<>();
         final List<DrawingObject> drawingObjects = new ArrayList<>();
@@ -265,36 +215,17 @@ public class GameView extends BaseView {
     private void movePlayer() {
         switch (playerState) {
             case ACCEL_LEFT: {
-                final double newDx = player.getDx() - player.getAx();
-                player.setDx(newDx > -player.getMaxDx() ? newDx : -player.getMaxDx());
+                player.moveLeft();
             }
             break;
             case ACCEL_RIGHT: {
-                final double newDx = player.getDx() + player.getAx();
-                player.setDx(newDx < player.getMaxDx() ? newDx : player.getMaxDx());
+                player.moveRight();
             }
             break;
             case BRAKE:
-                final double absDx = Math.abs(player.getDx()) - player.getBrakingForce();
-                if (absDx > 0) {
-                    player.setDx(player.getDx() > 0 ? absDx : -absDx);
-                } else {
-                    player.setDx(0);
-                }
+                player.brake();
                 break;
             case IDLE:
-        }
-        if (playerState != IDLE) {
-            final Point point = player.getObject().getPoint();
-            double newX = point.getX() + player.getDx();
-            if (newX < 0) {
-                newX = 0;
-                player.setDx(0);
-            } else if (newX + player.getObject().getWidth() > SCREEN_WIDTH) {
-                newX = SCREEN_WIDTH - player.getObject().getWidth();
-                player.setDx(0);
-            }
-            point.setLocation(newX, point.getY());
         }
     }
 
@@ -401,23 +332,10 @@ public class GameView extends BaseView {
             removeAllBombs();
         }
         bombs = new ArrayList<>();
-        initPlayer();
-        gameInfo = new GameInfo();
-        gameInfo.setCharacterName(characterReport.getName());
+        player = new Player(characterReport);
+        gameInfo = new GameInfo(characterReport);
         gamePanel.addDrawingObject(player.getObject());
         updateLabel();
-    }
-
-    private void initPlayer() {
-        player = new Player();
-        player.setBrakingForce(characterReport.getBrakingForce());
-        player.setMaxDx(characterReport.getMaxDx());
-        player.setAx(characterReport.getAx());
-        player.getObject().setImage(ImageUtil.loadImage(characterReport.getPath(), DEFAULT_CHARACTER_SIZE));
-        final DrawingObject object = player.getObject();
-        final int height = object.getHeight();
-        final Point point = object.getPoint();
-        point.setLocation(SCREEN_WIDTH / 2, SCREEN_HEIGHT - height);
     }
 
     private void removeAllBombs() {
@@ -442,9 +360,7 @@ public class GameView extends BaseView {
         if(gameInfo.getSemester() == MAX_SEMESTER) {
             JOptionPane.showMessageDialog(gamePanel, "혁명의 씨앗이여, 더 큰 세상으로 나아가라");
         }else {
-            ViewCaller viewCaller = new ViewCaller(GameResultView.class);
-            viewCaller.setBundleJson(gameInfo);
-            startView(viewCaller);
+            startView(GameResultView.class, gameInfo);
         }
     }
 

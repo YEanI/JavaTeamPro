@@ -1,7 +1,6 @@
 package view;
 
 import app.GameApplication;
-import app.ViewCaller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import data.CharacterReport;
@@ -33,8 +32,8 @@ public class CharacterSelectView extends BaseView{
     final private List<CharacterReport> characterReports;
     private int currentReport = 0;
 
-    public CharacterSelectView(ViewCaller viewCaller) {
-        super(viewCaller);
+    public CharacterSelectView(Object param) {
+        super(param);
         characterReports = new ArrayList<>();
         loadCharacterReport();
         setCharacterImage(0);
@@ -61,9 +60,7 @@ public class CharacterSelectView extends BaseView{
         btnStartGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final ViewCaller viewCaller = new ViewCaller(GameView.class);
-                viewCaller.setBundleJson(characterReports.get(currentReport));
-                startView(viewCaller);
+                startView(GameView.class, characterReports.get(currentReport));
             }
         });
     }
