@@ -64,7 +64,7 @@ public class BombFactory {
                 break;
 
         }
-        b.getObject().setPoint(new Point(random.nextInt(SCREEN_WIDTH), 0));
+        b.getObject().setPoint(new Point(random.nextInt(SCREEN_WIDTH-DEFAULT_BOMB_SIZE), 0));
         return b;
     }
 
