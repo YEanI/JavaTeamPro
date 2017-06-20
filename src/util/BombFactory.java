@@ -13,19 +13,31 @@ import static util.GameConstants.SCREEN_WIDTH;
  * Created by 이예은 on 2017-06-16.
  */
 public class BombFactory {
-    private static Random random = new Random();
-    private static int[] probability = new int[]{15, 45, 75, 90, 100};
-    private static double[] velocity = new double[]{0.3, 0.2, 0.08, 0.05, 0.07};
+    private static BombFactory instance;
+    private BombFactory(){
+        random = new Random();
+        probability = new int[]{15, 45, 75, 90, 100};
+        velocity = new double[]{0.3, 0.2, 0.08, 0.05, 0.07};
+    }
 
-    static void setData(int[] probability, double [] velocity) {
+    public static BombFactory getInstance(){
+        if(instance == null){
+            instance = new BombFactory();
+        }
+        return instance;
+    }
+
+    final private Random random;
+    private static int[] probability;
+    private static double[] velocity;
+
+    void setData(int[] probability, double [] velocity) {
         BombFactory.probability = probability;
-//        BombFactory.probability = probability;
         BombFactory.velocity = velocity;
 
     }
 
-    public static Bomb newBomb() {
-
+    public Bomb newBomb() {
         final int a = random.nextInt(100);
         Bomb b = new Bomb();
         final DrawingObject drawingObject = b.getObject();

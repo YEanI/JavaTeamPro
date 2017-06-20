@@ -31,8 +31,6 @@ public class PlayerFactory {
         return instance;
     }
 
-    ///
-
     public void setCharacterReports(List<CharacterReport> list){
         this.characterReports = list;
     }
@@ -71,7 +69,7 @@ public class PlayerFactory {
                 bbb[entry.getKey().charAt(0) - 'A'] = entry.getValue();
             }
         }
-        BombFactory.setData(aaa, bbb);
+        BombFactory.getInstance().setData(aaa, bbb);
         final DrawingObject object = player.getObject();
         final int height = object.getHeight();
         final Point point = object.getPoint();

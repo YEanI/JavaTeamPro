@@ -20,6 +20,7 @@ public class DataBaseHelper {
     }
 
     private Connection connection = null;
+
     public void connectDB() {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:test.db");
@@ -31,7 +32,9 @@ public class DataBaseHelper {
 
     public void disconnectDB(){
         try {
-            connection.close();
+            if(connection != null) {
+                connection.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -40,6 +43,9 @@ public class DataBaseHelper {
 
     public void addRecord(String userName, int score, int semester, String charName){
         try {
+            if(connection == null){
+                return;
+            }
             String addRecordSQL = "INSERT INTO tests(id, userName, score, semester, charName)" +
                     "VALUES(?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(addRecordSQL);
@@ -62,6 +68,9 @@ public class DataBaseHelper {
         Statement statement = null;
         List<DBRecord> dbRecordList = new ArrayList<>();
         try {
+            if(connection == null){
+                return null;
+            }
             statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM tests ORDER BY score ASC;");
 
@@ -81,7 +90,7 @@ public class DataBaseHelper {
         return dbRecordList;
     }
 
-    public void createTable(){
+    private void createTable(){
         String createTableQuery = "CREATE TABLE IF NOT EXISTS tests (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "userName TEXT," +

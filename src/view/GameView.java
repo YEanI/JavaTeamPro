@@ -273,7 +273,7 @@ public class GameView extends BaseView {
 
     private void createBomb() {
         if (random.nextDouble() < 0.1) { //폭탄은 30% 확률로 생성됨.
-            final Bomb bomb = BombFactory.newBomb();
+            final Bomb bomb = BombFactory.getInstance().newBomb();
             bombs.add(bomb);
             gamePanel.addDrawingObject(bomb.getObject());
         }
