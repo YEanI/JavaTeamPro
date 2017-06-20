@@ -51,7 +51,7 @@ public class Bomb {
         this.object = new DrawingObject();
 
         object.setImage(ImageUtil.loadImage(grade.getImagePath(), DEFAULT_BOMB_SIZE));
-        object.getPoint().setLocation(random.nextInt(SCREEN_WIDTH) - DEFAULT_BOMB_SIZE, 0);
+        object.getPoint().setLocation(random.nextInt(SCREEN_WIDTH - DEFAULT_BOMB_SIZE) , 0);
 
     }
 
