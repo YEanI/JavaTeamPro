@@ -15,21 +15,11 @@ import java.net.URL;
 @Data
 public class DrawingObject {
     Image image;
-    Point point;
+    final Point point;
 
     public DrawingObject(){
+        image = null;
         point = new Point(0, 0);
-    }
-
-    public void setImage(String filePath, int size){
-        URL imageURL = DrawingObject.class.getResource(filePath);
-        try {
-            image = ImageIO.read(imageURL).getScaledInstance(size, size, Image.SCALE_SMOOTH);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            image = null;
-        }
     }
 
     public int getWidth(){

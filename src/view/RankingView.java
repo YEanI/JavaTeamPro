@@ -20,7 +20,7 @@ public class RankingView extends BaseView {
     private JButton button1;
 
     public RankingView() {
-        DataBaseHelper dbHelper = new DataBaseHelper();
+        DataBaseHelper dbHelper = DataBaseHelper.getInstance();
         dbHelper.connectDB();
         data = dbHelper.readRecord();
         final DefaultTableModel model = (DefaultTableModel) table1.getModel();

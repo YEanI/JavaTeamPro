@@ -1,10 +1,10 @@
 package app;
 
 import data.Bomb;
+import data.DrawingObject;
+import util.ImageUtil;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import static app.GameConstants.DEFAULT_BOMB_SIZE;
@@ -29,6 +29,7 @@ public class BombFactory {
 
         final int a = random.nextInt(100);
         Bomb b = new Bomb();
+        final DrawingObject drawingObject = b.getObject();
         if (a < probability[0]) {
             b.setGrade(Bomb.Grade.A);
         } else if (a < probability[1]) {
@@ -44,27 +45,28 @@ public class BombFactory {
         switch (b.getGrade()) {
             case A:
                 b.setAy(velocity[0]);
-                b.setImage("/images/A.png", DEFAULT_BOMB_SIZE);
+                drawingObject.setImage(ImageUtil.loadImage("/images/A.png", DEFAULT_BOMB_SIZE));
                 break;
             case B:
                 b.setAy(velocity[1]);
-                b.setImage("/images/B.png", DEFAULT_BOMB_SIZE);
+                drawingObject.setImage(ImageUtil.loadImage("/images/B.png", DEFAULT_BOMB_SIZE));
                 break;
             case C:
                 b.setAy(velocity[2]);
-                b.setImage("/images/C.png", DEFAULT_BOMB_SIZE);
+                drawingObject.setImage(ImageUtil.loadImage("/images/C.png", DEFAULT_BOMB_SIZE));
                 break;
             case D:
                 b.setAy(velocity[3]);
-                b.setImage("/images/D.png", DEFAULT_BOMB_SIZE);
+                drawingObject.setImage(ImageUtil.loadImage("/images/D.png", DEFAULT_BOMB_SIZE));
                 break;
             case F:
                 b.setAy(velocity[4]);
-                b.setImage("/images/F.png", DEFAULT_BOMB_SIZE);
+                drawingObject.setImage(ImageUtil.loadImage("/images/F.png", DEFAULT_BOMB_SIZE));
                 break;
 
         }
-        b.getObject().setPoint(new Point(random.nextInt(SCREEN_WIDTH-DEFAULT_BOMB_SIZE), 0));
+        final Point point = b.getObject().getPoint();
+        point.setLocation(random.nextInt(SCREEN_WIDTH) - DEFAULT_BOMB_SIZE, 0);
         return b;
     }
 

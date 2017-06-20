@@ -76,6 +76,7 @@ public class MainView extends BaseView {
         panel = new JPanel();
         gamePanel = new GamePanel();
         panel.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
+
         btnStartGame = new JButton();
         btnStartGame.setAction(new AbstractAction() {
             @Override

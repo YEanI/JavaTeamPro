@@ -46,8 +46,8 @@ public class GameViewTest {
     public void notCrushOnTopLeft() throws Exception {
         final int px = x + DEFAULT_CRUSH_OFFSET_X - DEFAULT_BOMB_SIZE;
         final int py = y - DEFAULT_BOMB_SIZE;
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertFalse((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
@@ -55,8 +55,8 @@ public class GameViewTest {
     public void notCrushOnTopLeftInsideX() throws Exception {
         final int px = x + DEFAULT_CRUSH_OFFSET_X - (DEFAULT_BOMB_SIZE / 2);
         final int py = y - DEFAULT_BOMB_SIZE;
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertFalse((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
@@ -64,8 +64,8 @@ public class GameViewTest {
     public void notCrushOnTopInsideX() throws Exception {
         final int px = x + (DEFAULT_CHARACTER_SIZE / 2);
         final int py = y - DEFAULT_BOMB_SIZE;
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertFalse((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
@@ -73,8 +73,8 @@ public class GameViewTest {
     public void notCrushOnTopRightInsideX() throws Exception {
         final int px = x + DEFAULT_CHARACTER_SIZE - DEFAULT_CRUSH_OFFSET_X - (DEFAULT_BOMB_SIZE / 2);
         final int py = y - DEFAULT_BOMB_SIZE;
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertFalse((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
@@ -82,8 +82,8 @@ public class GameViewTest {
     public void notCrushOnTopRight() throws Exception {
         final int px = x + DEFAULT_CHARACTER_SIZE - DEFAULT_CRUSH_OFFSET_X;
         final int py = y - DEFAULT_BOMB_SIZE;
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertFalse((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     //////////////////////////// TOP INSIDE Y
@@ -92,8 +92,8 @@ public class GameViewTest {
     public void notCrushOnTopLeftInsideY() throws Exception {
         final int px = x + DEFAULT_CRUSH_OFFSET_X - DEFAULT_BOMB_SIZE;
         final int py = y - DEFAULT_BOMB_SIZE + (DEFAULT_BOMB_SIZE / 2);
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertFalse((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
@@ -101,8 +101,8 @@ public class GameViewTest {
     public void crushOnTopLeftInsideXInsideY() throws Exception {
         final int px = x + DEFAULT_CRUSH_OFFSET_X - (DEFAULT_BOMB_SIZE / 2);
         final int py = y - DEFAULT_BOMB_SIZE + (DEFAULT_BOMB_SIZE / 2);
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertTrue((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
@@ -110,8 +110,8 @@ public class GameViewTest {
     public void crushOnTopInsideXInsideY() throws Exception {
         final int px = x + (DEFAULT_CHARACTER_SIZE / 2);
         final int py = y - DEFAULT_BOMB_SIZE + (DEFAULT_BOMB_SIZE / 2);
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertTrue((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
@@ -119,8 +119,8 @@ public class GameViewTest {
     public void crushOnTopRightInsideXInsideY() throws Exception {
         final int px = x + DEFAULT_CHARACTER_SIZE - DEFAULT_CRUSH_OFFSET_X - (DEFAULT_BOMB_SIZE / 2);
         final int py = y - DEFAULT_BOMB_SIZE + (DEFAULT_BOMB_SIZE / 2);
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertTrue((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
@@ -128,8 +128,8 @@ public class GameViewTest {
     public void notCrushOnTopRightInsideY() throws Exception {
         final int px = x + DEFAULT_CHARACTER_SIZE - DEFAULT_CRUSH_OFFSET_X;
         final int py = y - DEFAULT_BOMB_SIZE + (DEFAULT_BOMB_SIZE / 2);
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertFalse((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     /////////////////
@@ -139,8 +139,8 @@ public class GameViewTest {
     public void notCrushOnMiddleLeft() throws Exception {
         final int px = x + DEFAULT_CRUSH_OFFSET_X - DEFAULT_BOMB_SIZE;
         final int py = y + (DEFAULT_CHARACTER_SIZE / 2);
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertFalse((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
@@ -148,8 +148,8 @@ public class GameViewTest {
     public void crushOnMiddleLeftInsideX() throws Exception {
         final int px = x + DEFAULT_CRUSH_OFFSET_X - (DEFAULT_BOMB_SIZE / 2);
         final int py = y + (DEFAULT_CHARACTER_SIZE / 2);
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertTrue((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
@@ -157,8 +157,8 @@ public class GameViewTest {
     public void crushOnMiddle() throws Exception {
         final int px = x + (DEFAULT_CHARACTER_SIZE / 2);
         final int py = y + (DEFAULT_CHARACTER_SIZE / 2);
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertTrue((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
@@ -166,8 +166,8 @@ public class GameViewTest {
     public void crushOnMiddleRightInsideX() throws Exception {
         final int px = x + DEFAULT_CHARACTER_SIZE - DEFAULT_CRUSH_OFFSET_X - (DEFAULT_BOMB_SIZE / 2);
         final int py = y + (DEFAULT_CHARACTER_SIZE / 2);
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertTrue((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     @SuppressWarnings("Duplicates")
@@ -175,8 +175,8 @@ public class GameViewTest {
     public void notCrushOnMiddleRight() throws Exception {
         final int px = x + DEFAULT_CHARACTER_SIZE - DEFAULT_CRUSH_OFFSET_X;
         final int py = y + (DEFAULT_CHARACTER_SIZE / 2);
-        player.getObject().setPoint(new Point(x, y));
-        bomb.getObject().setPoint(new Point(px, py));
+//        player.getObject().setPoint(new Point(x, y));
+//        bomb.getObject().setPoint(new Point(px, py));
         assertFalse((Boolean) checkCrushMethod.invoke(gameView, player, bomb));
     }
     /////////////////

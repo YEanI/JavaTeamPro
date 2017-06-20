@@ -8,6 +8,17 @@ import java.util.List;
  * Created by suyeo on 2017-06-16.
  */
 public class DataBaseHelper {
+    private static DataBaseHelper instance;
+    private DataBaseHelper(){
+
+    }
+    public static DataBaseHelper getInstance(){
+        if(instance == null){
+            instance = new DataBaseHelper();
+        }
+        return instance;
+    }
+
     private Connection connection = null;
     public void connectDB() {
         try {

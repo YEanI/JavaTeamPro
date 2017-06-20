@@ -1,6 +1,7 @@
 package data;
 
 import lombok.Data;
+import util.ImageUtil;
 
 import static app.GameConstants.DEFAULT_CHARACTER_SIZE;
 
@@ -22,7 +23,7 @@ public class Player {
 
     public Player() {
         object = new DrawingObject();
-        object.setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE);
+        object.setImage(ImageUtil.loadImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE));
 
     }
 

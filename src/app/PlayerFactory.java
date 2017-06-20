@@ -3,6 +3,7 @@ package app;
 import data.CharacterReport;
 import data.DrawingObject;
 import data.Player;
+import util.ImageUtil;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static app.GameConstants.DEFAULT_CHARACTER_SIZE;
+import static app.GameConstants.SCREEN_HEIGHT;
 import static app.GameConstants.SCREEN_WIDTH;
 
 /**
@@ -44,7 +46,7 @@ public class PlayerFactory {
         player.setBrakingForce(report.getBrakingForce());
         player.setMaxDx(report.getMaxDx());
         player.setAx(report.getAx());
-        player.getObject().setImage(report.getPath(), DEFAULT_CHARACTER_SIZE);
+        player.getObject().setImage(ImageUtil.loadImage(report.getPath(), DEFAULT_CHARACTER_SIZE));
         HashMap<String, Integer> aa = report.getPercent();
         int[] aaa = new int[5];
 
@@ -73,7 +75,8 @@ public class PlayerFactory {
         BombFactory.setData(aaa, bbb);
         final DrawingObject object = player.getObject();
         final int height = object.getHeight();
-        object.setPoint(new Point(SCREEN_WIDTH / 2, GameConstants.SCREEN_HEIGHT - height));
+        final Point point = object.getPoint();
+        point.setLocation(SCREEN_WIDTH / 2, SCREEN_HEIGHT - height);
         return player;
     }
 
