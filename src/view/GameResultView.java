@@ -61,20 +61,16 @@ public class GameResultView extends BaseView {
             return "교수님의 사랑";
         }
         if (3.0 <= point && point <= 3.49) {
-            return "현 체제의 수호자";
-        }
-        if (2.5 <= point && point <= 2.9) {
             return "일반인";
         }
-        if (2.0<= point && point <= 2.49) {
+        if (2.5 <= point && point <= 2.9) {
             return "오락문화의 선구자";
         }
-        if (1.5 <= point && point <= 1.9) {
+        if (2.0<= point && point <= 2.49) {
             return "불가촉천민";
         }
         if (1.5 <= point && point <= 1.9) {
             return "플랑크톤";
-
         }
         return "시대를 앞서가는 혁명의 씨앗";
     }
