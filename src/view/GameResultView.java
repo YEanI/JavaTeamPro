@@ -3,7 +3,7 @@ package view;
 import DB.DataBaseHelper;
 import util.GameConstants;
 import com.google.gson.Gson;
-import data.Game;
+import data.GameInfo;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
  * Created by minchul on 2017-06-12.
  */
 public class GameResultView extends BaseView {
-    Game game;
+    GameInfo gameInfo;
     private JPanel panel;
     private JTextArea textArea1;
     private JLabel label1;
@@ -31,7 +31,7 @@ public class GameResultView extends BaseView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DataBaseHelper dataBaseHelper = DataBaseHelper.getInstance();
-                dataBaseHelper.addRecord(textField1.getText(), game.getScore(), game.getSemester(), game.getCharacterName());
+                dataBaseHelper.addRecord(textField1.getText(), gameInfo.getScore(), gameInfo.getSemester(), gameInfo.getCharacterName());
                 startView(RankingView.class);
             }
         });
@@ -100,14 +100,14 @@ public class GameResultView extends BaseView {
     public void onViewChanged() {
         Gson gson = new Gson();
         if (this.viewCaller.getBundleJson() != null) {
-            game = gson.fromJson(this.viewCaller.getBundleJson(), Game.class);
-            double point = (double) game.getScore() / (double) game.getAcademicCredit();
+            gameInfo = gson.fromJson(this.viewCaller.getBundleJson(), GameInfo.class);
+            double point = (double) gameInfo.getScore() / (double) gameInfo.getAcademicCredit();
 
             label1.setText("당신은 " + getDenomination(point) + " 입니다");
             label1.setForeground(Color.BLUE);
             StringBuilder t = new StringBuilder();
             for (int i = 0; i < 12; i++) {
-                t.append(i + 1).append("학기평점 : ").append(String.format("%.2f", game.getScoreList()[i])).append("\n");
+                t.append(i + 1).append("학기평점 : ").append(String.format("%.2f", gameInfo.getScoreList()[i])).append("\n");
             }
             textArea1.setText(t.toString() + "총평점" + String.format("%.2f", point));
         }

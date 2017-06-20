@@ -7,12 +7,14 @@ import view.BaseView;
  * Created by hyeji on 2017-06-16.
  */
 public class ViewCaller {
+    private BaseView prevView;
     final Class<? extends BaseView> target;
     private String bundleJson;
     private int intValue = 0;
 
-    public ViewCaller(Class<? extends BaseView> viewClass) {
-        target = viewClass;
+    public ViewCaller(BaseView prevView, Class<? extends BaseView> viewClass) {
+        this.prevView = prevView;
+        this.target = viewClass;
 
     }
 

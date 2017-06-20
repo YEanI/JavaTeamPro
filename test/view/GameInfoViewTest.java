@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by minchul on 2017-06-13.
  */
-public class GameViewTest {
+public class GameInfoViewTest {
     private final Bomb bomb;
     private final Player player;
     private final GameView gameView;
@@ -21,7 +21,7 @@ public class GameViewTest {
     private final int x = 100;
     private final int y = 100;
 
-    public GameViewTest() {
+    public GameInfoViewTest() {
         gameView = new GameView();
         player = null;
 //        player = new PlayerBuilder()

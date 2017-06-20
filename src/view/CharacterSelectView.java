@@ -1,6 +1,5 @@
 package view;
 
-import util.PlayerFactory;
 import app.ViewCaller;
 import data.CharacterReport;
 

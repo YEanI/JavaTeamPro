@@ -14,7 +14,6 @@ public class Player {
 
     private DrawingObject object;
 
-    private String characterName;
     private double ax = 0;
     private double dx = 0;
 

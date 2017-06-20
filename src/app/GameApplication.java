@@ -4,7 +4,6 @@ import DB.DataBaseHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import data.CharacterReport;
-import util.PlayerFactory;
 import view.BaseView;
 import view.MainView;
 
@@ -13,6 +12,8 @@ import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,64 +25,30 @@ import static java.lang.Thread.sleep;
  */
 public class GameApplication {
 
-
-    static private GameApplication instance;
-    static public GameApplication getInstance(){
-        if (instance == null){
-            instance = new GameApplication();
-        }
-        return instance;
-    }
-
-    final private JFrame frame;
+    private final JFrame frame;
+    private final List<CharacterReport> characterReports;
 
     private GameApplication(){
         frame = new JFrame("JavaTeamProject");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-
-            }
+        frame.addWindowListener(new MyWindowListener() {
 
             @Override
             public void windowClosing(WindowEvent e) {
                 DataBaseHelper.getInstance().disconnectDB();
             }
 
-            @Override
-            public void windowClosed(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-
-            }
         });
         frame.setLocationRelativeTo(null);
-
+        characterReports = new ArrayList<>();
     }
 
     private void start(){
         loadCharacterReport();
         DataBaseHelper.getInstance().connectDB();
-        startView(MainView.class);
+
+        final ViewCaller viewCaller = new ViewCaller(null, MainView.class);
+        startView(viewCaller);
     }
 
     private void loadCharacterReport() {
@@ -94,8 +61,6 @@ public class GameApplication {
             bufferedReader.close();
             inputStreamReader.close();
             reportStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,28 +68,18 @@ public class GameApplication {
             //TODO read fail!
             return;
         }
-        List<CharacterReport> characterReports;
         Gson gson = new Gson();
-        characterReports = gson.fromJson(json, new TypeToken<List<CharacterReport>>(){}.getType());
-        PlayerFactory.getInstance().setCharacterReports(characterReports);
-    }
-
-    public void startView(Class<? extends BaseView> newViewType) {
-        try {
-            BaseView viewInstance = newViewType.newInstance();
-            switchView(viewInstance);
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        characterReports.clear();
+        characterReports.addAll(gson.fromJson(json, new TypeToken<List<CharacterReport>>(){}.getType()));
     }
 
     public void startView(ViewCaller viewCaller) {
         try {
-
-            BaseView viewInstance = viewCaller.target.newInstance();
-            viewInstance.viewCaller = viewCaller;
+            BaseView viewInstance = viewCaller.target
+                    .getDeclaredConstructor(GameApplication.class, ViewCaller.class)
+                    .newInstance(this, viewCaller);
             switchView(viewInstance);
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
     }
@@ -141,13 +96,50 @@ public class GameApplication {
     }
 
     public static void main(String[] args) {
+        GameApplication application = new GameApplication();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | UnsupportedLookAndFeelException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
-        SwingUtilities.invokeLater(() -> GameApplication.getInstance().start());
-
+        SwingUtilities.invokeLater(application::start);
     }
 
+    class MyWindowListener implements WindowListener {
+
+        @Override
+        public void windowOpened(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowClosing(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowClosed(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowIconified(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowDeiconified(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowActivated(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowDeactivated(WindowEvent e) {
+
+        }
+    }
 }

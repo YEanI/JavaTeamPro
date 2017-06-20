@@ -7,7 +7,7 @@ import lombok.Data;
  */
 
 @Data
-public class Game {
+public class GameInfo {
 
     private String characterName;
     private int score;
@@ -17,7 +17,7 @@ public class Game {
 
     private double[] scoreList;
 
-    public Game() {
+    public GameInfo() {
         score = 0;
         academicCredit = 0;
         semester = 0;

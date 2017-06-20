@@ -1,25 +1,23 @@
 package view;
 
-import util.BombFactory;
+import app.GameApplication;
+import com.google.gson.Gson;
+import data.*;
 import util.GameConstants;
-import util.PlayerFactory;
 import app.ViewCaller;
-import data.Bomb;
-import data.DrawingObject;
-import data.Game;
-import data.Player;
 import util.ImageUtil;
 import viewcomponent.GamePanel;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
+import static data.Bomb.Grade.*;
 import static util.GameConstants.*;
 import static java.awt.event.KeyEvent.*;
 import static view.GameView.PlayerState.IDLE;
@@ -38,17 +36,20 @@ public class GameView extends BaseView {
     private JLabel semesterLabel;
     private JLabel currCalcGradeLabel;
 
-    private Game game;
+    private GameInfo gameInfo;
+    private CharacterReport characterReport;
+
     private Player player;
     private List<Bomb> bombs;
+
     private final Random random;
 
     private GameState gameState;
     private PlayerState playerState;
 
-    public GameView() {
 
-
+    public GameView(GameApplication application, ViewCaller viewCaller) {
+        super(application, viewCaller);
         random = new Random();
         gameTick = new Timer(UPDATE_SCREEN_DELAY, e -> {
             createBomb();
@@ -59,27 +60,12 @@ public class GameView extends BaseView {
         });
     }
 
-    private void initGame() {
-        gameState = GameState.INIT;
-        playerState = IDLE;
-        bombs = new ArrayList<>();
-        game = new Game();
-        //init player
-//        player = PlayerFactory.getInstance().newPlayer(0);
-        int index = viewCaller.getInt();
-        player = PlayerFactory.getInstance().newPlayer(index);
-        game.setCharacterName(player.getCharacterName());
-        gamePanel.addDrawingObject(player.getObject());
-
-    }
-
 
     private void createUIComponents() {
         panel = new JPanel();
         URL imageURL = HelpView.class.getResource("/images/background.png");
         ImageIcon icon = new ImageIcon(imageURL);
         Image scaleImage = ImageUtil.getScaleImage(icon.getImage(), GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT);
-
 
         gamePanel = new GamePanel();
         gamePanel.setPreferredSize(new Dimension(SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
@@ -89,7 +75,6 @@ public class GameView extends BaseView {
         final Point point = background.getPoint();
         point.setLocation(0, 0);
         panel.addKeyListener(new MyKeyListener());
-
     }
 
     private void onKeyReleased(int keyCode) {
@@ -102,8 +87,7 @@ public class GameView extends BaseView {
         switch (gameState) {
             case INIT:
                 if (keyCode == VK_SPACE) {
-                    gameState = GameState.RUNNING;
-                    startGame();
+                    setGameState(GameState.RUNNING);
                 }
                 break;
             case RUNNING:
@@ -113,20 +97,17 @@ public class GameView extends BaseView {
                     playerState = PlayerState.ACCEL_RIGHT;
                 }
                 if (keyCode == VK_SPACE || keyCode == VK_ESCAPE) {
-                    gameState = GameState.PAUSE;
-                    pauseGame();
+                    setGameState(GameState.PAUSE);
                 }
                 break;
             case PAUSE:
                 if (keyCode == VK_SPACE || keyCode == VK_ESCAPE) {
-                    gameState = GameState.RUNNING;
-                    resumeGame();
+                    setGameState(GameState.RUNNING);
                 }
                 break;
             case GAME_OVER:
                 if (keyCode == VK_SPACE) {
-                    gameState = GameState.RUNNING;
-                    startGame();
+                    setGameState(GameState.INIT);
                 }
                 break;
         }
@@ -141,37 +122,11 @@ public class GameView extends BaseView {
 
     @Override
     public void onViewChanged() {
-        initGame();
-
-    }
-
-    private void resumeGame() {
-        gameTick.start();
-    }
-
-    private void pauseGame() {
-        gameTick.stop();
-    }
-
-    private void startGame() {
-        //remove bombs
-        final List<DrawingObject> drawingObjects = new ArrayList<>();
-        for (final Bomb b : bombs) {
-            drawingObjects.add(b.getObject());
-        }
-        gamePanel.removeDrawingObject(drawingObjects);
-        bombs.clear();
-        gameTick.start();
-    }
-
-    private void stopGame() {
-        gameTick.stop();
+        setGameState(GameState.INIT);
     }
 
 
-    //여기서부터 가져온 코드
     private void checkCrush() {
-        boolean isCrush = false;
         final List<Bomb> crusheds = new ArrayList<>();
         final List<DrawingObject> crushedObjects = new ArrayList<>();
         for (final Bomb b : bombs) {
@@ -188,59 +143,50 @@ public class GameView extends BaseView {
     private void onCrushBomb(Bomb bomb) {
         switch (bomb.getGrade()) {
             case A:
-                game.setScore(game.getScore() + 4);
-                game.setCurrCalGrade(game.getCurrCalGrade() + 3);
-                game.getScoreList()[game.getSemester()] += 4;
+                gameInfo.setScore(gameInfo.getScore() + 4);
+                gameInfo.setCurrCalGrade(gameInfo.getCurrCalGrade() + 3);
+                gameInfo.getScoreList()[gameInfo.getSemester()] += 4;
                 break;
             case B:
-                game.setScore(game.getScore() + 3);
-                game.setCurrCalGrade(game.getCurrCalGrade() + 3);
-                game.getScoreList()[game.getSemester()] += 3;
+                gameInfo.setScore(gameInfo.getScore() + 3);
+                gameInfo.setCurrCalGrade(gameInfo.getCurrCalGrade() + 3);
+                gameInfo.getScoreList()[gameInfo.getSemester()] += 3;
                 break;
             case C:
-                game.setScore(game.getScore() + 2);
-                game.setCurrCalGrade(game.getCurrCalGrade() + 3);
-                game.getScoreList()[game.getSemester()] += 2;
+                gameInfo.setScore(gameInfo.getScore() + 2);
+                gameInfo.setCurrCalGrade(gameInfo.getCurrCalGrade() + 3);
+                gameInfo.getScoreList()[gameInfo.getSemester()] += 2;
                 break;
             case D:
-                game.setScore(game.getScore() + 1);
-                game.setCurrCalGrade(game.getCurrCalGrade() + 3);
-                game.getScoreList()[game.getSemester()] += 1;
+                gameInfo.setScore(gameInfo.getScore() + 1);
+                gameInfo.setCurrCalGrade(gameInfo.getCurrCalGrade() + 3);
+                gameInfo.getScoreList()[gameInfo.getSemester()] += 1;
                 break;
         }
-        game.setAcademicCredit(game.getAcademicCredit() + 1);
+        gameInfo.setAcademicCredit(gameInfo.getAcademicCredit() + 1);
 
-        final int crushNumber = game.getAcademicCredit();
+        final int crushNumber = gameInfo.getAcademicCredit();
         if (crushNumber % 6 == 0) {
-            game.getScoreList()[game.getSemester()] /= 6;
-            game.setSemester(game.getSemester() + 1);
+            gameInfo.getScoreList()[gameInfo.getSemester()] /= 6;
+            gameInfo.setSemester(gameInfo.getSemester() + 1);
 
-            if (game.getCurrCalGrade() >= 132) {
-                stopGame();
-                ViewCaller viewCaller = new ViewCaller(GameResultView.class);
-                viewCaller.setBundleJson(game);
-                startView(viewCaller);
+            if (gameInfo.getCurrCalGrade() >= 132) {
+                setGameState(GameState.GAME_OVER);
             }
 
         }
-
-
-        if (game.getSemester() == 12) {
-            stopGame();
-            gameOver();
-
+        if (gameInfo.getSemester() == 12) {
+            setGameState(GameState.GAME_OVER);
         }
 
-        semesterLabel.setText(String.valueOf(game.getSemester()) + "학기");
-        final String point = String.format("%.1f", (double) game.getScore() / (double) game.getAcademicCredit());
+        semesterLabel.setText(String.valueOf(gameInfo.getSemester()) + "학기");
+        final String point = String.format("%.1f", (double) gameInfo.getScore() / (double) gameInfo.getAcademicCredit());
         scoreLabel.setText("평점 : " + point);
-        currCalcGradeLabel.setText("이수학점 : " + String.valueOf(game.getCurrCalGrade()));
+        currCalcGradeLabel.setText("이수학점 : " + String.valueOf(gameInfo.getCurrCalGrade()));
 
     }
 
-    public void gameOver() {
-        JOptionPane.showMessageDialog(gamePanel, "혁명의 씨앗이여, 더 큰 세상으로 나아가라");
-    }
+
 
     private boolean checkCrush(final Player player, final Bomb bomb) {
         final DrawingObject object1 = player.getObject();
@@ -273,12 +219,58 @@ public class GameView extends BaseView {
 
     private void createBomb() {
         if (random.nextDouble() < 0.1) { //폭탄은 30% 확률로 생성됨.
-            final Bomb bomb = BombFactory.getInstance().newBomb();
+            final Bomb bomb = newBomb();
             bombs.add(bomb);
             gamePanel.addDrawingObject(bomb.getObject());
         }
     }
+    private Bomb newBomb() {
+        final int prob = random.nextInt(100);
+        Bomb b = new Bomb();
+        final DrawingObject drawingObject = b.getObject();
+        final Point point = b.getObject().getPoint();
 
+        final Map<String, Integer> probability = characterReport.getPercent();
+        final Map<String, Double> speed = characterReport.getGradeSpeed();
+
+        if(prob < probability.get("A")){
+            b.setGrade(A);
+        }else if(prob < probability.get("A") + probability.get("B")){
+            b.setGrade(B);
+        }else if(prob < probability.get("A") + probability.get("B") + probability.get("C")){
+            b.setGrade(C);
+        }else if(prob < probability.get("A") + probability.get("B") + probability.get("C") + probability.get("D")){
+            b.setGrade(D);
+        }else{
+            b.setGrade(F);
+        }
+
+        switch (b.getGrade()) {
+            case A:
+                b.setAy(speed.get("A"));
+                drawingObject.setImage(ImageUtil.loadImage("/images/A.png", DEFAULT_BOMB_SIZE));
+                break;
+            case B:
+                b.setAy(speed.get("B"));
+                drawingObject.setImage(ImageUtil.loadImage("/images/B.png", DEFAULT_BOMB_SIZE));
+                break;
+            case C:
+                b.setAy(speed.get("C"));
+                drawingObject.setImage(ImageUtil.loadImage("/images/C.png", DEFAULT_BOMB_SIZE));
+                break;
+            case D:
+                b.setAy(speed.get("D"));
+                drawingObject.setImage(ImageUtil.loadImage("/images/D.png", DEFAULT_BOMB_SIZE));
+                break;
+            case F:
+                b.setAy(speed.get("F"));
+                drawingObject.setImage(ImageUtil.loadImage("/images/F.png", DEFAULT_BOMB_SIZE));
+                break;
+        }
+
+        point.setLocation(random.nextInt(SCREEN_WIDTH) - DEFAULT_BOMB_SIZE, 0);
+        return b;
+    }
     private void moveBomb(Bomb bomb) {
         final Point point = bomb.getObject().getPoint();
         bomb.setDy(bomb.getDy() + bomb.getAy());
@@ -334,10 +326,6 @@ public class GameView extends BaseView {
             }
             point.setLocation(newX, point.getY());
         }
-    }
-
-    enum GameState {
-        INIT, RUNNING, GAME_OVER, PAUSE
     }
 
     enum PlayerState {
@@ -414,4 +402,85 @@ public class GameView extends BaseView {
 
         }
     }
+
+    enum GameState {
+        INIT, RUNNING, GAME_OVER, PAUSE
+    }
+
+    private void setGameState(GameState newState){
+        gameState = newState;
+        switch (newState){
+            case INIT:
+                onInitGame();
+                break;
+            case RUNNING:
+                onStartGame();
+                break;
+            case PAUSE:
+                onPauseGame();
+                break;
+            case GAME_OVER:
+                onGameOver();
+                break;
+        }
+    }
+
+    private void onInitGame() {
+        initCharacterReport();
+        playerState = IDLE;
+        if(bombs != null){
+            removeAllBombs();
+        }
+        bombs = new ArrayList<>();
+        initPlayer();
+        gameInfo = new GameInfo();
+        gameInfo.setCharacterName(characterReport.getName());
+        gamePanel.addDrawingObject(player.getObject());
+    }
+
+    private void initCharacterReport() {
+        Gson gson = new Gson();
+        characterReport = gson.fromJson(viewCaller.getBundleJson(), CharacterReport.class);
+    }
+
+    private void initPlayer() {
+        player = new Player();
+        player.setBrakingForce(characterReport.getBrakingForce());
+        player.setMaxDx(characterReport.getMaxDx());
+        player.setAx(characterReport.getAx());
+        player.getObject().setImage(ImageUtil.loadImage(characterReport.getPath(), DEFAULT_CHARACTER_SIZE));
+        final DrawingObject object = player.getObject();
+        final int height = object.getHeight();
+        final Point point = object.getPoint();
+        point.setLocation(SCREEN_WIDTH / 2, SCREEN_HEIGHT - height);
+    }
+
+    private void removeAllBombs() {
+        final List<DrawingObject> drawingObjects = new ArrayList<>();
+        for (final Bomb b : bombs) {
+            drawingObjects.add(b.getObject());
+        }
+        gamePanel.removeDrawingObject(drawingObjects);
+        bombs.clear();
+    }
+
+    private void onPauseGame() {
+        gameTick.stop();
+    }
+
+    private void onStartGame() {
+        gameTick.start();
+    }
+
+    private void onGameOver() {
+        gameTick.stop();
+        if(gameInfo.getSemester() < 12) {
+            ViewCaller viewCaller = new ViewCaller(this, GameResultView.class);
+            viewCaller.setBundleJson(gameInfo);
+            startView(viewCaller);
+        }else {
+            JOptionPane.showMessageDialog(gamePanel, "혁명의 씨앗이여, 더 큰 세상으로 나아가라");
+        }
+    }
+
 }
