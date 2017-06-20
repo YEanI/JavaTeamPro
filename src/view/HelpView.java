@@ -1,16 +1,15 @@
 package view;
 
-import app.GameConstants;
+import util.GameConstants;
 import util.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.net.URL;
 
-import static app.GameConstants.SCREEN_WIDTH;
+import static util.GameConstants.SCREEN_WIDTH;
 
 /**
  * Created by minchul on 2017-06-12.

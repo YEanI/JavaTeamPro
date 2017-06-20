@@ -3,7 +3,7 @@ package data;
 import lombok.Data;
 import util.ImageUtil;
 
-import static app.GameConstants.DEFAULT_CHARACTER_SIZE;
+import static util.GameConstants.DEFAULT_CHARACTER_SIZE;
 
 /**
  * Created by 이예은 on 2017-06-08.

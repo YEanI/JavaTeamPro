@@ -4,6 +4,7 @@ import DB.DataBaseHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import data.CharacterReport;
+import util.PlayerFactory;
 import view.BaseView;
 import view.MainView;
 

@@ -1,4 +1,4 @@
-package app;
+package util;
 
 /**
  * Created by minchul on 2017-06-13.

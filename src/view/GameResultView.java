@@ -1,11 +1,13 @@
 package view;
 
 import DB.DataBaseHelper;
-import app.GameConstants;
+import util.GameConstants;
 import com.google.gson.Gson;
 import data.Game;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,13 +24,14 @@ public class GameResultView extends BaseView {
     private JButton btnRetry;
     private JButton btnMain;
     private JLabel label2;
+    private JTextField textField1;
 
     public GameResultView(){
         btnRanking.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DataBaseHelper dataBaseHelper = DataBaseHelper.getInstance();
-                dataBaseHelper.addRecord(game.getUserName(), game.getScore(), game.getSemester(), game.getCharacterName());
+                dataBaseHelper.addRecord(textField1.getText(), game.getScore(), game.getSemester(), game.getCharacterName());
                 startView(RankingView.class);
             }
         });
@@ -42,6 +45,26 @@ public class GameResultView extends BaseView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 startView(MainView.class);
+            }
+        });
+        textField1.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                onUpdateFieldState(e);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                onUpdateFieldState(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                onUpdateFieldState(e);
+            }
+
+            private void onUpdateFieldState(DocumentEvent e) {
+                btnRanking.setEnabled(textField1.getText().length() != 0);
             }
         });
     }
@@ -88,9 +111,6 @@ public class GameResultView extends BaseView {
             }
             textArea1.setText(t.toString() + "총평점" + String.format("%.2f", point));
         }
-    }
-    public void registerName() {
-        label2.setText("사용자 이름 등록:"+ game.getCharacterName());
     }
 
     private void createUIComponents() {

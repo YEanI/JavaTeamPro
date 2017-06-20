@@ -1,8 +1,8 @@
 package view;
 
-import app.BombFactory;
-import app.GameConstants;
-import app.PlayerFactory;
+import util.BombFactory;
+import util.GameConstants;
+import util.PlayerFactory;
 import app.ViewCaller;
 import data.Bomb;
 import data.DrawingObject;
@@ -15,13 +15,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static app.GameConstants.*;
+import static util.GameConstants.*;
 import static java.awt.event.KeyEvent.*;
 import static view.GameView.PlayerState.IDLE;
 

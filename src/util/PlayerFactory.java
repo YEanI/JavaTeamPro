@@ -1,18 +1,17 @@
-package app;
+package util;
 
 import data.CharacterReport;
 import data.DrawingObject;
 import data.Player;
-import util.ImageUtil;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static app.GameConstants.DEFAULT_CHARACTER_SIZE;
-import static app.GameConstants.SCREEN_HEIGHT;
-import static app.GameConstants.SCREEN_WIDTH;
+import static util.GameConstants.DEFAULT_CHARACTER_SIZE;
+import static util.GameConstants.SCREEN_HEIGHT;
+import static util.GameConstants.SCREEN_WIDTH;
 
 /**
  * Created by 조은지 on 2017-06-16.

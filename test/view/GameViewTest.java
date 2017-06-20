@@ -4,10 +4,9 @@ import data.Bomb;
 import data.Player;
 import org.junit.Test;
 
-import java.awt.*;
 import java.lang.reflect.Method;
 
-import static app.GameConstants.*;
+import static util.GameConstants.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
