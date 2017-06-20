@@ -92,9 +92,7 @@ public class GameResultView extends BaseView {
             double point = (double) game.getScore() / (double) game.getAcademicCredit();
 
             label1.setText("당신은 " + getDenomination(point) + " 입니다");
-            label1.setText("당신은 " + game.getDenomination() + " 입니다");
             label1.setForeground(Color.BLUE);
-            int i;
             StringBuilder t = new StringBuilder();
             for (int i = 0; i < 12; i++) {
                 t.append(i + 1).append("학기평점 : ").append(String.format("%.2f", game.getScoreList()[i])).append("\n");
@@ -103,7 +101,7 @@ public class GameResultView extends BaseView {
         }
     }
     public void registerName() {
-        label2.setText("사용자 이름 등록:"+ game.getPlayer());
+        label2.setText("사용자 이름 등록:"+ game.getCharacterName());
     }
 
     private void createUIComponents() {
