@@ -21,8 +21,9 @@ public class GameResultView extends BaseView{
     private JButton btnRanking;
     private JButton btnRetry;
     private JButton btnMain;
+    private JLabel label2;
 
-    public GameResultView() {
+    public GameResultView(){
         btnRanking.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,6 +92,7 @@ public class GameResultView extends BaseView{
 
 
             label1.setText("당신은 " + game.getDenomination() + " 입니다");
+            label1.setForeground(Color.BLUE);
             int i;
             StringBuilder t = new StringBuilder();
             for(i=0; i<12;i++) {
@@ -98,6 +100,9 @@ public class GameResultView extends BaseView{
             }
             textArea1.setText(t.toString()+ "총평점"+String.format("%.2f", point));
         }
+    }
+    public void registerName() {
+        label2.setText("사용자 이름 등록:"+ game.getPlayer());
     }
 
     private void createUIComponents() {
