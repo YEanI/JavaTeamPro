@@ -1,7 +1,5 @@
 package view;
 
-import app.BombBuilder;
-
 import data.Bomb;
 import data.Player;
 import org.junit.Test;
@@ -33,7 +31,7 @@ public class GameViewTest {
 //                .setAx(3)
 //                .setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE)
 //                .build();
-        bomb = new BombBuilder().build();
+        bomb = null;
         try {
             checkCrushMethod = GameView.class.getDeclaredMethod("checkCrush", Player.class, Bomb.class);
         } catch (NoSuchMethodException e) {
