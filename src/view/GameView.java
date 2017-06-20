@@ -35,8 +35,8 @@ public class GameView extends BaseView {
     private JPanel panel;
     private GamePanel gamePanel;
     private JLabel scoreLabel;
-    private JLabel senesterLabel;
-    private JLabel curriculargradeLabel;
+    private JLabel semesterLabel;
+    private JLabel currCalcGradeLabel;
 
     private Game game;
     private Player player;
@@ -68,6 +68,7 @@ public class GameView extends BaseView {
 //        player = PlayerFactory.getInstance().newPlayer(0);
         int index = viewCaller.getInt();
         player = PlayerFactory.getInstance().newPlayer(index);
+        game.setCharacterName(player.getCharacterName());
         gamePanel.addDrawingObject(player.getObject());
 
     }
@@ -196,33 +197,33 @@ public class GameView extends BaseView {
         switch (bomb.getGrade()) {
             case A:
                 game.setScore(game.getScore() + 4);
-                game.setCurriculargrade(game.getCurriculargrade() + 3);
-                game.getScoreList()[game.getSenester()] += 4;
+                game.setCurrCalGrade(game.getCurrCalGrade() + 3);
+                game.getScoreList()[game.getSemester()] += 4;
                 break;
             case B:
                 game.setScore(game.getScore() + 3);
-                game.setCurriculargrade(game.getCurriculargrade() + 3);
-                game.getScoreList()[game.getSenester()] += 3;
+                game.setCurrCalGrade(game.getCurrCalGrade() + 3);
+                game.getScoreList()[game.getSemester()] += 3;
                 break;
             case C:
                 game.setScore(game.getScore() + 2);
-                game.setCurriculargrade(game.getCurriculargrade() + 3);
-                game.getScoreList()[game.getSenester()] += 2;
+                game.setCurrCalGrade(game.getCurrCalGrade() + 3);
+                game.getScoreList()[game.getSemester()] += 2;
                 break;
             case D:
                 game.setScore(game.getScore() + 1);
-                game.setCurriculargrade(game.getCurriculargrade() + 3);
-                game.getScoreList()[game.getSenester()] += 1;
+                game.setCurrCalGrade(game.getCurrCalGrade() + 3);
+                game.getScoreList()[game.getSemester()] += 1;
                 break;
         }
-        game.setCrushNumber(game.getCrushNumber() + 1);
+        game.setAcademicCredit(game.getAcademicCredit() + 1);
 
-        final int crushNumber = game.getCrushNumber();
+        final int crushNumber = game.getAcademicCredit();
         if (crushNumber % 6 == 0) {
-            game.getScoreList()[game.getSenester()] /= 6;
-            game.setSenester(game.getSenester() + 1);
+            game.getScoreList()[game.getSemester()] /= 6;
+            game.setSemester(game.getSemester() + 1);
 
-            if (game.getCurriculargrade() >= 132) {
+            if (game.getCurrCalGrade() >= 132) {
                 stopGame();
                 ViewCaller viewCaller = new ViewCaller(GameResultView.class);
                 viewCaller.setBundleJson(game);
@@ -232,16 +233,16 @@ public class GameView extends BaseView {
         }
 
 
-        if (game.getSenester() == 12) {
+        if (game.getSemester() == 12) {
             stopGame();
             gameOver();
 
         }
 
-        senesterLabel.setText(String.valueOf(game.getSenester()) + "학기");
-        final String point = String.format("%.1f", (double) game.getScore() / (double) game.getCrushNumber());
+        semesterLabel.setText(String.valueOf(game.getSemester()) + "학기");
+        final String point = String.format("%.1f", (double) game.getScore() / (double) game.getAcademicCredit());
         scoreLabel.setText("평점 : " + point);
-        curriculargradeLabel.setText("이수학점 : " + String.valueOf(game.getCurriculargrade()));
+        currCalcGradeLabel.setText("이수학점 : " + String.valueOf(game.getCurrCalGrade()));
 
     }
 

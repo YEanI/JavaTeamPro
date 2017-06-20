@@ -40,6 +40,7 @@ public class PlayerFactory {
         CharacterReport report = characterReports.get(index);
 
         Player player = new Player();
+        player.setCharacterName(report.getName());
         player.setBrakingForce(report.getBrakingForce());
         player.setMaxDx(report.getMaxDx());
         player.setAx(report.getAx());

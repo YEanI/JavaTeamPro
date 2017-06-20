@@ -2,9 +2,6 @@ package data;
 
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by 이예은 on 2017-06-08.
  */
@@ -12,21 +9,19 @@ import java.util.List;
 @Data
 public class Game {
     private String userName;
-    private Player player;
+    private String characterName;
     private int score;
-    private int crushNumber;
-    private int senester;
-    private int curriculargrade;
-    private String denomination;
+    private int academicCredit;
+    private int semester;
+    private int currCalGrade;
 
     private double[] scoreList;
 
     public Game() {
         score = 0;
-        crushNumber = 0;
-        senester= 0;
-        curriculargrade = 0;
-
+        academicCredit = 0;
+        semester = 0;
+        currCalGrade = 0;
         scoreList = new double[12];
 
     }
