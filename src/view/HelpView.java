@@ -20,6 +20,7 @@ public class HelpView extends BaseView {
     private JLabel label1;
     private JLabel label2;
     private JButton button1;
+    private JTextField textField1;
 
 
     @Override
@@ -45,6 +46,8 @@ public class HelpView extends BaseView {
         Image scaleImage = ImageUtil.getScaleImage(icon.getImage(), 350, 200);
         icon.setImage(scaleImage);
         label2.setIcon(icon);
+
+        textField1 = new JTextField();
 
         button1 = new JButton();
         button1.setText("BACK");
