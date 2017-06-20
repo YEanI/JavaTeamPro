@@ -5,7 +5,9 @@ import data.DrawingObject;
 import data.Player;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static app.GameConstants.DEFAULT_CHARACTER_SIZE;
 import static app.GameConstants.SCREEN_WIDTH;
@@ -43,7 +45,32 @@ public class PlayerFactory {
         player.setMaxDx(report.getMaxDx());
         player.setAx(report.getAx());
         player.getObject().setImage(report.getPath(), DEFAULT_CHARACTER_SIZE);
+        HashMap<String, Integer> aa = report.getPercent();
+        int[] aaa = new int[5];
 
+        for (Map.Entry<String, Integer> entry : aa.entrySet()) {
+            if (entry.getKey().equals("F")) {
+                aaa[4] = entry.getValue();
+            }else {
+                aaa[entry.getKey().charAt(0) - 'A'] = entry.getValue();
+            }
+        }
+
+        int num = aaa[0];
+        for(int i = 1; i<5; i++){
+            aaa[i] += num;
+            num = aaa[i];
+        }
+        HashMap<String, Double> bb = report.getGradeSpeed();
+        double [] bbb = new double[5];
+        for (Map.Entry<String, Double> entry : bb.entrySet()){
+            if (entry.getKey().equals("F")){
+                bbb[4] = entry.getValue();
+            }else {
+                bbb[entry.getKey().charAt(0) - 'A'] = entry.getValue();
+            }
+        }
+        BombFactory.setData(aaa, bbb);
         final DrawingObject object = player.getObject();
         final int height = object.getHeight();
         object.setPoint(new Point(SCREEN_WIDTH / 2, GameConstants.SCREEN_HEIGHT - height));
