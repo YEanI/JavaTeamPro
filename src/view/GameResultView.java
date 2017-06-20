@@ -1,7 +1,7 @@
 package view;
 
 import DB.DataBaseHelper;
-import app.GameConstants;
+import util.GameConstants;
 import com.google.gson.Gson;
 import data.Game;
 

@@ -1,14 +1,13 @@
-package app;
+package util;
 
 import data.Bomb;
 import data.DrawingObject;
-import util.ImageUtil;
 
 import java.awt.*;
 import java.util.Random;
 
-import static app.GameConstants.DEFAULT_BOMB_SIZE;
-import static app.GameConstants.SCREEN_WIDTH;
+import static util.GameConstants.DEFAULT_BOMB_SIZE;
+import static util.GameConstants.SCREEN_WIDTH;
 
 /**
  * Created by 이예은 on 2017-06-16.

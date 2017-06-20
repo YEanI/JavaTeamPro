@@ -1,6 +1,6 @@
 package view;
 
-import app.GameConstants;
+import util.GameConstants;
 import data.DrawingObject;
 import viewcomponent.GamePanel;
 
@@ -13,8 +13,8 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import static app.GameConstants.DEFAULT_CHARACTER_SIZE;
-import static app.GameConstants.SCREEN_WIDTH;
+import static util.GameConstants.DEFAULT_CHARACTER_SIZE;
+import static util.GameConstants.SCREEN_WIDTH;
 
 /**
  * Created by minchul on 2017-06-09.
