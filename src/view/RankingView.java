@@ -21,7 +21,6 @@ public class RankingView extends BaseView {
 
     public RankingView() {
         DataBaseHelper dbHelper = DataBaseHelper.getInstance();
-        dbHelper.connectDB();
         data = dbHelper.readRecord();
         final DefaultTableModel model = (DefaultTableModel) table1.getModel();
         for(DBRecord record : data){
@@ -37,7 +36,6 @@ public class RankingView extends BaseView {
 
         model.fireTableDataChanged();
 
-        dbHelper.disconnectDB();
     }
 
     @Override
