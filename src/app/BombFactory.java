@@ -18,10 +18,10 @@ public class BombFactory {
     private static int[] probability = new int[]{15, 45, 75, 90, 100};
     private static double[] velocity = new double[]{0.3, 0.2, 0.08, 0.05, 0.07};
 
-    static void setData(List<Integer> probability, List<Integer> velocity) {
-        BombFactory.probability = new int[]{30, 50, 70, 80, 100};
+    static void setData(int[] probability, double [] velocity) {
+        BombFactory.probability = probability;
 //        BombFactory.probability = probability;
-        BombFactory.velocity = new double[]{0.1, 0.07, 0.3, 0.04, 0.09};
+        BombFactory.velocity = velocity;
 
     }
 

@@ -78,7 +78,6 @@ public class GameView extends BaseView {
         URL imageURL = HelpView.class.getResource("/images/background.png");
         ImageIcon icon = new ImageIcon(imageURL);
         Image scaleImage = getScaleImage(icon.getImage(), GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT);
-        icon.setImage(scaleImage);
 
 
         gamePanel = new GamePanel();
