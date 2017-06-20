@@ -1,6 +1,5 @@
 package view;
 
-import app.GameApplication;
 import com.google.gson.Gson;
 import data.*;
 import util.GameConstants;
@@ -17,7 +16,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.List;
 
-import static data.Bomb.Grade.*;
+import static data.Grade.*;
 import static util.GameConstants.*;
 import static java.awt.event.KeyEvent.*;
 import static view.GameView.PlayerState.IDLE;
@@ -27,6 +26,7 @@ import static view.GameView.PlayerState.IDLE;
  * Created by minchul on 2017-06-08.
  */
 public class GameView extends BaseView {
+
     private static final int UPDATE_SCREEN_DELAY = 10;
 
     private JPanel panel;
@@ -144,51 +144,39 @@ public class GameView extends BaseView {
     }
 
     private void onCrushBomb(Bomb bomb) {
-        switch (bomb.getGrade()) {
-            case A:
-                gameInfo.setScore(gameInfo.getScore() + 4);
-                gameInfo.setCurrCalGrade(gameInfo.getCurrCalGrade() + 3);
-                gameInfo.getScoreList()[gameInfo.getSemester()] += 4;
-                break;
-            case B:
-                gameInfo.setScore(gameInfo.getScore() + 3);
-                gameInfo.setCurrCalGrade(gameInfo.getCurrCalGrade() + 3);
-                gameInfo.getScoreList()[gameInfo.getSemester()] += 3;
-                break;
-            case C:
-                gameInfo.setScore(gameInfo.getScore() + 2);
-                gameInfo.setCurrCalGrade(gameInfo.getCurrCalGrade() + 3);
-                gameInfo.getScoreList()[gameInfo.getSemester()] += 2;
-                break;
-            case D:
-                gameInfo.setScore(gameInfo.getScore() + 1);
-                gameInfo.setCurrCalGrade(gameInfo.getCurrCalGrade() + 3);
-                gameInfo.getScoreList()[gameInfo.getSemester()] += 1;
-                break;
-        }
-        gameInfo.setAcademicCredit(gameInfo.getAcademicCredit() + 1);
+        gameInfo.setScore(gameInfo.getScore() + bomb.getGrade().getScore());
+        gameInfo.getScoreList()[gameInfo.getSemester()] += bomb.getGrade().getScore();
+        gameInfo.setFullCredit(gameInfo.getFullCredit() + CREDIT_PER_CRASH);
 
-        final int crushNumber = gameInfo.getAcademicCredit();
-        if (crushNumber % 6 == 0) {
-            gameInfo.getScoreList()[gameInfo.getSemester()] /= 6;
+        if(bomb.getGrade() != F){
+            gameInfo.setAcademicCredit(gameInfo.getAcademicCredit() + CREDIT_PER_CRASH);
+        }
+
+        if (gameInfo.getFullCredit() % ACADEMIC_CREDIT_PER_SEMESTER == 0) {
+            gameInfo.getScoreList()[gameInfo.getSemester()] /= (ACADEMIC_CREDIT_PER_SEMESTER / CREDIT_PER_CRASH);
             gameInfo.setSemester(gameInfo.getSemester() + 1);
-
-            if (gameInfo.getCurrCalGrade() >= 132) {
-                setGameState(GameState.GAME_OVER);
-            }
-
         }
-        if (gameInfo.getSemester() == 12) {
+        if (gameInfo.getAcademicCredit() >= MAX_ACADEMIC_CREDIT) {
+            setGameState(GameState.GAME_OVER);
+        }
+        if (gameInfo.getSemester() == MAX_SEMESTER) {
             setGameState(GameState.GAME_OVER);
         }
 
-        semesterLabel.setText(String.valueOf(gameInfo.getSemester()) + "학기");
-        final String point = String.format("%.1f", (double) gameInfo.getScore() / (double) gameInfo.getAcademicCredit());
-        scoreLabel.setText("평점 : " + point);
-        currCalcGradeLabel.setText("이수학점 : " + String.valueOf(gameInfo.getCurrCalGrade()));
+        updateLabel();
 
     }
 
+    private void updateLabel() {
+        semesterLabel.setText(String.valueOf(gameInfo.getSemester()) + "학기");
+        if(gameInfo.getAcademicCredit() != 0) {
+            final String point = String.format("%.1f", (double) gameInfo.getScore() / (double) gameInfo.getAcademicCredit());
+            scoreLabel.setText("평점 : " + point);
+        }else{
+            scoreLabel.setText("평점 : 0");
+        }
+        currCalcGradeLabel.setText("이수학점 : " + String.valueOf(gameInfo.getFullCredit()));
+    }
 
 
     private boolean checkCrush(final Player player, final Bomb bomb) {
@@ -248,29 +236,8 @@ public class GameView extends BaseView {
             b.setGrade(F);
         }
 
-        switch (b.getGrade()) {
-            case A:
-                b.setAy(speed.get("A"));
-                drawingObject.setImage(ImageUtil.loadImage("/images/A.png", DEFAULT_BOMB_SIZE));
-                break;
-            case B:
-                b.setAy(speed.get("B"));
-                drawingObject.setImage(ImageUtil.loadImage("/images/B.png", DEFAULT_BOMB_SIZE));
-                break;
-            case C:
-                b.setAy(speed.get("C"));
-                drawingObject.setImage(ImageUtil.loadImage("/images/C.png", DEFAULT_BOMB_SIZE));
-                break;
-            case D:
-                b.setAy(speed.get("D"));
-                drawingObject.setImage(ImageUtil.loadImage("/images/D.png", DEFAULT_BOMB_SIZE));
-                break;
-            case F:
-                b.setAy(speed.get("F"));
-                drawingObject.setImage(ImageUtil.loadImage("/images/F.png", DEFAULT_BOMB_SIZE));
-                break;
-        }
-
+        b.setAy(speed.get(b.getGrade().name()));
+        drawingObject.setImage(ImageUtil.loadImage(b.getGrade().getImagePath(), DEFAULT_BOMB_SIZE));
         point.setLocation(random.nextInt(SCREEN_WIDTH) - DEFAULT_BOMB_SIZE, 0);
         return b;
     }
@@ -438,6 +405,7 @@ public class GameView extends BaseView {
         gameInfo = new GameInfo();
         gameInfo.setCharacterName(characterReport.getName());
         gamePanel.addDrawingObject(player.getObject());
+        updateLabel();
     }
 
     private void initPlayer() {
@@ -471,12 +439,12 @@ public class GameView extends BaseView {
 
     private void onGameOver() {
         gameTick.stop();
-        if(gameInfo.getSemester() < 12) {
+        if(gameInfo.getSemester() == MAX_SEMESTER) {
+            JOptionPane.showMessageDialog(gamePanel, "혁명의 씨앗이여, 더 큰 세상으로 나아가라");
+        }else {
             ViewCaller viewCaller = new ViewCaller(GameResultView.class);
             viewCaller.setBundleJson(gameInfo);
             startView(viewCaller);
-        }else {
-            JOptionPane.showMessageDialog(gamePanel, "혁명의 씨앗이여, 더 큰 세상으로 나아가라");
         }
     }
 

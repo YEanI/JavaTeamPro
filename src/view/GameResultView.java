@@ -105,12 +105,13 @@ public class GameResultView extends BaseView {
 
     @Override
     public void onViewChanged() {
-        double point = (double) gameInfo.getScore() / (double) gameInfo.getAcademicCredit();
+        double point = (double) gameInfo.getScore() / (double) (gameInfo.getAcademicCredit()/GameConstants.CREDIT_PER_CRASH );
 
         label1.setText("당신은 " + getDenomination(point) + " 입니다");
         label1.setForeground(Color.BLUE);
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 12; i++) {
+        final int semester = gameInfo.getSemester();
+        for (int i = 0; i < semester; i++) {
             stringBuilder.append(i + 1).append("학기평점 : ").append(String.format("%.1f", gameInfo.getScoreList()[i])).append("\n");
         }
         textArea1.setText(stringBuilder.toString() + "총평점 : " + String.format("%.1f", point));

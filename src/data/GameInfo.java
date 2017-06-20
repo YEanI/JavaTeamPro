@@ -13,7 +13,7 @@ public class GameInfo {
     private int score;
     private int academicCredit;
     private int semester;
-    private int currCalGrade;
+    private int fullCredit;
 
     private double[] scoreList;
 
@@ -21,7 +21,7 @@ public class GameInfo {
         score = 0;
         academicCredit = 0;
         semester = 0;
-        currCalGrade = 0;
+        fullCredit = 0;
         scoreList = new double[12];
 
     }

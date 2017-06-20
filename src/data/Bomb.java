@@ -20,11 +20,5 @@ public class Bomb {
         object.setImage(ImageUtil.loadImage("/images/ic_add_circle_outline_black.png", DEFAULT_BOMB_SIZE));
         dy = 0;
         ay = 0;
-
     }
-
-    public enum Grade {
-        A, B, C, D, F
-    }
-
 }
