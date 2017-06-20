@@ -12,6 +12,7 @@ public class DataBaseHelper {
     public void connectDB() {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:test.db");
+            createTable();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,7 +70,7 @@ public class DataBaseHelper {
         return dbRecordList;
     }
 
-    public void createTable(Statement statement){
+    public void createTable(){
         String createTableQuery = "CREATE TABLE IF NOT EXISTS tests (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "userName TEXT," +
@@ -78,6 +79,7 @@ public class DataBaseHelper {
                 "charName TEXT " +
                 ");";
         try {
+            Statement statement = connection.createStatement();
             statement.execute(createTableQuery);
         } catch (SQLException e) {
             e.printStackTrace();
