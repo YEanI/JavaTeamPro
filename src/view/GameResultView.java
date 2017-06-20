@@ -26,7 +26,7 @@ public class GameResultView extends BaseView {
         btnRanking.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DataBaseHelper dataBaseHelper = new DataBaseHelper();
+                DataBaseHelper dataBaseHelper = DataBaseHelper.getInstance();
                 dataBaseHelper.connectDB();
                 dataBaseHelper.addRecord(game.getUserName(), game.getScore(), game.getSemester(), game.getCharacterName());
                 dataBaseHelper.disconnectDB();

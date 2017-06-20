@@ -8,6 +8,7 @@ import data.Bomb;
 import data.DrawingObject;
 import data.Game;
 import data.Player;
+import util.ImageUtil;
 import viewcomponent.GamePanel;
 
 import javax.swing.*;
@@ -78,7 +79,7 @@ public class GameView extends BaseView {
         panel = new JPanel();
         URL imageURL = HelpView.class.getResource("/images/background.png");
         ImageIcon icon = new ImageIcon(imageURL);
-        Image scaleImage = getScaleImage(icon.getImage(), GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT);
+        Image scaleImage = ImageUtil.getScaleImage(icon.getImage(), GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT);
 
 
         gamePanel = new GamePanel();
@@ -86,7 +87,8 @@ public class GameView extends BaseView {
         DrawingObject background = new DrawingObject();
         gamePanel.addDrawingObject(background);
         background.setImage(scaleImage);
-        background.setPoint(new Point(0,0));
+        final Point point = background.getPoint();
+        point.setLocation(0, 0);
         panel.addKeyListener(new MyKeyListener());
 
     }
@@ -131,16 +133,7 @@ public class GameView extends BaseView {
         }
     }
 
-    private Image getScaleImage(Image image, int width, int height) {
-        BufferedImage resizedImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = resizedImg.createGraphics();
 
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2.drawImage(image, 0, 0, width, height, null);
-        g2.dispose();
-
-        return resizedImg;
-    }
 
     @Override
     public JPanel getContentPanel() {
