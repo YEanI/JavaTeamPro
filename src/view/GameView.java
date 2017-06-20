@@ -238,7 +238,7 @@ public class GameView extends BaseView {
 
         b.setAy(speed.get(b.getGrade().name()));
         drawingObject.setImage(ImageUtil.loadImage(b.getGrade().getImagePath(), DEFAULT_BOMB_SIZE));
-        point.setLocation(random.nextInt(SCREEN_WIDTH) - DEFAULT_BOMB_SIZE, 0);
+        point.setLocation(random.nextInt(SCREEN_WIDTH - DEFAULT_BOMB_SIZE) , 0);
         return b;
     }
     private void moveBomb(Bomb bomb) {
