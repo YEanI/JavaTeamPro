@@ -1,5 +1,6 @@
 package view;
 
+import DB.DataBaseHelper;
 import app.GameConstants;
 import com.google.gson.Gson;
 import data.Game;
@@ -25,6 +26,10 @@ public class GameResultView extends BaseView{
         btnRanking.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                DataBaseHelper dataBaseHelper = new DataBaseHelper();
+                dataBaseHelper.connectDB();
+                dataBaseHelper.addRecord( game.getUserName(), game.getScore(),game.getSenester(), game.getPlayer().getCharacterName());
+                dataBaseHelper.disconnectDB();
                 startView(RankingView.class);
             }
         });
