@@ -24,6 +24,7 @@ public class CharacterSelectView extends BaseView{
     private JButton btnStartGame;
     private JLabel label1;
     private JTextPane textPane1;
+    private JButton btnBack;
     private List<CharacterReport> characterReports;
     private int index = 0;
 
@@ -39,7 +40,13 @@ public class CharacterSelectView extends BaseView{
                 setCharacterImage(index);
             }
 
+        });
 
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startView(MainView.class);
+            }
         });
         btnStartGame.addActionListener(new ActionListener() {
             @Override
