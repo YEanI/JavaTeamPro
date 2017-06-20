@@ -10,8 +10,10 @@ import static app.GameConstants.DEFAULT_CHARACTER_SIZE;
 
 @Data
 public class Player {
+
     private DrawingObject object;
 
+    private String characterName;
     private double ax = 0;
     private double dx = 0;
 
@@ -21,6 +23,7 @@ public class Player {
     public Player() {
         object = new DrawingObject();
         object.setImage("/images/character_mario.png", DEFAULT_CHARACTER_SIZE);
+
     }
 
 }
