@@ -27,7 +27,7 @@ public class RankingView extends BaseView {
         final DefaultTableModel model = (DefaultTableModel) table1.getModel();
         for(DBRecord record : data){
             final String[] row = new String[5];
-            row[0] = String.valueOf(data.indexOf(record));
+            row[0] = String.valueOf(data.indexOf(record) + 1);
             row[1] = record.userName;
             row[2] = String.valueOf(record.score);
             row[3] = String.valueOf(record.semester);

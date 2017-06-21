@@ -52,7 +52,7 @@ public class DataBaseHelper {
 
             preparedStatement.setString(2, userName); //user name
             preparedStatement.setInt(3, score); //score
-            preparedStatement.setInt(4, semester); //semester
+            preparedStatement.setInt(4, semester + 1); //semester
             preparedStatement.setString(5, charName); //charName
 
             preparedStatement.executeUpdate();

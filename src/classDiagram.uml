@@ -3,201 +3,201 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="1271.2464285714286" y="250.0">view.MainView</node>
-    <node x="987.2464285714286" y="330.0">app.GameApplication.MyWindowListener</node>
-    <node x="753.9964285714286" y="90.0">data.CharacterReport</node>
-    <node x="471.00000000000006" y="90.0">view.GameView.GameState</node>
-    <node x="216.0000000000001" y="90.0">viewcomponent.GamePanel</node>
-    <node x="597.0000000000001" y="90.0">data.GameInfo</node>
-    <node x="116.0" y="90.0">data.Player</node>
-    <node x="16.0" y="90.0">data.Bomb</node>
-    <node x="0.0" y="0.0">data.Grade</node>
-    <node x="1494.122619047619" y="90.0">DB.DBRecord</node>
-    <node x="345.0000000000001" y="250.0">view.GameView</node>
-    <node x="344.0000000000001" y="90.0">view.GameView.PlayerState</node>
-    <node x="642.0035714285716" y="250.0">view.GameResultView</node>
-    <node x="335.0000000000001" y="330.0">view.GameView.MyKeyListener</node>
-    <node x="179.0" y="405.0">images</node>
-    <node x="815.2464285714286" y="250.0">view.CharacterSelectView</node>
-    <node x="99.0" y="0.0">data.DrawingObject</node>
-    <node x="992.2464285714286" y="250.0">app.GameApplication</node>
-    <node x="1529.2464285714286" y="250.0">DB.DataBaseHelper</node>
-    <node x="0.0" y="405.0">META-INF</node>
-    <node x="1392.2464285714286" y="250.0">view.RankingView</node>
-    <node x="342.0" y="405.0">util</node>
-    <node x="1036.490476190476" y="90.0">view.BaseView</node>
-    <node x="1152.2464285714286" y="250.0">view.HelpView</node>
+    <node x="584.1922123015872" y="260.0">view.MainView</node>
+    <node x="246.5" y="90.0">app.GameApplication.MyWindowListener</node>
+    <node x="789.4422123015872" y="90.0">data.CharacterReport</node>
+    <node x="1478.937003968254" y="90.0">view.GameView.GameState</node>
+    <node x="1704.937003968254" y="90.0">viewcomponent.GamePanel</node>
+    <node x="986.937003968254" y="90.0">data.GameInfo</node>
+    <node x="1604.937003968254" y="90.0">data.Player</node>
+    <node x="1106.937003968254" y="90.0">data.Bomb</node>
+    <node x="1102.5700396825396" y="0.0">data.Grade</node>
+    <node x="85.32331349206356" y="90.0">DB.DBRecord</node>
+    <node x="1300.943601190476" y="260.0">view.GameView</node>
+    <node x="1351.937003968254" y="90.0">view.GameView.PlayerState</node>
+    <node x="926.8085813492064" y="260.0">view.GameResultView</node>
+    <node x="1206.937003968254" y="90.0">view.GameView.MyKeyListener</node>
+    <node x="179.0" y="335.0">images</node>
+    <node x="705.1922123015872" y="260.0">view.CharacterSelectView</node>
+    <node x="1544.5264384920636" y="0.0">data.DrawingObject</node>
+    <node x="305.19221230158723" y="260.0">app.GameApplication</node>
+    <node x="0.0" y="260.0">DB.DataBaseHelper</node>
+    <node x="0.0" y="335.0">META-INF</node>
+    <node x="168.19221230158723" y="260.0">view.RankingView</node>
+    <node x="342.0" y="335.0">util</node>
+    <node x="569.5" y="90.0">view.BaseView</node>
+    <node x="465.1922123015873" y="260.0">view.HelpView</node>
   </nodes>
   <notes />
   <edges>
     <edge source="view.GameResultView" target="view.BaseView">
-      <point x="34.25" y="-15.0" />
-      <point x="744.7535714285716" y="210.0" />
-      <point x="1057.490476190476" y="210.0" />
-      <point x="-28.0" y="15.0" />
+      <point x="-34.25" y="-15.0" />
+      <point x="961.0585813492064" y="220.0" />
+      <point x="646.5" y="220.0" />
+      <point x="28.0" y="15.0" />
     </edge>
     <edge source="app.GameApplication.MyWindowListener" target="app.GameApplication">
-      <point x="-37.5" y="-15.0" />
-      <point x="1024.7464285714286" y="305.0" />
-      <point x="1027.2464285714286" y="305.0" />
-      <point x="-35.0" y="15.0" />
+      <point x="37.5" y="15.0" />
+      <point x="359.0" y="210.0" />
+      <point x="375.19221230158723" y="210.0" />
+      <point x="0.0" y="-15.0" />
     </edge>
     <edge source="view.GameView" target="view.GameView.PlayerState">
-      <point x="-3.75" y="-15.0" />
-      <point x="393.7500000000001" y="170.0" />
-      <point x="370.7500000000001" y="170.0" />
+      <point x="3.28125" y="-15.0" />
+      <point x="1356.724851190476" y="170.0" />
+      <point x="1378.687003968254" y="170.0" />
       <point x="-26.75" y="15.0" />
     </edge>
     <edge source="view.GameView.MyKeyListener" target="view.GameView">
-      <point x="-31.25" y="-15.0" />
-      <point x="366.2500000000001" y="305.0" />
-      <point x="371.2500000000001" y="305.0" />
-      <point x="-26.25" y="15.0" />
+      <point x="31.25" y="15.0" />
+      <point x="1300.687003968254" y="140.0" />
+      <point x="1350.162351190476" y="140.0" />
+      <point x="-3.28125" y="-15.0" />
     </edge>
     <edge source="view.GameView" target="view.BaseView">
-      <point x="48.75" y="-15.0" />
-      <point x="446.2500000000001" y="200.0" />
-      <point x="1043.490476190476" y="200.0" />
-      <point x="-42.0" y="15.0" />
+      <point x="-49.21875" y="-15.0" />
+      <point x="1304.224851190476" y="210.0" />
+      <point x="660.5" y="210.0" />
+      <point x="42.0" y="15.0" />
     </edge>
     <edge source="view.MainView" target="view.BaseView">
       <point x="0.0" y="-15.0" />
-      <point x="1321.7464285714286" y="220.0" />
-      <point x="1113.490476190476" y="220.0" />
-      <point x="28.0" y="15.0" />
+      <point x="634.6922123015872" y="240.0" />
+      <point x="618.5" y="240.0" />
+      <point x="0.0" y="15.0" />
     </edge>
     <edge source="view.HelpView" target="view.BaseView">
       <point x="0.0" y="-15.0" />
-      <point x="1201.7464285714286" y="230.0" />
-      <point x="1099.490476190476" y="230.0" />
-      <point x="14.0" y="15.0" />
+      <point x="514.6922123015872" y="240.0" />
+      <point x="604.5" y="240.0" />
+      <point x="-14.0" y="15.0" />
     </edge>
     <edge source="view.GameView.GameState" target="view.GameView">
       <point x="26.5" y="15.0" />
-      <point x="550.5" y="160.0" />
-      <point x="416.2500000000001" y="160.0" />
-      <point x="18.75" y="-15.0" />
+      <point x="1558.437003968254" y="200.0" />
+      <point x="1376.412351190476" y="200.0" />
+      <point x="22.96875" y="-15.0" />
     </edge>
     <edge source="view.GameView" target="viewcomponent.GamePanel">
-      <point x="-11.25" y="-15.0" />
-      <point x="386.2500000000001" y="180.0" />
-      <point x="297.0000000000001" y="180.0" />
+      <point x="49.21875" y="-15.0" />
+      <point x="1402.662351190476" y="240.0" />
+      <point x="1785.937003968254" y="240.0" />
       <point x="27.0" y="15.0" />
     </edge>
     <edge source="view.RankingView" target="DB.DBRecord">
-      <point x="29.25" y="-15.0" />
-      <point x="1479.9964285714286" y="230.0" />
-      <point x="1519.372619047619" y="230.0" />
-      <point x="-25.25" y="15.0" />
+      <point x="-29.25" y="-15.0" />
+      <point x="197.44221230158723" y="240.0" />
+      <point x="161.07331349206356" y="240.0" />
+      <point x="25.25" y="15.0" />
     </edge>
     <edge source="data.Bomb" target="data.Grade">
-      <point x="-26.666666666666686" y="-15.0" />
-      <point x="29.333333333333258" y="70.0" />
-      <point x="39.5" y="70.0" />
+      <point x="-26.666666666666742" y="-15.0" />
+      <point x="1120.2703373015872" y="50.0" />
+      <point x="1142.0700396825396" y="50.0" />
       <point x="0.0" y="15.0" />
     </edge>
     <edge source="view.GameView" target="data.CharacterReport">
-      <point x="41.25" y="-15.0" />
-      <point x="438.7500000000001" y="190.0" />
-      <point x="787.4964285714286" y="190.0" />
-      <point x="-33.5" y="15.0" />
+      <point x="-42.65625" y="-15.0" />
+      <point x="1310.787351190476" y="200.0" />
+      <point x="889.9422123015872" y="200.0" />
+      <point x="33.5" y="15.0" />
     </edge>
     <edge source="data.Bomb" target="data.DrawingObject">
-      <point x="0.0" y="-15.0" />
-      <point x="56.0" y="50.0" />
-      <point x="111.79999999999995" y="50.0" />
-      <point x="-51.19999999999999" y="15.0" />
+      <point x="26.666666666666742" y="-15.0" />
+      <point x="1173.6036706349207" y="70.0" />
+      <point x="1582.9264384920637" y="70.0" />
+      <point x="-25.59999999999991" y="15.0" />
     </edge>
     <edge source="view.GameView" target="data.GameInfo">
-      <point x="33.75" y="-15.0" />
-      <point x="431.2500000000001" y="180.0" />
-      <point x="647.0000000000001" y="180.0" />
+      <point x="-36.09375" y="-15.0" />
+      <point x="1317.349851190476" y="190.0" />
+      <point x="1036.937003968254" y="190.0" />
       <point x="0.0" y="15.0" />
     </edge>
     <edge source="view.GameView" target="view.GameView.GameState">
-      <point x="11.25" y="-15.0" />
-      <point x="408.7500000000001" y="150.0" />
-      <point x="497.50000000000006" y="150.0" />
+      <point x="16.40625" y="-15.0" />
+      <point x="1369.849851190476" y="190.0" />
+      <point x="1505.437003968254" y="190.0" />
       <point x="-26.5" y="15.0" />
     </edge>
     <edge source="view.GameView" target="data.Player">
-      <point x="-33.75" y="-15.0" />
-      <point x="363.7500000000001" y="210.0" />
-      <point x="136.0" y="210.0" />
+      <point x="29.53125" y="-15.0" />
+      <point x="1382.974851190476" y="210.0" />
+      <point x="1624.937003968254" y="210.0" />
       <point x="-20.0" y="15.0" />
     </edge>
-    <edge source="app.GameApplication" target="view.BaseView">
-      <point x="0.0" y="-15.0" />
-      <point x="1062.2464285714286" y="230.0" />
-      <point x="1085.490476190476" y="230.0" />
-      <point x="0.0" y="15.0" />
-    </edge>
     <edge source="view.CharacterSelectView" target="view.BaseView">
-      <point x="39.25" y="-15.0" />
-      <point x="932.9964285714286" y="220.0" />
-      <point x="1071.490476190476" y="220.0" />
-      <point x="-14.0" y="15.0" />
+      <point x="-39.25" y="-15.0" />
+      <point x="744.4422123015872" y="230.0" />
+      <point x="632.5" y="230.0" />
+      <point x="14.0" y="15.0" />
+    </edge>
+    <edge source="app.GameApplication" target="view.BaseView">
+      <point x="46.66666666666663" y="-15.0" />
+      <point x="421.85887896825386" y="230.0" />
+      <point x="590.5" y="230.0" />
+      <point x="-28.0" y="15.0" />
     </edge>
     <edge source="view.GameView.PlayerState" target="view.GameView">
       <point x="26.75" y="15.0" />
-      <point x="424.2500000000001" y="140.0" />
-      <point x="401.2500000000001" y="140.0" />
-      <point x="3.75" y="-15.0" />
+      <point x="1432.187003968254" y="180.0" />
+      <point x="1363.287351190476" y="180.0" />
+      <point x="9.84375" y="-15.0" />
     </edge>
     <edge source="viewcomponent.GamePanel" target="data.DrawingObject">
       <point x="0.0" y="-15.0" />
-      <point x="270.0000000000001" y="70.0" />
-      <point x="214.20000000000005" y="70.0" />
-      <point x="51.19999999999999" y="15.0" />
+      <point x="1758.937003968254" y="60.0" />
+      <point x="1659.7264384920634" y="60.0" />
+      <point x="51.19999999999982" y="15.0" />
     </edge>
     <edge source="data.Player" target="data.DrawingObject">
-      <point x="20.0" y="-15.0" />
-      <point x="176.0" y="70.0" />
-      <point x="188.60000000000002" y="70.0" />
-      <point x="25.600000000000023" y="15.0" />
+      <point x="-20.0" y="-15.0" />
+      <point x="1624.937003968254" y="70.0" />
+      <point x="1608.5264384920636" y="70.0" />
+      <point x="0.0" y="15.0" />
     </edge>
     <edge source="DB.DataBaseHelper" target="DB.DBRecord">
       <point x="0.0" y="-15.0" />
-      <point x="1595.2464285714286" y="230.0" />
-      <point x="1569.872619047619" y="230.0" />
-      <point x="25.25" y="15.0" />
+      <point x="66.0" y="240.0" />
+      <point x="110.57331349206356" y="240.0" />
+      <point x="-25.25" y="15.0" />
     </edge>
     <edge source="app.GameApplication" target="app.GameApplication.MyWindowListener">
-      <point x="35.0" y="15.0" />
-      <point x="1097.2464285714286" y="305.0" />
-      <point x="1099.7464285714286" y="305.0" />
-      <point x="37.5" y="-15.0" />
+      <point x="-46.66666666666663" y="-15.0" />
+      <point x="328.5255456349206" y="210.0" />
+      <point x="284.0" y="210.0" />
+      <point x="-37.5" y="15.0" />
     </edge>
     <edge source="view.CharacterSelectView" target="data.CharacterReport">
-      <point x="-39.25" y="-15.0" />
-      <point x="33.5" y="15.0" />
+      <point x="39.25" y="-15.0" />
+      <point x="-33.5" y="15.0" />
     </edge>
     <edge source="view.GameResultView" target="data.GameInfo">
-      <point x="-34.25" y="-15.0" />
-      <point x="676.2535714285716" y="180.0" />
-      <point x="680.3333333333335" y="180.0" />
-      <point x="33.33333333333337" y="15.0" />
+      <point x="34.25" y="-15.0" />
+      <point x="1029.5585813492064" y="240.0" />
+      <point x="1003.6036706349207" y="240.0" />
+      <point x="-33.33333333333326" y="15.0" />
     </edge>
     <edge source="view.RankingView" target="view.BaseView">
-      <point x="-29.25" y="-15.0" />
-      <point x="1421.4964285714286" y="210.0" />
-      <point x="1127.490476190476" y="210.0" />
-      <point x="42.0" y="15.0" />
-    </edge>
-    <edge source="view.GameView" target="data.Bomb">
-      <point x="-41.25" y="-15.0" />
-      <point x="356.2500000000001" y="220.0" />
-      <point x="76.0" y="220.0" />
-      <point x="20.0" y="15.0" />
+      <point x="29.25" y="-15.0" />
+      <point x="255.94221230158723" y="220.0" />
+      <point x="576.5" y="220.0" />
+      <point x="-42.0" y="15.0" />
     </edge>
     <edge source="view.GameView" target="view.GameView.MyKeyListener">
-      <point x="26.25" y="15.0" />
-      <point x="423.7500000000001" y="305.0" />
-      <point x="428.7500000000001" y="305.0" />
-      <point x="31.25" y="-15.0" />
+      <point x="-9.84375" y="-15.0" />
+      <point x="1343.599851190476" y="150.0" />
+      <point x="1238.187003968254" y="150.0" />
+      <point x="-31.25" y="15.0" />
+    </edge>
+    <edge source="view.GameView" target="data.Bomb">
+      <point x="-16.40625" y="-15.0" />
+      <point x="1337.037351190476" y="160.0" />
+      <point x="1166.937003968254" y="160.0" />
+      <point x="20.0" y="15.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0999999999999996" x="922.666666666667" y="231.16666666666697" />
+  <settings layout="Hierarchic Group" zoom="0.30000000000000016" x="2159.9999999999986" y="1007.6666666666658" />
   <SelectedNodes />
   <Categories>
     <Category>Inner Classes</Category>
