@@ -23,7 +23,7 @@ public class DataBaseHelper {
 
     public void connectDB() {
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:test.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:ranking.db");
             createTable();
         } catch (SQLException e) {
             e.printStackTrace();
